@@ -1,6 +1,7 @@
 /**
  * Choices Insights - Core Logic & Internationalization
  * Multi-language, Lead Management, InfoProducts CRUD & Hidden Admin Panel
+ * + SHA-256 Password Hash + Rate Limiting
  */
 
 // --- I18N TRANSLATIONS DICTIONARY ---
@@ -332,17 +333,17 @@ const translations = {
 
 // --- DEFAULT 5 CURATED INFOPRODUCTS ---
 const defaultProducts = [
-    {
-    "id": "prod-1",
-    "title": "teste",
-    "badge": "Mais Vendido",
-    "category": "Inteligência de Dados",
-    "rating": "4.9 (184)",
-    "price": "50",
-    "description": "teste",
-    "link": "https://henriquegomespense-create.github.io/a-jornada-de-mariana/",
-    "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
-    "active": true
+  {
+    id: "prod-1",
+    title: "E-commerce Data Master",
+    badge: "Mais Vendido",
+    category: "Inteligência de Dados",
+    rating: "4.9 (184)",
+    price: "R$ 97,00",
+    description: "Guia estratégico passo a passo para analisar métricas vitais, descobrir padrões de compra e dobrar a taxa de conversão da sua loja.",
+    link: "https://wa.me/5517981434509?text=Olá!%20Tenho%20interesse%20no%20E-commerce%20Data%20Master.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
+    active: true
   },
   {
     id: "prod-2",
@@ -397,7 +398,8 @@ const defaultProducts = [
 // --- APP STATE & LOCALSTORAGE WRAPPERS ---
 const AppState = {
   currentLang: localStorage.getItem('ci_lang') || 'pt',
-  adminPassword: localStorage.getItem('ci_admin_pwd') || 'admin123',
+  // 🔒 COLE AQUI O HASH SHA-256 DA SUA SENHA (veja instruções abaixo do arquivo)
+  adminPasswordHash: localStorage.getItem('ci_admin_pwd') || 'ce05432bc57b2d59edf41b01f7ac4f77638ce71ef0a99105bb6cef9a09352f42',
   whatsappNumber: localStorage.getItem('ci_whatsapp') || '5517981434509',
   contactEmail: localStorage.getItem('ci_email') || 'henriquegomes.pense@gmail.com',
   products: JSON.parse(localStorage.getItem('ci_products')) || defaultProducts,
@@ -738,7 +740,16 @@ function showToast(message, type = 'success') {
   }, 4000);
 }
 
-// --- HIDDEN ADMIN PANEL CONTROLLER ---
+// --- SHA-256 HELPER (para hash de senha) ---
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// --- HIDDEN ADMIN PANEL CONTROLLER (com hash + rate limiting) ---
 function setupAdminPanel() {
   const modalOverlay = document.getElementById('adminModalOverlay');
   const authCard = document.getElementById('adminAuthCard');
@@ -754,6 +765,10 @@ function setupAdminPanel() {
 
   let logoClickCount = 0;
   let logoClickTimer;
+
+  // 🔒 Variáveis de rate limiting
+  let loginAttempts = 0;
+  let lockoutUntil = 0;
 
   const openAdminLogin = () => {
     modalOverlay.classList.add('active');
@@ -804,19 +819,46 @@ function setupAdminPanel() {
     if (e.target === modalOverlay) closeAdmin();
   });
 
-  authForm?.addEventListener('submit', (e) => {
+  // 🔒 SUBMIT DE LOGIN — com hash + rate limiting
+  authForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // 1. Verifica se está bloqueado por tentativas erradas
+    if (Date.now() < lockoutUntil) {
+      const restante = Math.ceil((lockoutUntil - Date.now()) / 60000);
+      showToast(`Muitas tentativas. Aguarde ${restante} min.`, 'error');
+      return;
+    }
+
+    // 2. Gera o hash da senha digitada
     const entered = authPasswordInput.value;
-    if (entered === AppState.adminPassword) {
+    const enteredHash = await sha256(entered);
+
+    // 3. Compara com o hash armazenado
+    if (enteredHash === AppState.adminPasswordHash) {
+      // ✅ Login correto → reseta tentativas
+      loginAttempts = 0;
+      lockoutUntil = 0;
       authCard.style.display = 'none';
       dashContainer.classList.add('active');
       renderAdminDashboard();
     } else {
-      showToast('Senha de administrador incorreta.', 'error');
+      // ❌ Login errado → incrementa tentativas
+      loginAttempts++;
       authPasswordInput.value = '';
+
+      if (loginAttempts >= 5) {
+        // Bloqueia por 5 minutos
+        lockoutUntil = Date.now() + 5 * 60 * 1000;
+        loginAttempts = 0;
+        showToast('⛔ Muitas tentativas. Bloqueado por 5 minutos.', 'error');
+      } else {
+        showToast(`Senha incorreta. Tentativa ${loginAttempts}/5.`, 'error');
+      }
     }
   });
 
+  // Sidebar Tab Navigation
   document.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
@@ -1051,10 +1093,11 @@ function setupAdminActions() {
     });
   });
 
-  // Save Settings Form
+  // Save Settings Form (com hash de senha)
   const settingsForm = document.getElementById('adminSettingsForm');
-  settingsForm?.addEventListener('submit', (e) => {
+  settingsForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const newPhone = document.getElementById('adminSetPhone').value.trim();
     const newEmail = document.getElementById('adminSetEmail').value.trim();
     const newPwd = document.getElementById('adminSetPassword').value.trim();
@@ -1065,6 +1108,7 @@ function setupAdminActions() {
       const waLink = document.getElementById('mainWaLink');
       if (waLink) waLink.setAttribute('href', `https://wa.me/${AppState.whatsappNumber}`);
     }
+
     if (newEmail) {
       AppState.contactEmail = newEmail;
       localStorage.setItem('ci_email', AppState.contactEmail);
@@ -1073,9 +1117,11 @@ function setupAdminActions() {
       const mailText = document.getElementById('mainMailText');
       if (mailText) mailText.textContent = AppState.contactEmail;
     }
+
     if (newPwd) {
-      AppState.adminPassword = newPwd;
-      localStorage.setItem('ci_admin_pwd', AppState.adminPassword);
+      const newHash = await sha256(newPwd);
+      AppState.adminPasswordHash = newHash;
+      localStorage.setItem('ci_admin_pwd', newHash);
       document.getElementById('adminSetPassword').value = '';
     }
 
