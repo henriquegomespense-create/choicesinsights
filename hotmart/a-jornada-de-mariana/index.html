@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>A Jornada de Mariana — Uma Aventura Sobre a Mente Humana | Henrique Gomes</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Uma história de autoconhecimento, coragem e pequenas escolhas para transformar a própria vida. Para quem se sente invisível mesmo fazendo tudo certo. Por Henrique Gomes.">
+  <meta name="keywords" content="A Jornada de Mariana, Henrique Gomes, autoconhecimento, psicologia narrativa, perfeccionismo, mente humana, desenvolvimento pessoal, literatura contemporânea">
+  <meta name="author" content="Henrique Gomes">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#000d21">
+
+  <!-- Open Graph / Redes Sociais -->
+  <meta property="og:type" content="book">
+  <meta property="og:title" content="A Jornada de Mariana — Uma Aventura Sobre a Mente Humana">
+  <meta property="og:description" content="Para quem se sente invisível mesmo fazendo tudo certo. Uma obra sobre mente, escolhas e autoconhecimento.">
+  <meta property="og:image" content="assets/images/livro-mockup.png">
+  <meta property="og:locale" content="pt_BR">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A Jornada de Mariana — Livro Oficial de Henrique Gomes">
+  <meta name="twitter:description" content="E se o maior obstáculo para a vida que você deseja estiver também na maneira como você aprendeu a enxergar a si mesmo?">
+  <meta name="twitter:image" content="assets/images/livro-mockup.png">
+
+  <!-- Favicon SVG Literário Harmonizado -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000d21'/><path d='M30 25 C45 23 55 23 70 25 L70 75 C55 73 45 73 30 75 Z' fill='none' stroke='%23f2c779' stroke-width='4'/><path d='M50 24 L50 74' stroke='%23f2c779' stroke-width='3'/><circle cx='50' cy='18' r='4' fill='%23ffe2a8'/></svg>">
+
+  <!-- Google Fonts Preconnect & Typographies -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Ambient Golden Light Canvas -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Ambient Glow Orbs -->
+  <div class="ambient-glow-orb orb-hero" aria-hidden="true"></div>
+  <div class="ambient-glow-orb orb-horizon" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       HEADER & BARRA DE NAVEGAÇÃO
+       ========================================================================= -->
+  <header class="site-header" role="banner">
+    <div class="site-container nav-wrapper">
+      <a href="#hero" class="nav-brand" aria-label="A Jornada de Mariana - Início">
+        <span class="nav-brand-title">A Jornada de Mariana</span>
+        <span class="nav-brand-author">Por Henrique Gomes</span>
+      </a>
+
+      <nav aria-label="Navegação Principal">
+        <ul class="nav-links">
+          <li><a href="#mariana" class="nav-link">Quem é Mariana</a></li>
+          <li><a href="#eixos" class="nav-link">Os 4 Eixos</a></li>
+          <li><a href="#caderno" class="nav-link">O Caderno de Práticas</a></li>
+          <li><a href="#depoimentos" class="nav-link">Depoimentos</a></li>
+          <li><a href="#faq" class="nav-link">Dúvidas</a></li>
+        </ul>
+      </nav>
+
+      <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="nav-cta-btn js-checkout-btn">Adquirir E-book</a>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- =========================================================================
+         SECTION 3: HERO SECTION
+         ========================================================================= -->
+    <section id="hero" class="hero-section" aria-label="Apresentação Principal">
+      <div class="site-container hero-grid">
+        
+        <!-- Lado Esquerdo: Conteúdo Textual & CTAs -->
+        <div class="hero-content reveal-on-scroll">
+          
+          <div class="literary-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            <span>NOVO E-BOOK • 2026</span>
+          </div>
+
+          <div class="hero-title-group">
+            <h1 class="hero-main-title">A JORNADA DE MARIANA</h1>
+            <span class="hero-subtitle">UMA AVENTURA SOBRE A MENTE HUMANA</span>
+          </div>
+
+          <div class="hero-tagline-quote">
+            “Para Quem Se Sente Invisível Mesmo Fazendo Tudo Certo”
+          </div>
+
+          <p class="hero-headline">
+            E se o maior obstáculo para a vida que você deseja estiver também na maneira como você aprendeu a enxergar a si mesmo?
+          </p>
+
+          <p class="hero-description">
+            Uma história de autoconhecimento, coragem e pequenas escolhas para transformar a própria vida.
+          </p>
+
+          <div class="hero-actions">
+            <div class="hero-button-group">
+              <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large js-checkout-btn" id="hero-primary-cta">
+                <span>COMEÇAR MINHA JORNADA</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+
+              <button type="button" class="btn btn-secondary" data-open-modal="sample-modal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <span>DEGUSTAÇÃO (CAP. 1)</span>
+              </button>
+            </div>
+
+            <!-- Microcopy de Conversão (Seção 4) -->
+            <div class="microcopy-box">
+              <div class="microcopy-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Uma história para ler com calma, refletir e levar para a própria vida.</span>
+              </div>
+              <div class="microcopy-item">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                <span>Leitura narrativa + reflexões + Caderno de Práticas de Mariana incluso.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Lado Direito: Mockup 3D Oficial do E-book -->
+        <div class="hero-visual reveal-on-scroll">
+          <div class="book-aura" aria-hidden="true"></div>
+          <div class="book-mockup-wrapper">
+            <img 
+              src="assets/images/livro-mockup.png" 
+              alt="Capa oficial do e-book A Jornada de Mariana por Henrique Gomes" 
+              class="book-mockup-img"
+              width="480"
+              height="720"
+              fetchpriority="high"
+            >
+            <div class="book-badge-overlay">
+              <div class="book-badge-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+              </div>
+              <div class="book-badge-text">
+                <span class="book-badge-title">Formato Digital Universal</span>
+                <span class="book-badge-desc">PDF HD + ePub (Kindle, Tablet & Celular)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 6: APRESENTAÇÃO DA PERSONAGEM ("CONHEÇA MARIANA")
+         ========================================================================= -->
+    <section id="mariana" class="section" aria-label="Apresentação de Mariana">
+      <div class="site-container">
+        
+        <div class="character-grid">
+          
+          <div class="character-image-wrapper reveal-on-scroll">
+            <img 
+              src="assets/images/mariana.jpg" 
+              alt="Mariana em um café urbano contemplando a luz do amanhecer" 
+              class="character-img"
+              loading="lazy"
+              width="600"
+              height="450"
+            >
+            <div class="character-image-overlay">
+              <span class="character-label">Personagem Literária</span>
+              <p class="character-caption">“A inquietação não era um defeito. Era um chamado para despertar.”</p>
+            </div>
+          </div>
+
+          <div class="character-narrative reveal-on-scroll">
+            <span class="section-tag">A Personagem Central</span>
+            <h2 class="section-title">Conheça Mariana</h2>
+
+            <blockquote class="character-quote">
+              “Mariana tem 31 anos, uma carreira construída com esforço, estabilidade financeira e uma vida aparentemente organizada.”
+            </blockquote>
+
+            <p class="character-body-text">
+              Por fora, o retrato do sucesso funcional: competente, pontual e admirada pelos colegas. Mas, nas pequenas frestas do cotidiano — no café tomado às pressas, no trajeto de volta para casa, no silêncio da noite —, existia uma inquietação que ela não conseguia mais silenciar.
+            </p>
+
+            <p class="character-body-text">
+              Mariana percebeu que havia se tornado especialista em atender às expectativas do mundo, enquanto suas próprias vontades permaneciam engavetadas.
+            </p>
+
+            <div class="character-traits">
+              <div class="trait-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>A Coragem de Questionar</span>
+              </div>
+              <div class="trait-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+                <span>O Fim da Autoanulação</span>
+              </div>
+              <div class="trait-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>A Descoberta da Autoria</span>
+              </div>
+              <div class="trait-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                <span>Paz Sem Perfeccionismo</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         THE 4 PILLARS SECTION: OS EIXOS DA TRANSFORMAÇÃO
+         ========================================================================= -->
+    <section id="eixos" class="section section-darker" aria-label="Eixos da Transformação Mental">
+      <div class="site-container">
+        
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Fundamentos da Obra</span>
+          <h2 class="section-title">Os 4 Eixos da Jornada Mental</h2>
+          <p class="section-subtitle">
+            Como a narrativa desmistifica os mecanismos invisíveis que governam nossas reações, medos e escolhas.
+          </p>
+        </div>
+
+        <div class="pillars-grid">
+          
+          <div class="pillar-card reveal-on-scroll">
+            <div class="pillar-num">01</div>
+            <h3 class="pillar-title">Desconstrução dos Padrões Invisíveis</h3>
+            <p class="pillar-desc">
+              Compreenda as regras tácitas que você internalizou na infância e como a necessidade de agradar se disfarça de virtude enquanto rouba sua vitalidade.
+            </p>
+          </div>
+
+          <div class="pillar-card reveal-on-scroll">
+            <div class="pillar-num">02</div>
+            <h3 class="pillar-title">O Labirinto do Perfeccionismo</h3>
+            <p class="pillar-desc">
+              Descubra por que a busca incessante pelo impecável é, na verdade, uma armadura contra o medo da crítica — e como sair da paralisia analítica.
+            </p>
+          </div>
+
+          <div class="pillar-card reveal-on-scroll">
+            <div class="pillar-num">03</div>
+            <h3 class="pillar-title">A Força das Microdecisões</h3>
+            <p class="pillar-desc">
+              Grandes transformações não exigem rupturas drásticas imediatas. Aprenda a arte das pequenas escolhas diárias alinhadas com a sua verdade.
+            </p>
+          </div>
+
+          <div class="pillar-card reveal-on-scroll">
+            <div class="pillar-num">04</div>
+            <h3 class="pillar-title">A Autoria da Própria Narrativa</h3>
+            <p class="pillar-desc">
+              Assuma o papel de protagonista da sua existência, redefinindo o peso da opinião alheia e construindo uma vida com significado real e leveza.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         WHAT'S INSIDE & O CADERNO DE PRÁTICAS
+         ========================================================================= -->
+    <section id="caderno" class="section" aria-label="O Que Contém na Obra">
+      <div class="site-container">
+        
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Experiência Completa</span>
+          <h2 class="section-title">Uma Experiência Literária com Ferramentas Reais</h2>
+          <p class="section-subtitle">
+            Muito além de uma leitura passiva: uma imersão reflexiva pensada para provocar conversas honestas com você mesmo.
+          </p>
+        </div>
+
+        <div class="inside-layout">
+          
+          <div class="inside-features reveal-on-scroll">
+            
+            <div class="feature-box">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/></svg>
+              </div>
+              <div class="feature-content">
+                <h4>Narrativa Imersiva e Envolvente</h4>
+                <p>Uma novela psicológica contemporânea escrita com ritmo fluido, elegância lírica e situações com as quais qualquer adulto moderno se identifica.</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              </div>
+              <div class="feature-content">
+                <h4>Pausas Psicológicas Guiadas</h4>
+                <p>Interrupções estratégicas ao final dos capítulos para permitir a digestão emocional e reflexão guiada sobre cada ponto de virada.</p>
+              </div>
+            </div>
+
+            <div class="feature-box">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div class="feature-content">
+                <h4>O Caderno de Práticas de Mariana</h4>
+                <p>Apêndice interativo exclusivo com exercícios de escrita reflexiva, mapeamento de crenças silenciosas e bússola de tomadas de decisão.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="workbook-visual reveal-on-scroll">
+            <div class="workbook-card">
+              <img 
+                src="assets/images/caderno-praticas.jpg" 
+                alt="Caderno de Práticas de Mariana em encadernação nobre sobre mesa de madeira" 
+                class="workbook-img"
+                loading="lazy"
+                width="600"
+                height="450"
+              >
+              <div class="workbook-badge">Apêndice Exclusivo Incluso</div>
+              <div class="workbook-caption-box">
+                <h3 class="workbook-caption-title">O Caderno de Práticas de Mariana</h3>
+                <p class="workbook-caption-desc">Um guia para transferir as reflexões da ficção diretamente para a sua rotina e seus desafios diários.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Banner Degustação -->
+        <div class="sample-banner reveal-on-scroll">
+          <span class="section-tag">Amostra Gratuita</span>
+          <h3 class="sample-banner-title">Experimente as Primeiras Páginas da Obra</h3>
+          <p class="sample-banner-desc">
+            Sinta o tom, a densidade reflexiva e a elegância da escrita antes de tomar qualquer decisão.
+          </p>
+          <button type="button" class="btn btn-secondary" data-open-modal="sample-modal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>LER CAPÍTULO 1 AGORA (DEGUSTAÇÃO)</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 7: GRANDE SEÇÃO DE CONVERSÃO ("O PONTO DE VIRADA")
+         ========================================================================= -->
+    <section class="conversion-section" aria-label="Momento de Decisão">
+      <div class="horizon-glow-line" aria-hidden="true"></div>
+      
+      <div class="site-container">
+        <div class="conversion-box reveal-on-scroll">
+          
+          <span class="section-tag">O Ponto de Virada</span>
+          <h2 class="conversion-headline">
+            “Talvez você não precise descobrir toda a sua vida hoje.”
+          </h2>
+          <span class="conversion-highlight-line">
+            “Precisa apenas escolher o próximo passo que faz sentido.”
+          </span>
+
+          <div class="hero-button-group" style="justify-content: center;">
+            <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large js-checkout-btn">
+              <span>COMEÇAR A MINHA JORNADA</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ABOUT THE AUTHOR (HENRIQUE GOMES)
+         ========================================================================= -->
+    <section id="autor" class="section section-darker author-section" aria-label="Sobre o Autor">
+      <div class="site-container site-container-narrow">
+        
+        <div class="author-card reveal-on-scroll">
+          <div class="author-image-container">
+            <div class="author-image-wrapper">
+              <img src="assets/images/author-henrique.jpg" alt="Henrique Gomes - Autor de A Jornada de Mariana" class="author-image" loading="lazy">
+              <span class="author-tag-overlay">Autor • 2026</span>
+            </div>
+          </div>
+
+          <div class="author-content">
+            <span class="section-tag">A Voz por Trás da Obra</span>
+            <h3 class="author-name" data-config="AUTHOR_NAME">Henrique Gomes</h3>
+            <span class="author-role" data-config="AUTHOR_ROLE">Escritor & Pesquisador de Comportamento Humano</span>
+            <p class="author-bio">
+              Dedicado a investigar as nuances da psicologia humana, os dilemas da vida adulta contemporânea e a forma como as narrativas internas moldam nossas decisões. Em <em>A Jornada de Mariana</em>, combina profundidade reflexiva e sensibilidade literária para oferecer uma obra acolhedora, lúcida e livre de promessas simplistas.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SOCIAL PROOF & TESTIMONIALS SECTION
+         ========================================================================= -->
+    <section id="depoimentos" class="section" aria-label="Depoimentos e Provas Sociais">
+      <div class="site-container">
+        
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Impacto Real</span>
+          <h2 class="section-title">O Que Dizem Quem Já Percorreu Esta Jornada</h2>
+          <p class="section-subtitle">
+            Relatos genuínos de leitores que encontraram acolhimento, lucidez e a coragem necessária para pequenas decisões diárias.
+          </p>
+        </div>
+
+        <!-- Metric Highlight Bar -->
+        <div class="social-proof-metrics reveal-on-scroll">
+          <div class="metric-item">
+            <div class="metric-value">4.9<span class="metric-star">★</span></div>
+            <div class="metric-label">Avaliação Média dos Leitores</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">+1.200</div>
+            <div class="metric-label">Mentes Impactadas</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">98%</div>
+            <div class="metric-label">Aprovam o Caderno de Práticas</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">100%</div>
+            <div class="metric-label">Acesso Seguro & Imediato</div>
+          </div>
+        </div>
+
+        <!-- Testimonials Cards Grid -->
+        <div class="testimonials-grid">
+          
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>CS</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Camila Silveira</h4>
+                <span class="testimonial-role">Psicóloga Clínica • São Paulo, SP</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “Eu me vi na Mariana logo nas primeiras páginas. O livro tem uma sensibilidade rara: não te dá receitas prontas nem fórmulas mágicas, mas faz as perguntas certas no momento exato. O Caderno de Práticas é um tesouro à parte para quem quer se aprofundar de verdade.”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitora Verificada
+              </span>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>RM</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Rodrigo Medeiros</h4>
+                <span class="testimonial-role">Gestor de Projetos • Belo Horizonte, MG</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “Sempre fui refém do perfeccionismo e da sensação constante de sobrecarga mental. O conceito de microdecisões me deu um alívio imenso e mudou minha rotina no trabalho e em casa. É uma obra lúcida, sem promessas vazias, exatamente o que eu precisava.”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitor Verificado
+              </span>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>JF</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Juliana Fontes</h4>
+                <span class="testimonial-role">Empreendedora • Curitiba, PR</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “A escrita do Henrique tem um equilíbrio perfeito entre elegância literária e psicologia prática. Devorei o livro no fim de semana e a sensação final foi de paz e protagonismo. Recomendo para todos os meus amigos.”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitora Verificada
+              </span>
+            </div>
+          </div>
+
+          <!-- Testimonial 4 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>LT</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Lucas Tavares</h4>
+                <span class="testimonial-role">Professor Universitário • Rio de Janeiro, RJ</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “As 'Pausas Psicológicas' ao final de cada capítulo são geniais. Fazem você parar a leitura, respirar e refletir sobre a sua própria vida antes de avançar. Um livro denso, mas ao mesmo tempo acolhedor e profundamente humano.”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitor Verificado
+              </span>
+            </div>
+          </div>
+
+          <!-- Testimonial 5 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>AL</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Ana Lúcia Barbosa</h4>
+                <span class="testimonial-role">Arquiteta • Porto Alegre, RS</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “Fazia muito tempo que um livro não mexia tanto comigo. Não é apenas uma história: é um espelho. Consegui identificar padrões de comportamento que vinham me esgotando há anos. Vale cada centavo!”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitora Verificada
+              </span>
+            </div>
+          </div>
+
+          <!-- Testimonial 6 -->
+          <div class="testimonial-card reveal-on-scroll">
+            <div class="testimonial-header">
+              <div class="testimonial-avatar">
+                <span>MB</span>
+              </div>
+              <div class="testimonial-author-info">
+                <h4 class="testimonial-name">Marcelo Brandão</h4>
+                <span class="testimonial-role">Advogado • Brasília, DF</span>
+              </div>
+              <div class="testimonial-rating" aria-label="5 de 5 estrelas">
+                ★★★★★
+              </div>
+            </div>
+            <p class="testimonial-text">
+              “Excelente do início ao fim. Diagramação impecável, formato muito confortável para ler no Kindle e no celular. O conteúdo é cirúrgico e de uma maturidade impressionante.”
+            </p>
+            <div class="testimonial-footer">
+              <span class="testimonial-verified">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                Leitor Verificado
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         OFFER & PRICING SECTION
+         ========================================================================= -->
+    <section id="oferta" class="section" aria-label="Condições Comerciais e Acesso">
+      <div class="site-container">
+        
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Acesso Imediato</span>
+          <h2 class="section-title">Comece Sua Leitura Hoje Mesmo</h2>
+          <p class="section-subtitle">
+            Um investimento acessível e definitivo no seu autoconhecimento e na sua clareza mental.
+          </p>
+        </div>
+
+        <div class="offer-wrapper reveal-on-scroll">
+          <div class="offer-card">
+            
+            <div class="offer-badge">Lançamento Especial 2026</div>
+
+            <h3 class="offer-book-title">A Jornada de Mariana</h3>
+            <p class="offer-subtitle">Uma Aventura Sobre a Mente Humana — Edição Digital Completa</p>
+
+            <div class="offer-price-box">
+              <div class="price-original">De R$ 67,90</div>
+              <div class="price-current-group">
+                <span class="price-currency">R$</span>
+                <span class="price-value">37,90</span>
+              </div>
+              <div class="price-installments">ou 4x de R$ 10,25 no cartão</div>
+            </div>
+
+            <ul class="offer-deliverables">
+              <li class="deliverable-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>E-book Completo (Texto Integral):</strong> Edição revisada e diagramada para leitura agradável.</span>
+              </li>
+              <li class="deliverable-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Formatos PDF HD + ePub:</strong> Compatível com Kindle, tablets, smartphones e computadores.</span>
+              </li>
+              <li class="deliverable-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Bônus Especial Incluso:</strong> Apêndice Interativo “O Caderno de Práticas de Mariana”.</span>
+              </li>
+              <li class="deliverable-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Acesso Vitalício:</strong> Faça download quantas vezes quiser em qualquer dispositivo.</span>
+              </li>
+              <li class="deliverable-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><strong>Entrega Imediata:</strong> Receba o link de download diretamente no seu e-mail logo após a confirmação.</span>
+              </li>
+            </ul>
+
+            <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large btn-full js-checkout-btn" id="main-offer-cta">
+              <span>QUERO COMEÇAR MINHA JORNADA AGORA</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+
+            <div class="guarantee-box">
+              <div class="guarantee-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <div class="guarantee-text">
+                <h5>Garantia Incondicional de 7 Dias</h5>
+                <p>Se você ler e sentir que a obra não agregou valor às suas reflexões, basta solicitar o reembolso integral com apenas um clique.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 8: FAQ ACCORDION
+         ========================================================================= -->
+    <section id="faq" class="section section-darker" aria-label="Perguntas Frequentes">
+      <div class="site-container">
+        
+        <div class="section-header reveal-on-scroll">
+          <span class="section-tag">Esclarecimentos</span>
+          <h2 class="section-title">Perguntas Frequentes</h2>
+          <p class="section-subtitle">
+            Tudo o que você precisa saber com total transparência e clareza.
+          </p>
+        </div>
+
+        <div class="faq-accordion reveal-on-scroll">
+          
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1" id="faq-q-1">
+              <span>É um livro técnico?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-1" role="region" aria-labelledby="faq-q-1">
+              <p class="faq-answer">
+                Não. É uma obra narrativa e reflexiva que utiliza a jornada de Mariana para abordar temas relacionados à mente, comportamento, escolhas e autoconhecimento.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2" id="faq-q-2">
+              <span>Quem é Mariana?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-2" role="region" aria-labelledby="faq-q-2">
+              <p class="faq-answer">
+                Mariana é uma personagem criada para conduzir a narrativa. Sua história e seus conflitos funcionam como um espelho para os desafios e inquietações vividos por homens e mulheres na sociedade contemporânea.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3" id="faq-q-3">
+              <span>O livro possui exercícios?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-3" role="region" aria-labelledby="faq-q-3">
+              <p class="faq-answer">
+                Sim. A obra inclui um Apêndice Interativo chamado “O Caderno de Práticas de Mariana”, contendo ferramentas de auto-observação, perguntas reflexivas e exercícios práticos sem fórmulas mágicas.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4" id="faq-q-4">
+              <span>Preciso ter conhecimento de psicologia para ler?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-4" role="region" aria-labelledby="faq-q-4">
+              <p class="faq-answer">
+                Não. A proposta utiliza uma linguagem acessível e apresenta os temas por meio da experiência da personagem, tornando conceitos complexos naturais e aplicáveis à vida comum.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5" id="faq-q-5">
+              <span>O livro promete transformar minha vida?</span>
+              <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <div class="faq-content" id="faq-ans-5" role="region" aria-labelledby="faq-q-5">
+              <p class="faq-answer">
+                Não. A obra não promete resultados específicos. Sua proposta é estimular reflexão, auto-observação e pequenas escolhas conscientes. A verdadeira transformação é sempre um processo pessoal e gradual.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         SECTION 9: CTA FINAL
+         ========================================================================= -->
+    <section class="final-cta-section" aria-label="Chamada Final">
+      <div class="site-container">
+        
+        <div class="final-cta-box reveal-on-scroll">
+          <span class="section-tag">O Começo da Sua História</span>
+          <h2 class="final-headline">A Jornada de Mariana termina aqui.</h2>
+          <p class="final-subheadline">Mas a sua pode começar agora.</p>
+
+          <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large js-checkout-btn">
+            <span>QUERO COMEÇAR MINHA JORNADA</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+
+          <p class="final-microcopy">
+            “Uma história. Novas perguntas. Um novo olhar para a própria jornada.”
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       SECTION 10: RODAPÉ
+       ========================================================================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-container">
+      
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4 data-config="AUTHOR_NAME">Henrique Gomes</h4>
+          <p>A Jornada de Mariana — Uma Aventura Sobre a Mente Humana</p>
+        </div>
+
+        <ul class="footer-links">
+          <li><button type="button" class="footer-link-btn" data-open-modal="privacy-modal">Política de Privacidade</button></li>
+          <li><button type="button" class="footer-link-btn" data-open-modal="terms-modal">Termos de Uso</button></li>
+          <li><button type="button" class="footer-link-btn" data-open-modal="contact-modal">Contato</button></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Henrique Gomes. Todos os direitos reservados.</p>
+        <p style="font-size: 0.7rem; color: #5a6d8a; margin-top: 0.35rem;">
+          Este conteúdo tem caráter reflexivo e educacional, não substituindo acompanhamento médico ou psicoterápico individualizado.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       STICKY MOBILE BAR (Para Mobile UX Fluida)
+       ========================================================================= -->
+  <div id="sticky-mobile-bar" class="sticky-mobile-bar" aria-hidden="true">
+    <div class="mobile-bar-info">
+      <span class="mobile-bar-title">A Jornada de Mariana</span>
+      <span class="mobile-bar-price">R$ 37,90</span>
+    </div>
+    <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary mobile-bar-btn js-checkout-btn">
+      <span>COMEÇAR JORNADA</span>
+    </a>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 1: DEGUSTAÇÃO DO CAPÍTULO 1
+       ========================================================================= -->
+  <div id="sample-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sample-modal-title" aria-hidden="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="sample-modal-title" class="modal-header-title">Degustação Literária • Capítulo 1</h3>
+        <button type="button" class="modal-close-btn js-modal-close" aria-label="Fechar amostra">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body sample-reader-text">
+        <h4 class="sample-chapter-title">Capítulo 1: O Silêncio no Café</h4>
+        
+        <p>O som suave da xícara tocando o pires de porcelana foi o único ruído que pareceu cortar a velocidade do dia de Mariana. Eram quase oito da noite de uma terça-feira comum em São Paulo, e as luzes dos escritórios refletiam no asfalto molhado pela garoa fina.</p>
+        
+        <p>Mariana olhou para a própria mão. Estava ali segurando o mesmo café de sempre, na mesma mesa perto da janela que costumava ocupar quando o cansaço vencia a pressa. Na pasta de couro sobre a cadeira ao lado, relatórios aprovados, elogios recebidos e mais uma meta corporativa batida com louvor.</p>
+        
+        <p>— Se tudo está no lugar, por que parece que nada está onde deveria? — murmurou ela, quase sem perceber.</p>
+        
+        <p>Não era tristeza. Era algo mais sutil, mais difícil de explicar em um almoço de negócios: a sensação silenciosa de que sua vida estava sendo impecavelmente administrada por uma versão de si mesma que ela já não reconhecia mais.</p>
+        
+        <p>Ela havia aprendido a ser a mulher que nunca falha, a profissional que nunca reclama, a filha que nunca dá trabalho. Mas, no processo de não decepcionar ninguém, havia esquecido como se sentia ao querer algo apenas por sua própria vontade.</p>
+        
+        <p>Naquela noite, antes de deixar a cafeteria, Mariana abriu a última página do seu bloco de notas e escreveu uma única frase, sem saber que ela marcaria o início de sua mais profunda travessia:</p>
+        
+        <p class="no-indent" style="font-style: italic; color: var(--gold-300); text-align: center; margin: 1.5rem 0;">
+          “A partir de quando o dever se tornou o único idioma que eu sei falar?”
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary js-modal-close">Fechar Amostra</button>
+        <a href="https://pay.hotmart.com/K107865401Q" target="_blank" rel="noopener noreferrer" class="btn btn-primary js-modal-close js-checkout-btn">Adquirir Livro Completo</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: POLÍTICA DE PRIVACIDADE
+       ========================================================================= -->
+  <div id="privacy-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" aria-hidden="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="privacy-modal-title" class="modal-header-title">Política de Privacidade</h3>
+        <button type="button" class="modal-close-btn js-modal-close" aria-label="Fechar política de privacidade">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Sua privacidade é de extrema importância para nós. Esta política descreve como tratamos as informações coletadas durante a sua visita e compra de <strong>A Jornada de Mariana</strong>:</p>
+        <br>
+        <p><strong>1. Coleta de Dados:</strong> Coletamos apenas as informações estritamente necessárias para a entrega dos materiais digitais (como nome e e-mail) e emissão de comprovantes de pagamento através de plataformas seguras e criptografadas.</p>
+        <br>
+        <p><strong>2. Uso das Informações:</strong> Seus dados não são vendidos, alugados ou compartilhados com terceiros para fins de marketing. Eles são utilizados unicamente para envio dos links de download e eventuais avisos sobre novas edições da obra.</p>
+        <br>
+        <p><strong>3. Segurança:</strong> Todas as transações financeiras são processadas por gateways de pagamento com certificação SSL de 256 bits, garantindo total sigilo bancário.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary js-modal-close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: TERMOS DE USO
+       ========================================================================= -->
+  <div id="terms-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title" aria-hidden="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="terms-modal-title" class="modal-header-title">Termos de Uso</h3>
+        <button type="button" class="modal-close-btn js-modal-close" aria-label="Fechar termos de uso">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>1. Propriedade Intelectual:</strong> Todos os direitos autorais sobre a obra literária <em>A Jornada de Mariana — Uma Aventura Sobre a Mente Humana</em> pertencem exclusivamente a Henrique Gomes. A compra concede uma licença individual e intransferível de leitura pessoal.</p>
+        <br>
+        <p><strong>2. Proibição de Distribuição:</strong> É expressamente proibida a reprodução, comercialização, rateio ou distribuição pública dos arquivos em qualquer formato sem autorização prévia por escrito.</p>
+        <br>
+        <p><strong>3. Natureza da Obra:</strong> Esta obra é de ficção reflexiva e conteúdo educacional, não constituindo terapia ou tratamento clínico de saúde mental.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary js-modal-close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 4: CONTATO & SUPORTE
+       ========================================================================= -->
+  <div id="contact-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" aria-hidden="true">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="contact-modal-title" class="modal-header-title">Contato & Suporte</h3>
+        <button type="button" class="modal-close-btn js-modal-close" aria-label="Fechar contato">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Dúvidas sobre o livro, problemas com o download do e-book ou solicitações institucionais?</p>
+        <br>
+        <p><strong>E-mail Oficial de Atendimento:</strong><br>
+          <a href="mailto:contato@henriquegomes.com.br" style="color: var(--gold-300); text-decoration: underline;" data-config="AUTHOR_EMAIL">contato@henriquegomes.com.br</a>
+        </p>
+        <br>
+        <p>Nosso time responde a todas as mensagens em até 24 horas úteis.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary js-modal-close">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/light-canvas.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

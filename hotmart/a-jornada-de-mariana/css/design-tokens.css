@@ -1,0 +1,109 @@
+/**
+ * =========================================================================
+ * DESIGN TOKENS — A JORNADA DE MARIANA
+ * Identidade Visual Sofisticada em Azul Meia-Noite Profundo (#000d21)
+ * =========================================================================
+ */
+
+:root {
+  /* --- PALETA DE CORES PRIMÁRIAS (Azul Meia-Noite #000d21 & Noite Profunda) --- */
+  --bg-primary: #000d21;
+  --bg-secondary: #001330;
+  --bg-tertiary: #001a40;
+  --bg-elevated: #022459;
+  --bg-card: rgba(2, 23, 56, 0.72);
+  --bg-card-hover: rgba(4, 34, 82, 0.88);
+  --bg-glass: rgba(0, 13, 33, 0.88);
+  --bg-footer: #000814;
+
+  /* --- PALETA DE CORES CLARAS (Papel Cristal & Marfim Quente) --- */
+  --text-primary: #f4f6fa;
+  --text-secondary: #d0daf0;
+  --text-muted: #8e9fb8;
+  --text-subtle: #5a6d8a;
+  --text-on-light: #000d21;
+
+  /* --- ACENTOS DOURADO SOLAR, AMANHECER & BRONZE --- */
+  --gold-300: #ffe2a8;
+  --gold-400: #f2c779;
+  --gold-500: #dfb15b;
+  --gold-600: #ba8c38;
+  --gold-700: #8a6420;
+  --bronze-accent: #c48b52;
+  --dawn-glow: rgba(242, 199, 121, 0.22);
+  --dawn-horizon: rgba(255, 140, 66, 0.28);
+  --cyan-accent: rgba(56, 189, 248, 0.16);
+  --purple-subtle: rgba(168, 85, 247, 0.16);
+
+  /* --- BORDAS & SEPARADORES HARMONIZADOS --- */
+  --border-subtle: rgba(242, 199, 121, 0.12);
+  --border-medium: rgba(242, 199, 121, 0.26);
+  --border-highlight: rgba(242, 199, 121, 0.5);
+  --border-blue: rgba(56, 189, 248, 0.18);
+  --border-gold-glow: rgba(255, 226, 168, 0.65);
+
+  /* --- TIPOGRAFIA --- */
+  --font-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-serif-display: 'Playfair Display', 'Cormorant Garamond', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* --- TAMANHOS DE FONTE FLUIDOS --- */
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.82rem + 0.28vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.38vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.65rem + 1.1vw, 2.375rem);
+  --text-4xl: clamp(2.25rem, 1.95rem + 1.5vw, 3rem);
+  --text-5xl: clamp(2.75rem, 2.3rem + 2.25vw, 3.875rem);
+  --text-hero: clamp(2.85rem, 2.2rem + 3.2vw, 4.75rem);
+
+  /* --- ESPAÇAMENTOS & LAYOUT --- */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+
+  --max-width-content: 1200px;
+  --max-width-narrow: 820px;
+  --max-width-reading: 680px;
+
+  /* --- BORDER RADIUS --- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- SOMBRAS CINEMATOGRÁFICAS --- */
+  --shadow-sm: 0 2px 8px rgba(0, 5, 18, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 5, 18, 0.6);
+  --shadow-lg: 0 16px 40px rgba(0, 5, 18, 0.75);
+  --shadow-book: 
+    0 25px 50px -12px rgba(0, 3, 10, 0.95),
+    0 0 50px rgba(242, 199, 121, 0.2),
+    -10px 15px 30px rgba(0, 5, 18, 0.85);
+  --shadow-gold-glow: 0 0 35px rgba(242, 199, 121, 0.35);
+  --shadow-gold-button: 0 10px 28px rgba(223, 177, 91, 0.32);
+
+  /* --- TRANSIÇÕES & ANIMAÇÕES --- */
+  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-cinematic: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* --- Z-INDEX TOKENS --- */
+  --z-canvas: 1;
+  --z-base: 10;
+  --z-header: 100;
+  --z-sticky-bar: 90;
+  --z-modal: 1000;
+}
