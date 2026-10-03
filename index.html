@@ -1,559 +1,558 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Choices Insights | Escolhas mais inteligentes. Vendas mais fortes.</title>
-  <meta name="description" content="Escolhas mais inteligentes | Vendas mais fortes | Vendas online.">
-  <meta name="keywords" content="Choices Insights, vendas online, infoprodutos, marketing digital, e-commerce, análise de dados, conversão">
-  <meta name="author" content="Choices Insights">
-  <meta name="theme-color" content="#3142DB">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Liberado • A Jornada de Mariana | Henrique Gomes</title>
+    <meta name="description" content="Obrigado por adquirir A Jornada de Mariana. Baixe seu e-book agora e comece sua transformação sobre a mente humana.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0c16',
+                            card: 'rgba(18, 22, 39, 0.7)',
+                            gold: '#fbbf24',
+                            goldLight: '#fde68a',
+                            goldDark: '#d97706',
+                            goldGlow: '#f59e0b',
+                            purple: '#1e1b4b',
+                            accent: '#6366f1'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        sans: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2.5s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 2.5s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-14px) rotate(0.8deg)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(251, 191, 36, 0.35), 0 0 50px rgba(245, 158, 11, 0.15)' },
+                            '100%': { boxShadow: '0 0 40px rgba(251, 191, 36, 0.65), 0 0 80px rgba(245, 158, 11, 0.35)' },
+                        },
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(200%)' }
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Choices Insights | Escolhas mais inteligentes. Vendas mais fortes.">
-  <meta property="og:description" content="Insights que transformam escolhas Inteligentes em resultados.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="admin.css">
+    <style>
+        /* Custom Background & Glassmorphic Utilities */
+        body {
+            background-color: #08090f;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            selection-background-color: #fbbf24;
+            selection-color: #08090f;
+        }
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%233142DB'/><path d='M28 50 C45 50, 52 28, 72 28' stroke='%23FFF' stroke-width='7' stroke-linecap='round' fill='none'/><path d='M28 50 C45 50, 52 72, 72 72' stroke='%239DA7FA' stroke-width='7' stroke-linecap='round' fill='none'/><circle cx='28' cy='50' r='4.5' fill='%23FFF'/><circle cx='72' cy='28' r='8' fill='%23FF5A36'/><circle cx='72' cy='72' r='6' fill='%239DA7FA'/></svg>">
-</head>
-<body>
+        ::selection {
+            background-color: #fbbf24;
+            color: #08090f;
+        }
 
-  <!-- ==================== CABEÇALHO ==================== -->
-  <header class="site-header">
-    <div class="container">
-      <nav class="navbar">
-        <a href="#" class="brand-logo" title="Choices Insights Home">
-          <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" rx="26" fill="#3142DB"/>
-            <path d="M28 50 C44 50, 50 28, 72 28" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round"/>
-            <path d="M28 50 C44 50, 50 72, 72 72" stroke="#9DA7FA" stroke-width="7.5" stroke-linecap="round" stroke-opacity="0.85"/>
-            <circle cx="28" cy="50" r="4.5" fill="#FFFFFF"/>
-            <circle cx="72" cy="28" r="8" fill="#FF5A36"/>
-            <circle cx="72" cy="72" r="6" fill="#9DA7FA"/>
-          </svg>
-          <div>
-            <span class="brand-choices">Choices</span><span class="brand-insights">Insights</span>
-          </div>
-        </a>
+        /* Sunset Mountains Backdrop Atmosphere */
+        .mountain-bg {
+            background-color: #090a12;
+            background-image: 
+                radial-gradient(circle at 50% 15%, rgba(217, 119, 6, 0.18) 0%, rgba(99, 102, 241, 0.08) 45%, transparent 70%),
+                radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 15% 40%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
 
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#sobre" class="nav-link" data-i18n="nav_about">Sobre</a></li>
-          <li><a href="#recursos" class="nav-link" data-i18n="nav_resources">Recursos</a></li>
-          <li><a href="#links" class="nav-link" data-i18n="nav_links">Links</a></li>
-        </ul>
+        .glass-card {
+            background: rgba(14, 18, 33, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
 
-        <div class="nav-actions">
-          <div class="lang-selector">
-            <button class="lang-btn" id="langBtn" aria-label="Alterar Idioma">
-              <span id="currentLangLabel">🇧🇷 PT</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-            </button>
-            <div class="lang-dropdown" id="langDropdown">
-              <button class="lang-option selected" data-lang="pt"><span>🇧🇷</span> Português (BR)</button>
-              <button class="lang-option" data-lang="en"><span>🇺🇸</span> English (USA)</button>
-              <button class="lang-option" data-lang="es"><span>🇪🇸</span> Español (ES)</button>
-            </div>
-          </div>
-
-          <a href="https://wa.me/5517981434509" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" id="headerContactBtn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span data-i18n="nav_contact_btn">Fale conosco</span>
-          </a>
-
-          <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir Menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <!-- ==================== HERO MINIMALISTA ==================== -->
-  <section class="hero-section" style="padding-top: 40px; padding-bottom: 20px;">
-    <div class="hero-glow-bg"></div>
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="title-choices" data-i18n="hero_title_choices">Choices</span>
-          <span class="title-insights" data-i18n="hero_title_insights">Insights</span>
-        </h1>
-
-        <p class="hero-slogan" data-i18n="hero_slogan">
-          Insights que transformam escolhas Inteligentes em resultados.
-        </p>
-
-        <p class="hero-support-text" data-i18n="hero_support" style="margin-bottom: 0;">
-          Decisões Inteligentes Transformando Produtos em Resultados
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== INFO PRODUTOS EM DESTAQUE ==================== -->
-  <section class="section" id="infoprodutos" style="padding-top: 40px; padding-bottom: 60px;">
-    <div class="container">
-      <div class="sub-section-header" style="text-align: center; align-items: center;">
-        <h3 class="sub-section-title" style="justify-content: center;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          <span data-i18n="infoproducts_title">InfoProdutos em Destaque</span>
-        </h3>
-        <p class="sub-section-desc" data-i18n="infoproducts_desc" style="text-align: center;">
-          Produtos escolhidos com cuidado para garantir tranquilidade na hora da compra
-        </p>
-      </div>
-
-      <ul class="product-list" id="productListSimple" style="margin: 0 auto;"></ul>
-    </div>
-  </section>
-
-  <!-- ==================== SEÇÃO RECURSOS (#recursos) — MARKETING DIGITAL ==================== -->
-  <section class="section section-subtle" id="recursos">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag accent" data-i18n="resources_tag">O que entregamos</span>
-        <h2 class="section-title" data-i18n="resources_title">Produtos, Ferramentas e Insights</h2>
-        <p class="section-subtitle" data-i18n="resources_subtitle">
-          Produtos, Ferramentas e Insights que geram resultados reais.
-        </p>
-      </div>
-
-      <div id="marketing-digital" style="scroll-margin-top: 100px;">
-        <div class="sub-section-header">
-          <h3 class="sub-section-title">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
-            <span data-i18n="marketing_title">Marketing Digital de Alta Performance</span>
-          </h3>
-        </div>
-
-        <div class="marketing-grid">
-          <div class="marketing-card">
-            <div class="marketing-num-badge">2.1</div>
-            <h3 data-i18n="marketing_card1_title">2.1 Análise de Dados</h3>
-            <p data-i18n="marketing_card1_desc">Relatórios claros e acionáveis para entender o comportamento do seu cliente.</p>
-          </div>
-
-          <div class="marketing-card">
-            <div class="marketing-num-badge">2.2</div>
-            <h3 data-i18n="marketing_card2_title">2.2 Decisões Inteligentes</h3>
-            <p data-i18n="marketing_card2_desc">Recomendações baseadas em dados para aumentar conversão e ticket médio.</p>
-          </div>
-
-          <div class="marketing-card">
-            <div class="marketing-num-badge">2.3</div>
-            <h3 data-i18n="marketing_card3_title">2.3 Otimização Contínua</h3>
-            <p data-i18n="marketing_card3_desc">Acompanhamento constante para manter suas vendas sempre em crescimento.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== SEÇÃO SOBRE (#sobre) ==================== -->
-  <section class="section" id="sobre">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="about_tag">Por que nós</span>
-        <h2 class="section-title" data-i18n="about_title">Por que Choices Insights?</h2>
-        <p class="section-subtitle" data-i18n="about_subtitle">
-          Combinamos análise de dados e estratégia de vendas para você tomar as melhores decisões no e-commerce.
-        </p>
-      </div>
-
-      <div class="about-grid">
-        <div class="about-features">
-          <div class="feature-pill-card">
-            <div class="pill-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
-            </div>
-            <div class="pill-content">
-              <h3 data-i18n="about_card1_title">Decisões Baseadas em Dados</h3>
-              <p data-i18n="about_card1_desc">Elimine o 'achismo'. Utilizamos métricas concretas de mercado e comportamento do consumidor para direcionar cada passo.</p>
-            </div>
-          </div>
-
-          <div class="feature-pill-card">
-            <div class="pill-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-            </div>
-            <div class="pill-content">
-              <h3 data-i18n="about_card2_title">Curadoria de Alto Impacto</h3>
-              <p data-i18n="about_card2_desc">Selecionamos e estruturamos infoprodutos com alta demanda e retenção para maximizar seu retorno sobre o investimento.</p>
-            </div>
-          </div>
-
-          <div class="feature-pill-card">
-            <div class="pill-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </div>
-            <div class="pill-content">
-              <h3 data-i18n="about_card3_title">Escala & Otimização Contínua</h3>
-              <p data-i18n="about_card3_desc">Processos e funis desenhados para crescer de forma sustentável, mantendo a rentabilidade e a experiência do cliente.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="about-visual">
-          <div class="about-visual-header">
-            <div class="about-visual-title" data-i18n="about_visual_title">Painel de Performance em Tempo Real</div>
-            <span class="badge-live">Live Analytics</span>
-          </div>
-
-          <div class="mock-chart">
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 38%;"></div><span class="chart-label">Seg</span></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 55%;"></div><span class="chart-label">Ter</span></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 70%;"></div><span class="chart-label">Qua</span></div>
-            <div class="chart-bar-wrap"><div class="chart-bar" style="height: 60%;"></div><span class="chart-label">Qui</span></div>
-            <div class="chart-bar-wrap"><div class="chart-bar highlight" style="height: 94%;"></div><span class="chart-label" style="color:#FFF; font-weight:700;">Hoje</span></div>
-          </div>
-
-          <div class="about-stats-row">
-            <div class="about-stat-box">
-              <div class="about-stat-num" data-i18n="about_stat1">+3.4x</div>
-              <div class="about-stat-desc" data-i18n="about_stat1_desc">Aumento médio em ROI</div>
-            </div>
-            <div class="about-stat-box">
-              <div class="about-stat-num" data-i18n="about_stat2">99.4%</div>
-              <div class="about-stat-desc" data-i18n="about_stat2_desc">Satisfação dos clientes</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== SEÇÃO LINKS & CONTATO (#links) ==================== -->
-  <section class="section section-subtle" id="links">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-tag" data-i18n="links_tag">Contatos & Conexões</span>
-        <h2 class="section-title" data-i18n="links_title">Nossos canais & recursos</h2>
-        <p class="section-subtitle" data-i18n="links_subtitle">
-          Acesse nossos conteúdos, lojas e redes.
-        </p>
-      </div>
-
-      <div class="contact-layout-grid">
-        <div class="channels-column">
-          <div class="channel-card">
-            <div class="channel-info">
-              <div class="channel-icon mail">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </div>
-              <div>
-                <div class="channel-title" data-i18n="channel_email_title">E-mail Oficial</div>
-                <a href="mailto:henriquegomes.pense@gmail.com" class="channel-val" id="mainMailLink">
-                  <span id="mainMailText">henriquegomes.pense@gmail.com</span>
-                </a>
-              </div>
-            </div>
-            <button class="btn btn-outline btn-sm btn-copy-action" data-copy-target="henriquegomes.pense@gmail.com" data-i18n="btn_copy">
-              Copiar
-            </button>
-          </div>
-
-          <div class="channel-card">
-            <div class="channel-info">
-              <div class="channel-icon whatsapp">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              </div>
-              <div>
-                <div class="channel-title" data-i18n="channel_whatsapp_title">WhatsApp - Atendimento rápido</div>
-                <div class="channel-val">55 17 9 8143 4509</div>
-                <div style="font-size:0.78rem; color:#10B981; font-weight:700; margin-top:2px;" data-i18n="channel_whatsapp_status">Online agora para te atender</div>
-              </div>
-            </div>
-            <a href="https://wa.me/5517981434509" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" id="mainWaLink" data-i18n="btn_open_chat">
-              Conversar
-            </a>
-          </div>
-
-          <div style="background: linear-gradient(135deg, #EEF2FF 0%, #FFFFFF 100%); border: 1px solid rgba(49, 66, 219, 0.15); border-radius: var(--radius-lg); padding: 22px;">
-            <h4 style="color:var(--primary); font-size: 1.05rem; margin-bottom: 6px; display:flex; align-items:center; gap:8px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-              Atendimento Consultivo
-            </h4>
-            <p style="font-size: 0.9rem; color: var(--text-muted);">
-              Nossa equipe responde diretamente para alinhar diagnósticos, parcerias e tirar todas as suas dúvidas sobre nossos infoprodutos.
-            </p>
-          </div>
-        </div>
-
-        <div class="contact-form-card" id="formContainer">
-          <div class="form-header">
-            <h3 class="form-title" data-i18n="form_title">Fale com um Especialista</h3>
-            <p class="form-subtitle" data-i18n="form_subtitle">Preencha o formulário abaixo e retornaremos em até 2 horas.</p>
-          </div>
-
-          <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="719d368c-ba8e-4b64-a54f-8f3589969a83">
-            <input type="hidden" name="subject" value="🚀 Novo Contato do Site - Choices Insights">
-            <input type="hidden" name="from_name" value="Site Choices Insights">
-            <input type="hidden" name="redirect" value="false">
-            <input type="checkbox" name="botcheck" style="display:none;">
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="contactName" class="form-label"><span data-i18n="form_label_name">Nome Completo</span> <span class="required">*</span></label>
-                <input type="text" id="contactName" name="name" class="form-input" placeholder="Seu nome completo" required data-i18n-placeholder="form_placeholder_name">
-              </div>
-
-              <div class="form-group">
-                <label for="contactEmail" class="form-label"><span data-i18n="form_label_email">E-mail</span> <span class="required">*</span></label>
-                <input type="email" id="contactEmail" name="email" class="form-input" placeholder="seu.email@empresa.com" required data-i18n-placeholder="form_placeholder_email">
-              </div>
-
-              <div class="form-group">
-                <label for="contactPhone" class="form-label"><span data-i18n="form_label_phone">Telefone / WhatsApp</span> <span class="required">*</span></label>
-                <input type="tel" id="contactPhone" name="phone" class="form-input" placeholder="(17) 98143-4509" required data-i18n-placeholder="form_placeholder_phone">
-              </div>
-
-              <div class="form-group">
-                <label for="contactCompany" class="form-label"><span data-i18n="form_label_company">Empresa/Negócio</span></label>
-                <input type="text" id="contactCompany" name="company" class="form-input" placeholder="Nome do seu negócio (opcional)" data-i18n-placeholder="form_placeholder_company">
-              </div>
-
-              <div class="form-group">
-                <label for="contactSubject" class="form-label"><span data-i18n="form_label_subject">Assunto</span> <span class="required">*</span></label>
-                <select id="contactSubject" name="subject" class="form-select" required>
-                  <option value="" disabled selected data-i18n="form_subj_select">Selecione o assunto...</option>
-                  <option value="Dúvida sobre produto" data-i18n="form_subj_opt1">Dúvida sobre produto</option>
-                  <option value="Suporte" data-i18n="form_subj_opt2">Suporte</option>
-                  <option value="Parceria" data-i18n="form_subj_opt3">Parceria</option>
-                  <option value="Orçamento" data-i18n="form_subj_opt4">Orçamento</option>
-                  <option value="Outro" data-i18n="form_subj_opt5">Outro</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="contactSource" class="form-label"><span data-i18n="form_label_source">Como nos Conheceu?</span></label>
-                <select id="contactSource" name="source" class="form-select">
-                  <option value="" disabled selected data-i18n="form_src_select">Selecione uma opção...</option>
-                  <option value="Google / Pesquisa" data-i18n="form_src_opt1">Google / Pesquisa</option>
-                  <option value="Instagram" data-i18n="form_src_opt2">Instagram</option>
-                  <option value="Indicação" data-i18n="form_src_opt3">Indicação de Amigo / Colega</option>
-                  <option value="YouTube" data-i18n="form_src_opt4">YouTube</option>
-                  <option value="WhatsApp" data-i18n="form_src_opt5">WhatsApp</option>
-                  <option value="Outro" data-i18n="form_src_opt6">Outro canal</option>
-                </select>
-              </div>
-
-              <div class="form-group full-width">
-                <label for="contactMessage" class="form-label"><span data-i18n="form_label_message">Mensagem</span> <span class="required">*</span></label>
-                <textarea id="contactMessage" name="message" class="form-textarea" placeholder="Como podemos ajudar você a tomar melhores decisões?" required data-i18n-placeholder="form_placeholder_message"></textarea>
-              </div>
-            </div>
-
-            <div style="margin-top: 14px; display:flex; align-items:center; gap:8px;">
-              <input type="checkbox" id="sendWhatsappCheck" checked style="width:18px; height:18px; accent-color: var(--primary); cursor:pointer;">
-              <label for="sendWhatsappCheck" style="font-size:0.88rem; color:var(--text-muted); cursor:pointer;" data-i18n="form_send_whatsapp_check">
-                Enviar cópia formatada também via WhatsApp
-              </label>
-            </div>
-
-            <div class="form-action-row">
-              <button type="submit" class="btn btn-accent btn-lg" style="width: 100%;">
-                <span data-i18n="form_btn_submit">Enviar Mensagem</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== SEÇÃO CTA (#contato) ==================== -->
-  <section class="cta-section" id="contato">
-    <div class="container">
-      <div class="cta-banner">
-        <div class="cta-inner">
-          <h2 class="cta-title" data-i18n="cta_title">Pronto para decisões mais inteligentes?</h2>
-          <p class="cta-desc" data-i18n="cta_text">Entre em contato e descubra como o Choices Insights pode impulsionar suas vendas.</p>
-          <a href="#formContainer" class="btn btn-accent btn-lg">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span data-i18n="cta_btn">Fale conosco agora</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== RODAPÉ / FOOTER ==================== -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top">
-        <a href="#" class="brand-logo footer-brand">
-          <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100" height="100" rx="26" fill="#3142DB"/>
-            <path d="M28 50 C44 50, 50 28, 72 28" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round"/>
-            <path d="M28 50 C44 50, 50 72, 72 72" stroke="#9DA7FA" stroke-width="7.5" stroke-linecap="round" stroke-opacity="0.85"/>
-            <circle cx="28" cy="50" r="4.5" fill="#FFFFFF"/>
-            <circle cx="72" cy="28" r="8" fill="#FF5A36"/>
-            <circle cx="72" cy="72" r="6" fill="#9DA7FA"/>
-          </svg>
-          <div>
-            <span class="brand-choices">Choices</span><span class="brand-insights">Insights</span>
-          </div>
-        </a>
-
-        <ul class="footer-nav">
-          <li><a href="#sobre" data-i18n="nav_about">Sobre</a></li>
-          <li><a href="#recursos" data-i18n="nav_resources">Recursos</a></li>
-          <li><a href="#links" data-i18n="nav_links">Links</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-bottom">
-        <div data-i18n="footer_rights">© 2026 Choices Insights. Todos os direitos reservados.</div>
+        .glass-card-hover {
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         
-        <button class="admin-access-trigger" id="adminAccessTrigger" title="Acesso do Administrador">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span data-i18n="footer_admin_link">Área Administrativa (Restrita)</span>
-        </button>
-      </div>
-    </div>
-  </footer>
+        .glass-card-hover:hover {
+            transform: translateY(-5px);
+            background: rgba(22, 28, 49, 0.85);
+            border-color: rgba(251, 191, 36, 0.35);
+            box-shadow: 0 15px 35px -10px rgba(251, 191, 36, 0.12), 0 0 20px rgba(251, 191, 36, 0.05);
+        }
 
-  <!-- ==================== PAINEL ADMINISTRADOR ==================== -->
-  <div class="admin-modal-overlay" id="adminModalOverlay">
-    <div class="admin-auth-card" id="adminAuthCard">
-      <button class="admin-auth-close" id="adminAuthClose" aria-label="Fechar">&times;</button>
-      <div class="admin-auth-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      </div>
-      <h3>Painel do Administrador</h3>
-      <p>Área restrita de gestão de leads, catálogo e configurações. Digite sua senha de acesso:</p>
-      
-      <form class="admin-auth-form" id="adminAuthForm">
-        <input type="password" id="adminAuthPassword" class="form-input" placeholder="Senha mestre (padrão: admin123)" required autocomplete="current-password">
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar no Dashboard</button>
-      </form>
-    </div>
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff7ed 10%, #fef08a 40%, #fbbf24 70%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    <div class="admin-dashboard-container" id="adminDashContainer">
-      <div class="admin-dash-header">
-        <div class="admin-dash-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF5A36" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <strong style="font-size:1.15rem;">Choices Insights • Painel Administrativo</strong>
-          <span class="admin-badge-private">Privado</span>
+        .cta-btn-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-btn-shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                60deg,
+                rgba(255, 255, 255, 0) 20%,
+                rgba(255, 255, 255, 0.35) 50%,
+                rgba(255, 255, 255, 0) 80%
+            );
+            transform: translateX(-100%) rotate(25deg);
+            animation: shimmerEffect 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes shimmerEffect {
+            0% { transform: translateX(-150%) rotate(25deg); }
+            35%, 100% { transform: translateX(150%) rotate(25deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090a12;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e2438;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fbbf24;
+        }
+    </style>
+</head>
+<body class="mountain-bg min-h-screen relative flex flex-col justify-between antialiased selection:bg-amber-400 selection:text-slate-900">
+
+    <!-- Decorative Sunset Horizon Glow & Mountain Silhouettes -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Sun Radial Glow behind top center -->
+        <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[550px] bg-gradient-to-b from-amber-500/20 via-orange-600/10 to-transparent rounded-full blur-[100px] opacity-80"></div>
+        
+        <!-- Indigo & Magenta Horizon Flare -->
+        <div class="absolute top-[28%] left-[-10%] w-[500px] h-[450px] bg-indigo-600/10 rounded-full blur-[110px]"></div>
+        <div class="absolute top-[35%] right-[-10%] w-[550px] h-[500px] bg-amber-600/10 rounded-full blur-[120px]"></div>
+
+        <!-- Ambient Mountain Silhouette Vector Overlay at bottom background -->
+        <div class="absolute bottom-0 inset-x-0 h-96 opacity-25 mix-blend-screen pointer-events-none bg-bottom bg-no-repeat bg-cover" style="background-image: radial-gradient(ellipse at bottom, rgba(30, 27, 75, 0.4) 0%, transparent 70%);">
+            <svg class="absolute bottom-0 w-full text-[#0d1020]" viewBox="0 0 1440 320" fill="currentColor" preserveAspectRatio="none">
+                <path d="M0,224L60,208C120,192,240,160,360,170.7C480,181,600,235,720,240C840,245,960,203,1080,192C1200,181,1320,203,1380,213.3L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z" opacity="0.6"></path>
+                <path d="M0,288L48,272C96,256,192,224,288,224C384,224,480,256,576,261.3C672,267,768,245,864,240C960,235,1056,245,1152,256C1248,267,1344,277,1392,282.7L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" opacity="0.9"></path>
+            </svg>
         </div>
-        <div class="admin-header-actions">
-          <button class="btn btn-secondary btn-sm" id="adminLogoutBtn">Sair</button>
-          <button class="btn-icon" id="adminDashClose" title="Fechar Painel" style="background:transparent; color:#FFF; border:none; font-size:1.4rem;">&times;</button>
-        </div>
-      </div>
+    </div>
 
-      <div class="admin-dash-body">
-        <aside class="admin-sidebar">
-          <button class="admin-nav-item active" data-tab="tab-leads">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Leads & Contatos
-            <span class="admin-badge-count" id="leadsBadgeCount">0</span>
-          </button>
-          
-          <button class="admin-nav-item" data-tab="tab-products">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-            Gerenciar InfoProdutos
-          </button>
-
-          <button class="admin-nav-item" data-tab="tab-settings">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg>
-            Configurações do Site
-          </button>
-        </aside>
-
-        <main class="admin-content-pane">
-          <div class="admin-stats-grid">
-            <div class="admin-stat-card">
-              <div class="admin-stat-icon blue">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              </div>
-              <div><div class="admin-stat-val" id="statTotalLeads">0</div><div class="admin-stat-label">Total de Leads Recebidos</div></div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="admin-stat-icon orange">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-              </div>
-              <div><div class="admin-stat-val" id="statTotalProducts">5</div><div class="admin-stat-label">InfoProdutos Ativos</div></div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="admin-stat-icon purple">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              </div>
-              <div><div class="admin-stat-val" id="statPageViews">1,248</div><div class="admin-stat-label">Acessos à Landing Page</div></div>
-            </div>
-          </div>
-
-          <div class="admin-tab-content active" id="tab-leads">
-            <div class="admin-table-container">
-              <div class="admin-table-header">
-                <h3 style="font-size:1.1rem;">Contatos Recebidos pelo Formulário</h3>
-                <div style="display:flex; gap:10px;">
-                  <button class="btn btn-secondary btn-sm" id="adminExportLeadsBtn">Exportar CSV</button>
-                  <button class="btn btn-outline btn-sm" id="adminClearLeadsBtn" style="color:#EF4444; border-color:#FCA5A5;">Limpar Todos</button>
+    <!-- MAIN WRAPPER -->
+    <div class="relative z-10 w-full flex flex-col flex-grow">
+        
+        <!-- 1. HEADER (TOPO) -->
+        <header class="w-full border-b border-white/[0.06] bg-[#090b14]/70 backdrop-blur-md sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                
+                <!-- Brand / Author Identification -->
+                <div class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 font-serif font-bold text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
+                        H
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs uppercase tracking-widest text-amber-400/90 font-semibold">Entrega Oficial</span>
+                        <span class="font-serif font-bold text-white tracking-wide text-base sm:text-lg">Henrique Gomes</span>
+                    </div>
                 </div>
-              </div>
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Data / Hora</th><th>Nome / Empresa</th><th>E-mail</th><th>WhatsApp</th><th>Assunto</th><th>Mensagem</th><th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="adminLeadsTbody"></tbody>
-              </table>
-            </div>
-          </div>
 
-          <div class="admin-tab-content" id="tab-products">
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; gap:16px; flex-wrap:wrap;">
-              <div>
-                <h3 style="font-size:1.2rem;">Catálogo de InfoProdutos</h3>
-                <p style="font-size:0.88rem; color:var(--text-muted);">Edite títulos, fotos, links e valores exibidos na Landing Page.</p>
-              </div>
-              <div style="display:flex; gap:10px;">
-                <button class="btn btn-secondary btn-sm" id="adminExportProductsBtn" title="Copia a configuração para colar no app.js">
-                  📋 Copiar Configuração
-                </button>
-                <button class="btn btn-primary btn-sm" id="adminAddProductBtn">+ Adicionar Novo Produto</button>
-              </div>
-            </div>
+                <!-- Status Badge: Acesso Liberado com Sucesso -->
+                <div class="flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-inner shadow-emerald-500/10 backdrop-blur-sm animate-pulse-slow">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                    <span class="text-xs sm:text-sm font-semibold tracking-wide text-emerald-300">Acesso Liberado com Sucesso</span>
+                </div>
 
-            <div class="admin-products-list" id="adminProductsList"></div>
-          </div>
-
-          <div class="admin-tab-content" id="tab-settings">
-            <div class="admin-settings-card">
-              <h3 style="font-size:1.2rem; margin-bottom:14px;">Configurações Gerais de Contato & Segurança</h3>
-              <form id="adminSettingsForm" style="display:flex; flex-direction:column; gap:16px;">
-                <div class="form-group">
-                  <label class="form-label">Número de WhatsApp Principal (apenas números)</label>
-                  <input type="text" id="adminSetPhone" class="form-input" value="5517981434509">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">E-mail Oficial de Contato</label>
-                  <input type="email" id="adminSetEmail" class="form-input" value="henriquegomes.pense@gmail.com">
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Nova Senha do Administrador</label>
-                  <input type="password" id="adminSetPassword" class="form-input" placeholder="Deixe em branco para manter a atual">
-                </div>
-                <button type="submit" class="btn btn-accent" style="align-self:flex-start; margin-top:10px;">Salvar Alterações</button>
-              </form>
             </div>
-          </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 flex-grow flex flex-col justify-center">
+
+            <!-- 2. HERO SECTION (2 COLUMNS DESKTOP / 1 MOBILE) -->
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-16 lg:mb-24">
+                
+                <!-- COLUNA ESQUERDA: Mockup 3D do E-book -->
+                <div class="lg:col-span-5 flex flex-col items-center justify-center order-2 lg:order-1 animate-fade-in-up" style="animation-delay: 0.15s;">
+                    
+                    <div class="relative group w-full max-w-[340px] sm:max-w-[390px] flex items-center justify-center">
+                        
+                        <!-- Glowing Backlight Behind Book -->
+                        <div class="absolute -inset-4 bg-gradient-to-tr from-amber-500/25 via-orange-500/15 to-purple-600/20 rounded-full blur-2xl opacity-75 group-hover:opacity-100 transition duration-700"></div>
+                        <div class="absolute w-52 h-52 bg-amber-400/20 rounded-full blur-3xl -top-6 -left-4 pointer-events-none"></div>
+
+                        <!-- 3D Book Container with Smooth Float -->
+                        <div class="relative animate-float z-10 w-full flex flex-col items-center">
+                            
+                            <!-- Real Image / Mockup with Graceful Fallback -->
+                            <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/80 border border-white/10 transition-transform duration-500 hover:scale-[1.02]">
+                                <img 
+                                    id="book-mockup-img"
+                                    src="assets/images/livro-mariana.png" 
+                                    alt="Mockup 3D E-book A Jornada de Mariana - Henrique Gomes" 
+                                    class="w-full max-h-[460px] object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.7)]"
+                                    onerror="this.onerror=null; this.parentElement.innerHTML=`
+                                        <div class='w-72 h-[410px] bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-amber-400/40 rounded-xl p-6 flex flex-col justify-between shadow-2xl text-center relative'>
+                                            <div class='absolute inset-0 bg-gradient-to-t from-amber-500/10 via-transparent to-amber-500/5 pointer-events-none'></div>
+                                            <div>
+                                                <span class='text-[10px] uppercase font-bold tracking-widest text-amber-400'>E-book Oficial</span>
+                                                <h3 class='font-serif text-2xl font-bold text-white mt-2 leading-tight'>A Jornada de Mariana</h3>
+                                                <p class='text-xs text-amber-200/80 mt-1 italic'>Uma Aventura Sobre a Mente Humana</p>
+                                            </div>
+                                            <div class='my-auto py-6'>
+                                                <div class='w-20 h-20 mx-auto rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-300'>
+                                                    <i data-lucide='brain' class='w-10 h-10'></i>
+                                                </div>
+                                            </div>
+                                            <div class='border-t border-white/10 pt-3'>
+                                                <p class='text-xs font-semibold text-slate-300'>Henrique Gomes</p>
+                                                <span class='text-[10px] text-emerald-400 font-medium'>Edição Digital Completa • PDF</span>
+                                            </div>
+                                        </div>
+                                    `; lucide.createIcons();"
+                                />
+                            </div>
+
+                            <!-- Specification Badges Below Mockup -->
+                            <div class="mt-6 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-300">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-sm">
+                                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-400 mr-1.5"></i>
+                                    Formato PDF Alta Definição
+                                </span>
+                                <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 backdrop-blur-sm">
+                                    <i data-lucide="smartphone" class="w-3.5 h-3.5 text-amber-400 mr-1.5"></i>
+                                    Compatível com Todos Dispositivos
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: Textos de Impacto e CTA Principal -->
+                <div class="lg:col-span-7 flex flex-col text-center lg:text-left order-1 lg:order-2 animate-fade-in-up" style="animation-delay: 0.05s;">
+                    
+                    <!-- Pre-title Tag -->
+                    <div class="inline-flex items-center self-center lg:self-start space-x-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/25 mb-4">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">A Sua Transformação Começa Aqui</span>
+                    </div>
+
+                    <!-- TÍTULO PRINCIPAL -->
+                    <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15] mb-4">
+                        Sua jornada <span class="gold-gradient-text">começou.</span>
+                    </h1>
+
+                    <!-- SUBTÍTULO -->
+                    <h2 class="text-lg sm:text-xl lg:text-2xl font-medium text-amber-100/90 leading-snug mb-5 font-serif italic">
+                        "Mais que um livro, uma ferramenta de transformação para a sua mente."
+                    </h2>
+
+                    <!-- TEXTO DE APOIO -->
+                    <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8 font-light">
+                        Obrigado por adquirir <strong class="text-white font-semibold">A Jornada de Mariana</strong>. Preparei este espaço para que você tenha a melhor experiência possível. Seu próximo capítulo começa agora.
+                    </p>
+
+                    <!-- CTA BUTTON BOX (O ELEMENTO MAIS DESTACADO) -->
+                    <div class="flex flex-col items-center lg:items-start space-y-4 w-full max-w-md mx-auto lg:mx-0">
+                        
+                        <!-- BOTÃO DE DOWNLOAD PRINCIPAL -->
+                        <a 
+                            id="download-cta-button"
+                            href="https://raw.github.com/henriquegomespense-create/image/main/publi/A%20jornada%20de%20Mariana%20-%20Uma%20Aventura%20Sobre%20a%20Mente%20Humana.pdf" 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download="A Jornada de Mariana - Uma Aventura Sobre a Mente Humana.pdf"
+                            class="cta-btn-shimmer group relative w-full sm:w-auto inline-flex items-center justify-center px-8 sm:px-10 py-5 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-slate-950 font-extrabold text-base sm:text-lg tracking-wide uppercase shadow-[0_10px_35px_rgba(251,191,36,0.45)] hover:shadow-[0_15px_45px_rgba(251,191,36,0.65)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 cursor-pointer border-2 border-amber-200"
+                        >
+                            <span class="flex items-center justify-center space-x-3 relative z-10">
+                                <i data-lucide="download" class="w-6 h-6 stroke-[2.5] text-slate-950 group-hover:translate-y-0.5 transition-transform"></i>
+                                <span>📥 BAIXAR MEU E-BOOK AGORA</span>
+                            </span>
+                        </a>
+
+                        <!-- TEXTO ABAIXO DO BOTÃO -->
+                        <p class="text-xs sm:text-sm text-amber-200/80 italic font-serif flex items-center justify-center lg:justify-start gap-1.5 pt-1">
+                            <i data-lucide="compass" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                            <span>"Seu próximo capítulo pode começar com uma pequena decisão."</span>
+                        </p>
+
+                        <!-- Micro Trust Badges -->
+                        <div class="flex items-center justify-center lg:justify-start space-x-4 pt-3 text-[11px] text-slate-400">
+                            <span class="flex items-center"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400 mr-1"></i> Acesso 100% Seguro</span>
+                            <span class="flex items-center"><i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400 mr-1"></i> Download Imediato</span>
+                            <span class="flex items-center"><i data-lucide="infinity" class="w-3.5 h-3.5 text-indigo-400 mr-1"></i> Acesso Vitalício</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- 3. SEÇÃO DE BENEFÍCIOS (GRID DE ÍCONES) -->
+            <section class="mt-8 pt-10 border-t border-white/[0.08] relative">
+                
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">O Que Você Vai Desenvolver</span>
+                    <h2 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-2">
+                        Os 5 Pilares da Sua Jornada Interior
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-2">
+                        Cada capítulo foi estruturado para guiar sua mente da introspecção à ação prática.
+                    </p>
+                </div>
+
+                <!-- GRID DE BENEFÍCIOS (5 ITENS) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
+                    
+                    <!-- Item 1: Autoconhecimento e mente -->
+                    <div class="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/20 to-amber-600/10 border border-amber-400/30 flex items-center justify-center text-amber-300 text-2xl mb-4 group-hover:scale-110 group-hover:border-amber-400/60 transition-all duration-300 shadow-lg shadow-amber-500/5">
+                            🧠
+                        </div>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                            Autoconhecimento e Mente
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Compreenda como seus pensamentos funcionam e aprenda a dominar os padrões internos que moldam suas decisões diárias.
+                        </p>
+                    </div>
+
+                    <!-- Item 2: Emoções e equilíbrio -->
+                    <div class="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-rose-500/20 to-amber-600/10 border border-rose-500/30 flex items-center justify-center text-rose-300 text-2xl mb-4 group-hover:scale-110 group-hover:border-rose-400/60 transition-all duration-300 shadow-lg shadow-rose-500/5">
+                            ❤️
+                        </div>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mb-2 group-hover:text-rose-300 transition-colors">
+                            Emoções e Equilíbrio
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Desenvolva clareza emocional prática para acolher sentimentos, superar a ansiedade e agir com estabilidade interior.
+                        </p>
+                    </div>
+
+                    <!-- Item 3: Hábitos e escolhas conscientes -->
+                    <div class="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/20 to-amber-600/10 border border-amber-400/30 flex items-center justify-center text-amber-300 text-2xl mb-4 group-hover:scale-110 group-hover:border-amber-400/60 transition-all duration-300 shadow-lg shadow-amber-500/5">
+                            🎯
+                        </div>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                            Hábitos e Escolhas Conscientes
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Saia do piloto automático e adote micro-hábitos alinhados com o seu propósito de vida e paz de espírito.
+                        </p>
+                    </div>
+
+                    <!-- Item 4: Coragem para agir e mudar -->
+                    <div class="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center group">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-amber-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-300 text-2xl mb-4 group-hover:scale-110 group-hover:border-indigo-400/60 transition-all duration-300 shadow-lg shadow-indigo-500/5">
+                            🚀
+                        </div>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+                            Coragem para Agir e Mudar
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Transforme o medo em combustível, vencendo a procrastinação para dar os passos que você vem adiando.
+                        </p>
+                    </div>
+
+                    <!-- Item 5: Protagonismo da sua história -->
+                    <div class="glass-card glass-card-hover rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center group md:col-span-2 lg:col-span-1">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400/20 to-emerald-500/10 border border-amber-400/30 flex items-center justify-center text-amber-300 text-2xl mb-4 group-hover:scale-110 group-hover:border-amber-400/60 transition-all duration-300 shadow-lg shadow-amber-500/5">
+                            👤
+                        </div>
+                        <h3 class="font-serif text-base sm:text-lg font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
+                            Protagonismo da Sua História
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Assuma o controle da sua jornada pessoal, deixando a posição de espectador para se tornar o autor da sua vida.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- 4. GUIA RÁPIDO DE LEITURA (3 PASSOS PRÁTICOS) -->
+            <section class="mt-14 glass-card rounded-2xl p-6 sm:p-8 border border-white/10 relative overflow-hidden">
+                
+                <div class="absolute -right-16 -top-16 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shrink-0">
+                            <i data-lucide="book-open-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif font-bold text-white text-lg">Como aproveitar ao máximo seu E-book:</h4>
+                            <p class="text-xs sm:text-sm text-slate-300">Siga estas 3 recomendações simples após o download:</p>
+                        </div>
+                    </div>
+
+                    <!-- Steps Timeline -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full md:w-auto text-xs">
+                        <div class="bg-black/30 rounded-xl p-3 border border-white/5">
+                            <span class="text-amber-400 font-bold block mb-1">1. Salve o Arquivo</span>
+                            <span class="text-slate-400">Guarde no seu Google Drive, Livros da Apple ou app favorito.</span>
+                        </div>
+                        <div class="bg-black/30 rounded-xl p-3 border border-white/5">
+                            <span class="text-amber-400 font-bold block mb-1">2. 15 min por dia</span>
+                            <span class="text-slate-400">Uma leitura calma e reflexiva traz resultados muito mais profundos.</span>
+                        </div>
+                        <div class="bg-black/30 rounded-xl p-3 border border-white/5">
+                            <span class="text-amber-400 font-bold block mb-1">3. Pratique os Insights</span>
+                            <span class="text-slate-400">Aplique os exercícios de reflexão no seu cotidiano.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- 5. SUPORTE E CONTATO -->
+            <section id="download-section" class="mt-8 text-center text-xs text-slate-400">
+                <p class="flex items-center justify-center gap-1.5 flex-wrap">
+                    <span>Teve alguma dificuldade para abrir ou baixar o arquivo?</span>
+                    <a 
+                        href="https://wa.me/5517981434509?text=Ol%C3%A1%2C%20Henrique!%20Acabei%20de%20adquirir%20o%20e-book%20A%20Jornada%20de%20Mariana%20e%20preciso%20de%20ajuda%20com%20o%20acesso." 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-medium underline underline-offset-4 decoration-amber-400/50 hover:decoration-amber-300 transition-colors"
+                    >
+                        <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
+                        <span>Fale com nosso Suporte no WhatsApp (+55 17 98143-4509)</span>
+                    </a>
+                </p>
+            </section>
+
         </main>
-      </div>
+
+        <!-- 6. RODAPÉ (FOOTER) -->
+        <footer class="w-full border-t border-white/[0.06] bg-[#07080f] py-8 mt-12 relative z-10">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+                
+                <div class="flex items-center space-x-2">
+                    <span class="font-serif font-bold text-slate-200">A Jornada de Mariana</span>
+                    <span class="text-slate-600">•</span>
+                    <span>Por <strong class="text-slate-200 font-medium">Henrique Gomes</strong></span>
+                </div>
+
+                <div class="text-center sm:text-right text-slate-400">
+                    <p>© <span id="current-year">2026</span> Henrique Gomes. Todos os direitos reservados.</p>
+                </div>
+
+            </div>
+        </footer>
+
     </div>
-  </div>
 
-  <div class="toast-container" id="toastContainer"></div>
+    <!-- Modal / Toast Alert on Download Click -->
+    <div id="download-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="glass-card bg-[#0e1222] border border-amber-400/30 rounded-2xl max-w-md w-full p-6 sm:p-8 text-center shadow-2xl shadow-amber-500/10 transform scale-95 transition-transform duration-300" id="modal-box">
+            
+            <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto mb-4">
+                <i data-lucide="check" class="w-8 h-8 stroke-[3]"></i>
+            </div>
 
-  <script src="app.js"></script>
+            <h3 class="font-serif text-2xl font-bold text-white mb-2">Preparando seu Download!</h3>
+            <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                Você pode configurar o link direto para o seu PDF ou Área de Membros da Kiwify editando o atributo <code class="bg-black/50 text-amber-300 px-2 py-0.5 rounded text-xs">href</code> do botão principal.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button onclick="closeModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-bold text-sm hover:scale-105 transition-all">
+                    Entendido, Continuar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Initialization Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            
+            // Set dynamic current year
+            const yearEl = document.getElementById('current-year');
+            if (yearEl) {
+                yearEl.textContent = new Date().getFullYear();
+            }
+        });
+
+        // CTA Click Handler
+        function handleDownloadClick(e) {
+            // Se o href for configurado para um link real externo (ex: Kiwify ou arquivo .pdf), abre normalmente
+            const btn = document.getElementById('download-cta-button');
+            const href = btn.getAttribute('href');
+            
+            if (href === '#download-section' || href === '#download' || href === '#') {
+                e.preventDefault();
+                openModal();
+            }
+        }
+
+        function openModal() {
+            const modal = document.getElementById('download-modal');
+            const box = document.getElementById('modal-box');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-95');
+            box.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('download-modal');
+            const box = document.getElementById('modal-box');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+        }
+    </script>
 </body>
 </html>
