@@ -13,21 +13,10 @@ const translations = {
     nav_resources: "Recursos",
     nav_links: "Links",
     nav_contact_btn: "Fale conosco",
-    
-    hero_badge: "Plataforma de Inteligência & Estratégia",
     hero_title_choices: "Choices",
     hero_title_insights: "Insights",
     hero_slogan: "Insights que transformam escolhas Inteligêntes em resultados.",
     hero_support: "Decisões Inteligentes Transformando Produtos em Resultados",
-    hero_btn_infoproducts: "InfoProdutos: Explorar soluções",
-    hero_btn_marketing: "Marketing Digital",
-    
-    metric_sales_lift: "+248% em Conversão",
-    metric_sales_sub: "Média de otimização",
-    metric_curation: "Curadoria Premium",
-    metric_curation_sub: "Produtos Validados",
-    metric_support: "Atendimento 1:1",
-    metric_support_sub: "Estratégia personalizada",
 
     about_tag: "Por que nós",
     about_title: "Por que Choices Insights?",
@@ -47,7 +36,7 @@ const translations = {
     resources_tag: "O que entregamos",
     resources_title: "Produtos, Ferramentas e Insights",
     resources_subtitle: "Produtos, Ferramentas e Insights que geram resultados reais.",
-    
+
     infoproducts_title: "InfoProdutos em Destaque",
     infoproducts_desc: "Produtos Escolhidos com cuidado para garantir tranquilidade na hora da compra",
     product_cta: "Acessar Solução",
@@ -121,21 +110,10 @@ const translations = {
     nav_resources: "Solutions",
     nav_links: "Links",
     nav_contact_btn: "Contact Us",
-    
-    hero_badge: "Intelligence & Strategy Platform",
     hero_title_choices: "Choices",
     hero_title_insights: "Insights",
     hero_slogan: "Insights that transform smart choices into results.",
     hero_support: "Smart Decisions Transforming Products into Results",
-    hero_btn_infoproducts: "InfoProducts: Explore Solutions",
-    hero_btn_marketing: "Digital Marketing",
-    
-    metric_sales_lift: "+248% Conversion Lift",
-    metric_sales_sub: "Optimization Average",
-    metric_curation: "Premium Curation",
-    metric_curation_sub: "Validated Products",
-    metric_support: "1:1 Strategy Support",
-    metric_support_sub: "Custom execution",
 
     about_tag: "Why Us",
     about_title: "Why Choices Insights?",
@@ -155,7 +133,7 @@ const translations = {
     resources_tag: "What We Deliver",
     resources_title: "Products, Tools and Insights",
     resources_subtitle: "Products, Tools, and Insights that generate real, measurable results.",
-    
+
     infoproducts_title: "Featured InfoProducts",
     infoproducts_desc: "Products carefully selected to guarantee peace of mind during your purchase",
     product_cta: "Access Solution",
@@ -229,21 +207,10 @@ const translations = {
     nav_resources: "Recursos",
     nav_links: "Enlaces",
     nav_contact_btn: "Contáctanos",
-    
-    hero_badge: "Plataforma de Inteligencia & Estrategia",
     hero_title_choices: "Choices",
     hero_title_insights: "Insights",
     hero_slogan: "Insights que transforman elecciones inteligentes en resultados.",
     hero_support: "Decisiones Inteligentes Transformando Productos en Resultados",
-    hero_btn_infoproducts: "InfoProductos: Explorar soluciones",
-    hero_btn_marketing: "Marketing Digital",
-    
-    metric_sales_lift: "+248% en Conversión",
-    metric_sales_sub: "Promedio de optimización",
-    metric_curation: "Curaduría Premium",
-    metric_curation_sub: "Productos Validados",
-    metric_support: "Atención 1:1",
-    metric_support_sub: "Estrategia personalizada",
 
     about_tag: "Por qué elegirnos",
     about_title: "¿Por qué Choices Insights?",
@@ -263,7 +230,7 @@ const translations = {
     resources_tag: "Lo que entregamos",
     resources_title: "Productos, Herramientas e Insights",
     resources_subtitle: "Productos, Herramientas e Insights que generan resultados reales.",
-    
+
     infoproducts_title: "InfoProductos Destacados",
     infoproducts_desc: "Productos Elegidos con cuidado para garantizar tranquilidad a la hora de comprar",
     product_cta: "Acceder a la Solución",
@@ -398,13 +365,12 @@ const defaultProducts = [
 // --- APP STATE & LOCALSTORAGE WRAPPERS ---
 const AppState = {
   currentLang: localStorage.getItem('ci_lang') || 'pt',
-  // 🔒 COLE AQUI O HASH SHA-256 DA SUA SENHA (veja instruções abaixo do arquivo)
   adminPasswordHash: localStorage.getItem('ci_admin_pwd') || 'fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35',
   whatsappNumber: localStorage.getItem('ci_whatsapp') || '5517981434509',
   contactEmail: localStorage.getItem('ci_email') || 'henriquegomes.pense@gmail.com',
   products: JSON.parse(localStorage.getItem('ci_products')) || defaultProducts,
-leads: JSON.parse(localStorage.getItem('ci_leads')) || [
-    {                           //
+  leads: JSON.parse(localStorage.getItem('ci_leads')) || [
+    {
       id: "lead-demo-1",
       date: "03/10/2026 11:20",
       name: "Carlos Eduardo Silva",
@@ -435,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCopyButtons();
 });
 
-// Increment page views
 function initStats() {
   AppState.stats.pageViews += 1;
   localStorage.setItem('ci_stats', JSON.stringify(AppState.stats));
@@ -473,7 +438,7 @@ function setupLanguageSelector() {
 
 function applyLanguage(lang) {
   const dict = translations[lang] || translations.pt;
-  
+
   document.title = dict.meta_title;
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', dict.meta_desc);
@@ -486,22 +451,18 @@ function applyLanguage(lang) {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (dict[key]) {
-      el.textContent = dict[key];
-    }
+    if (dict[key]) el.textContent = dict[key];
   });
 
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const key = el.getAttribute('data-i18n-placeholder');
-    if (dict[key]) {
-      el.setAttribute('placeholder', dict[key]);
-    }
+    if (dict[key]) el.setAttribute('placeholder', dict[key]);
   });
 
   renderProducts();
 }
 
-// --- RENDER INFOPRODUCTS AS SIMPLE LIST (dinâmico) ---
+// --- RENDER INFOPRODUCTS AS SIMPLE LIST ---
 function renderProductList() {
   const container = document.getElementById('productListSimple');
   if (!container) return;
@@ -578,14 +539,11 @@ function setupNavigation() {
     anchor.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
       if (href === '#' || href === '#admin') return;
-      
+
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
@@ -600,7 +558,7 @@ function setupContactForm() {
     phoneInput.addEventListener('input', (e) => {
       let val = e.target.value.replace(/\D/g, '');
       if (val.length > 11) val = val.slice(0, 11);
-      
+
       if (val.length > 10) {
         e.target.value = `(${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)}`;
       } else if (val.length > 5) {
@@ -642,13 +600,7 @@ function setupContactForm() {
     const newLead = {
       id: "lead-" + Date.now(),
       date: new Date().toLocaleString('pt-BR'),
-      name,
-      email,
-      phone,
-      company,
-      subject,
-      source,
-      message,
+      name, email, phone, company, subject, source, message,
       status: "Novo"
     };
 
@@ -678,8 +630,7 @@ function setupContactForm() {
             `*Como conheceu:* ${encodeURIComponent(source)}%0A` +
             `*Mensagem:* ${encodeURIComponent(message)}`;
 
-          const waUrl = `https://wa.me/${AppState.whatsappNumber}?text=${textMsg}`;
-          window.open(waUrl, '_blank');
+          window.open(`https://wa.me/${AppState.whatsappNumber}?text=${textMsg}`, '_blank');
         }
 
         renderAdminLeads();
@@ -740,7 +691,7 @@ function showToast(message, type = 'success') {
   }, 4000);
 }
 
-// --- SHA-256 HELPER (para hash de senha) ---
+// --- SHA-256 HELPER ---
 async function sha256(str) {
   const buf = new TextEncoder().encode(str);
   const hash = await crypto.subtle.digest('SHA-256', buf);
@@ -749,7 +700,7 @@ async function sha256(str) {
     .join('');
 }
 
-// --- HIDDEN ADMIN PANEL CONTROLLER (com hash + rate limiting) ---
+// --- HIDDEN ADMIN PANEL CONTROLLER ---
 function setupAdminPanel() {
   const modalOverlay = document.getElementById('adminModalOverlay');
   const authCard = document.getElementById('adminAuthCard');
@@ -761,12 +712,7 @@ function setupAdminPanel() {
   const logoutBtn = document.getElementById('adminLogoutBtn');
 
   const footerTrigger = document.getElementById('adminAccessTrigger');
-  const heroLogo = document.getElementById('heroLogoBadge');
 
-  let logoClickCount = 0;
-  let logoClickTimer;
-
-  // 🔒 Variáveis de rate limiting
   let loginAttempts = 0;
   let lockoutUntil = 0;
 
@@ -783,19 +729,6 @@ function setupAdminPanel() {
   };
 
   if (footerTrigger) footerTrigger.addEventListener('click', (e) => { e.preventDefault(); openAdminLogin(); });
-
-  if (heroLogo) {
-    heroLogo.addEventListener('click', () => {
-      logoClickCount++;
-      clearTimeout(logoClickTimer);
-      if (logoClickCount >= 3) {
-        logoClickCount = 0;
-        openAdminLogin();
-      } else {
-        logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 800);
-      }
-    });
-  }
 
   document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
@@ -819,36 +752,29 @@ function setupAdminPanel() {
     if (e.target === modalOverlay) closeAdmin();
   });
 
-  // 🔒 SUBMIT DE LOGIN — com hash + rate limiting
   authForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // 1. Verifica se está bloqueado por tentativas erradas
     if (Date.now() < lockoutUntil) {
       const restante = Math.ceil((lockoutUntil - Date.now()) / 60000);
       showToast(`Muitas tentativas. Aguarde ${restante} min.`, 'error');
       return;
     }
 
-    // 2. Gera o hash da senha digitada
     const entered = authPasswordInput.value;
     const enteredHash = await sha256(entered);
 
-    // 3. Compara com o hash armazenado
     if (enteredHash === AppState.adminPasswordHash) {
-      // ✅ Login correto → reseta tentativas
       loginAttempts = 0;
       lockoutUntil = 0;
       authCard.style.display = 'none';
       dashContainer.classList.add('active');
       renderAdminDashboard();
     } else {
-      // ❌ Login errado → incrementa tentativas
       loginAttempts++;
       authPasswordInput.value = '';
 
       if (loginAttempts >= 5) {
-        // Bloqueia por 5 minutos
         lockoutUntil = Date.now() + 5 * 60 * 1000;
         loginAttempts = 0;
         showToast('⛔ Muitas tentativas. Bloqueado por 5 minutos.', 'error');
@@ -858,7 +784,6 @@ function setupAdminPanel() {
     }
   });
 
-  // Sidebar Tab Navigation
   document.querySelectorAll('.admin-nav-item').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
@@ -902,7 +827,7 @@ function renderAdminLeads() {
     return;
   }
 
-  tbody.innerHTML = AppState.leads.map((lead, idx) => `
+  tbody.innerHTML = AppState.leads.map((lead) => `
     <tr>
       <td><strong>${lead.date}</strong></td>
       <td>
@@ -941,7 +866,7 @@ function renderAdminProducts() {
   const container = document.getElementById('adminProductsList');
   if (!container) return;
 
-  container.innerHTML = AppState.products.map((p, idx) => `
+  container.innerHTML = AppState.products.map((p) => `
     <div class="admin-product-item">
       <div class="admin-product-item-header">
         <img src="${p.image}" class="admin-prod-thumb" alt="${p.title}" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80'">
@@ -956,7 +881,7 @@ function renderAdminProducts() {
           ${p.active !== false ? '● Ativo no Site' : '○ Oculto'}
         </span>
         <div style="display:flex; gap:6px;">
-          <button class="btn btn-secondary btn-sm" onclick="editProductModal('${p.id}')">Editar</button>
+          <button class="btn btn-secondary btn-sm" onclick="openProductEditModal('${p.id}')">Editar</button>
           <button class="btn btn-outline btn-sm" onclick="toggleProductActive('${p.id}')">
             ${p.active !== false ? 'Desativar' : 'Ativar'}
           </button>
@@ -975,30 +900,6 @@ window.toggleProductActive = function(id) {
     renderProducts();
     showToast(`Produto "${prod.title}" atualizado.`);
   }
-};
-
-window.editProductModal = function(id) {
-  const prod = AppState.products.find(p => p.id === id);
-  if (!prod) return;
-
-  const newTitle = prompt('Título do Produto:', prod.title);
-  if (newTitle === null) return;
-  const newPrice = prompt('Preço (ex: R$ 97,00):', prod.price);
-  if (newPrice === null) return;
-  const newDesc = prompt('Descrição curta:', prod.description);
-  if (newDesc === null) return;
-  const newLink = prompt('Link de Vendas/Checkout:', prod.link);
-  if (newLink === null) return;
-
-  prod.title = newTitle.trim() || prod.title;
-  prod.price = newPrice.trim() || prod.price;
-  prod.description = newDesc.trim() || prod.description;
-  prod.link = newLink.trim() || prod.link;
-
-  localStorage.setItem('ci_products', JSON.stringify(AppState.products));
-  renderAdminProducts();
-  renderProducts();
-  showToast('Produto atualizado com sucesso!');
 };
 
 function loadAdminSettings() {
@@ -1043,36 +944,9 @@ function setupAdminActions() {
     }
   });
 
-  // Add Product Button
+  // Add Product Button — abre modal unificado em modo "criar"
   const addProdBtn = document.getElementById('adminAddProductBtn');
-  addProdBtn?.addEventListener('click', () => {
-    const title = prompt('Título do Novo Produto:');
-    if (!title) return;
-    const price = prompt('Preço (ex: R$ 97,00):', 'R$ 97,00') || 'R$ 97,00';
-    const category = prompt('Categoria (ex: Estratégia Digital):', 'Estratégia Digital') || 'Estratégia Digital';
-    const description = prompt('Descrição do Produto:', 'Estratégias e ferramentas para alavancar suas vendas.') || '';
-    const link = prompt('Link do Produto/Checkout:', `https://wa.me/${AppState.whatsappNumber}`) || `https://wa.me/${AppState.whatsappNumber}`;
-
-    const newProd = {
-      id: "prod-" + Date.now(),
-      title,
-      badge: "Novo",
-      category,
-      rating: "5.0 (10)",
-      price,
-      description,
-      link,
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
-      active: true
-    };
-
-    AppState.products.push(newProd);
-    localStorage.setItem('ci_products', JSON.stringify(AppState.products));
-    renderAdminProducts();
-    renderProducts();
-    updateAdminStats();
-    showToast('Novo produto cadastrado com sucesso!');
-  });
+  addProdBtn?.addEventListener('click', () => openProductEditModal(null));
 
   // Export Products Configuration Button
   const exportProductsBtn = document.getElementById('adminExportProductsBtn');
@@ -1093,7 +967,7 @@ function setupAdminActions() {
     });
   });
 
-  // Save Settings Form (com hash de senha)
+  // Save Settings Form
   const settingsForm = document.getElementById('adminSettingsForm');
   settingsForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1129,7 +1003,7 @@ function setupAdminActions() {
   });
 }
 
-// Modal que mostra o código copiado (com opções de re-copiar e baixar)
+// --- MODAL DE EXPORTAÇÃO DA CONFIGURAÇÃO DE PRODUTOS ---
 function openExportModal(code) {
   document.getElementById('exportConfigModal')?.remove();
 
@@ -1188,5 +1062,176 @@ function openExportModal(code) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     showToast('✅ Arquivo baixado!', 'success');
+  });
+}
+
+// --- MODAL UNIFICADO: EDITAR / CRIAR PRODUTO (com upload de imagem) ---
+function openProductEditModal(id) {
+  const isNew = !id;
+  const prod = isNew
+    ? {
+        id: "prod-" + Date.now(),
+        title: "",
+        badge: "Novo",
+        category: "Estratégia Digital",
+        rating: "5.0 (10)",
+        price: "R$ 97,00",
+        description: "",
+        link: `https://wa.me/${AppState.whatsappNumber}`,
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
+        active: true
+      }
+    : AppState.products.find(p => p.id === id);
+
+  if (!prod) return;
+
+  document.getElementById('productEditModal')?.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'productEditModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(11,15,25,0.85);backdrop-filter:blur(10px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;';
+
+  modal.innerHTML = `
+    <div style="background:#FFF;border-radius:16px;padding:28px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.4);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="margin:0;font-size:1.2rem;color:#111827;">
+          ${isNew ? '➕ Adicionar Novo Produto' : '✏️ Editar Produto'}
+        </h3>
+        <button id="peClose" style="background:none;border:none;font-size:1.7rem;cursor:pointer;color:#64748B;line-height:1;">&times;</button>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Título *</label>
+          <input id="peTitle" value="${prod.title.replace(/"/g,'&quot;')}" placeholder="Ex: E-commerce Data Master" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Preço</label>
+            <input id="pePrice" value="${prod.price}" placeholder="R$ 97,00" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+          </div>
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Categoria</label>
+            <input id="peCategory" value="${prod.category}" placeholder="Ex: Inteligência de Dados" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Selo / Badge</label>
+            <input id="peBadge" value="${prod.badge}" placeholder="Ex: Novo" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+          </div>
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Avaliação</label>
+            <input id="peRating" value="${prod.rating}" placeholder="Ex: 5.0 (10)" style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Descrição</label>
+          <textarea id="peDesc" placeholder="Descreva o produto de forma atrativa..." style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;min-height:70px;resize:vertical;">${prod.description}</textarea>
+        </div>
+
+        <div>
+          <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Link de Checkout/Vendas</label>
+          <input id="peLink" value="${prod.link.replace(/"/g,'&quot;')}" placeholder="https://wa.me/..." style="width:100%;padding:10px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.95rem;">
+        </div>
+
+        <div>
+          <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Imagem do Produto</label>
+
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
+            <img id="pePreview" src="${prod.image}" style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:2px solid #E5E7EB;" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'">
+            <div style="flex:1;">
+              <input id="peImageUrl" value="${prod.image.startsWith('data:') ? '' : prod.image.replace(/"/g,'&quot;')}" placeholder="Cole a URL da imagem..." style="width:100%;padding:9px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.85rem;margin-bottom:8px;">
+
+              <label style="display:inline-block;padding:8px 14px;background:#EEF2FF;color:#3142DB;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;border:1.5px solid #C7D2FE;">
+                📁 Enviar do computador
+                <input type="file" id="peImageFile" accept="image/*" style="display:none;">
+              </label>
+              <span style="font-size:0.78rem;color:#94A3B8;margin-left:8px;">Recomendado: 700×500px</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+          <button id="peCancel" class="btn btn-secondary btn-sm">Cancelar</button>
+          <button id="peSave" class="btn btn-primary btn-sm">${isNew ? '➕ Criar Produto' : '💾 Salvar Alterações'}</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const preview = modal.querySelector('#pePreview');
+  const urlInput = modal.querySelector('#peImageUrl');
+  const fileInput = modal.querySelector('#peImageFile');
+  let newImageData = prod.image;
+
+  urlInput.addEventListener('input', () => {
+    const val = urlInput.value.trim();
+    if (val) {
+      preview.src = val;
+      newImageData = val;
+    }
+  });
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('Imagem muito grande. Use uma imagem até 2MB.', 'error');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      newImageData = ev.target.result;
+      preview.src = newImageData;
+      urlInput.value = '';
+      showToast('Imagem carregada! Clique em Salvar para confirmar.', 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const close = () => modal.remove();
+  modal.querySelector('#peClose').addEventListener('click', close);
+  modal.querySelector('#peCancel').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+  modal.querySelector('#peSave').addEventListener('click', () => {
+    const titleVal = modal.querySelector('#peTitle').value.trim();
+
+    if (!titleVal) {
+      showToast('O título é obrigatório.', 'error');
+      return;
+    }
+
+    prod.title = titleVal;
+    prod.price = modal.querySelector('#pePrice').value.trim() || prod.price;
+    prod.category = modal.querySelector('#peCategory').value.trim() || prod.category;
+    prod.badge = modal.querySelector('#peBadge').value.trim() || prod.badge;
+    prod.rating = modal.querySelector('#peRating').value.trim() || prod.rating;
+    prod.description = modal.querySelector('#peDesc').value.trim() || prod.description;
+    prod.link = modal.querySelector('#peLink').value.trim() || prod.link;
+    prod.image = newImageData || prod.image;
+
+    if (isNew) {
+      AppState.products.push(prod);
+    }
+
+    try {
+      localStorage.setItem('ci_products', JSON.stringify(AppState.products));
+    } catch (err) {
+      showToast('⚠️ Imagem muito grande para salvar. Use uma imagem menor ou uma URL.', 'error');
+      return;
+    }
+
+    renderAdminProducts();
+    renderProducts();
+    updateAdminStats();
+    showToast(isNew ? '✅ Produto criado com sucesso!' : 'Produto atualizado!');
+    close();
   });
 }
