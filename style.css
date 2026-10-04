@@ -1482,3 +1482,63 @@ img {
     font-size: 0.92rem;
   }
 }
+/* ==========================================================
+   LOGOS DE PARCEIROS (Kiwify, Hotmart, ClickBank, Digistore)
+   ========================================================== */
+.partners-logos {
+  width: 150%;
+  max-width: 830px;
+  margin: 1px auto 0;
+  text-align: center;
+}
+
+.partners-logos-label {
+  font-size: 0.85rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  margin-bottom: 1px;
+}
+
+.partners-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  height: 50px;              /* altura fixa consistente */
+  width: auto;               /* largura proporcional */
+  max-width: 150px;          /* limite para logos largas */
+  object-fit: contain;       /* mostra a logo inteira sem cortar */
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.partner-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Tablet: 3 logos por linha e reduz um pouco */
+@media (max-width: 768px) {
+  .partners-grid {
+    gap: 28px;
+  }
+  .partner-logo {
+    height: 34px;
+    max-width: 110px;
+  }
+}
+
+/* Mobile: 2 por linha */
+@media (max-width: 480px) {
+  .partners-grid {
+    gap: 24px 32px;
+  }
+  .partner-logo {
+    height: 28px;
+    max-width: 90px;
+  }
+}
