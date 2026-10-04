@@ -1517,12 +1517,10 @@ img {
   height: auto;
   max-height: 40px;        /* limita altura — todas ficam visualmente iguais */
   object-fit: contain;
-  filter: grayscale(100%) opacity(0.55);
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .partner-logo:hover {
-  filter: grayscale(0%) opacity(1);
   transform: scale(1.05);
 }
 
