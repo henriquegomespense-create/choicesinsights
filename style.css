@@ -1486,59 +1486,68 @@ img {
    LOGOS DE PARCEIROS (Kiwify, Hotmart, ClickBank, Digistore)
    ========================================================== */
 .partners-logos {
-  width: 150%;
-  max-width: 830px;
-  margin: 1px auto 0;
+  width: 100%;
+  max-width: 720px;
+  margin: 32px auto 0;
+  padding: 0 16px;
   text-align: center;
 }
 
 .partners-logos-label {
   font-size: 0.85rem;
-  font-weight: 750;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-subtle);
-  margin-bottom: 1px;
+  margin-bottom: 18px;
 }
 
+/* GRID — sempre respeita o container, nunca transborda */
 .partners-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);   /* 4 colunas iguais no desktop */
+  gap: 24px 32px;
   align-items: center;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
+  justify-items: center;
 }
 
 .partner-logo {
-  height: 50px;              /* altura fixa consistente */
-  width: auto;               /* largura proporcional */
-  max-width: 150px;          /* limite para logos largas */
-  object-fit: contain;       /* mostra a logo inteira sem cortar */
+  width: 100%;
+  max-width: 120px;        /* limita largura */
+  height: auto;
+  max-height: 40px;        /* limita altura — todas ficam visualmente iguais */
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.55);
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .partner-logo:hover {
+  filter: grayscale(0%) opacity(1);
   transform: scale(1.05);
 }
 
-/* Tablet: 3 logos por linha e reduz um pouco */
+/* Tablet — ainda 4 colunas, mas com menos gap */
 @media (max-width: 768px) {
   .partners-grid {
-    gap: 28px;
+    gap: 20px 24px;
   }
   .partner-logo {
-    height: 34px;
-    max-width: 110px;
+    max-width: 100px;
+    max-height: 34px;
   }
 }
 
-/* Mobile: 2 por linha */
-@media (max-width: 480px) {
+/* Mobile — vira 2 colunas x 2 linhas automaticamente */
+@media (max-width: 520px) {
   .partners-grid {
-    gap: 24px 32px;
-  }
-  .partner-logo {
-    height: 28px;
-    max-width: 90px;
-  }
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 28px;
+    max-width: 360px;
+    margin: 0 auto;
+ .partner-logo {
+  width: auto;              /* troca de 100% para auto */
+  height: 36px;             /* altura fixa */
+  max-width: 130px;
+  object-fit: contain;
+}
 }
