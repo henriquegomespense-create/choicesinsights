@@ -399,12 +399,12 @@ const defaultProducts = [
 const AppState = {
   currentLang: localStorage.getItem('ci_lang') || 'pt',
   // 🔒 COLE AQUI O HASH SHA-256 DA SUA SENHA (veja instruções abaixo do arquivo)
-  adminPasswordHash: localStorage.getItem('ci_admin_pwd') || 'ce05432bc57b2d59edf41b01f7ac4f77638ce71ef0a99105bb6cef9a09352f42',
+  adminPasswordHash: localStorage.getItem('ci_admin_pwd') || 'fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35',
   whatsappNumber: localStorage.getItem('ci_whatsapp') || '5517981434509',
   contactEmail: localStorage.getItem('ci_email') || 'henriquegomes.pense@gmail.com',
   products: JSON.parse(localStorage.getItem('ci_products')) || defaultProducts,
-  leads: JSON.parse(localStorage.getItem('ci_leads')) || [
-    {
+leads: JSON.parse(localStorage.getItem('ci_leads')) || [
+    {                           //
       id: "lead-demo-1",
       date: "03/10/2026 11:20",
       name: "Carlos Eduardo Silva",
