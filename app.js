@@ -1,7 +1,10 @@
 /**
  * Choices Insights - Core Logic & Internationalization
- * Multi-language, Lead Management, InfoProducts CRUD & Hidden Admin Panel
- * + SHA-256 Password Hash + Rate Limiting
+ * v2.1 — Correções:
+ *  - saveProducts() atômico com rollback (evita estado inconsistente)
+ *  - Compressão de imagem antes de salvar (evita estourar localStorage)
+ *  - Flag "pendingExport" com banner de alerta no admin
+ *  - Fallback seguro quando localStorage é limpo pelo navegador
  */
 
 // --- I18N TRANSLATIONS DICTIONARY ---
@@ -9,17 +12,11 @@ const translations = {
   pt: {
     meta_title: "Choices Insights | Escolhas mais inteligentes. Vendas mais fortes.",
     meta_desc: "Escolhas mais inteligentes | Vendas mais fortes | Vendas online.",
-    nav_about: "Sobre",
-    nav_resources: "Recursos",
-    nav_links: "Links",
-    nav_contact_btn: "Fale conosco",
-    hero_title_choices: "Choices",
-    hero_title_insights: "Insights",
+    nav_about: "Sobre", nav_resources: "Recursos", nav_links: "Links", nav_contact_btn: "Fale conosco",
+    hero_title_choices: "Choices", hero_title_insights: "Insights",
     hero_slogan: "Insights que transformam escolhas Inteligêntes em resultados.",
     hero_support: "Decisões Inteligentes Transformando Produtos em Resultados",
-
-    about_tag: "Por que nós",
-    about_title: "Por que Choices Insights?",
+    about_tag: "Por que nós", about_title: "Por que Choices Insights?",
     about_subtitle: "Combinamos análise de dados e estratégia de vendas para você tomar as melhores decisões no e-commerce.",
     about_card1_title: "Decisões Baseadas em Dados",
     about_card1_desc: "Elimine o 'achismo'. Utilizamos métricas concretas de mercado e comportamento do consumidor para direcionar cada passo.",
@@ -28,95 +25,58 @@ const translations = {
     about_card3_title: "Escala & Otimização Contínua",
     about_card3_desc: "Processos e funis desenhados para crescer de forma sustentável, mantendo a rentabilidade e a experiência do cliente.",
     about_visual_title: "Painel de Performance em Tempo Real",
-    about_stat1: "+3.4x",
-    about_stat1_desc: "Aumento médio em ROI",
-    about_stat2: "99.4%",
-    about_stat2_desc: "Satisfação dos clientes",
-
-    resources_tag: "O que entregamos",
-    resources_title: "Produtos, Ferramentas e Insights",
+    about_stat1: "+3.4x", about_stat1_desc: "Aumento médio em ROI",
+    about_stat2: "99.4%", about_stat2_desc: "Satisfação dos clientes",
+    resources_tag: "O que entregamos", resources_title: "Produtos, Ferramentas e Insights",
     resources_subtitle: "Produtos, Ferramentas e Insights que geram resultados reais.",
-
     infoproducts_title: "InfoProdutos em Destaque",
     infoproducts_desc: "Produtos Escolhidos com cuidado para garantir tranquilidade na hora da compra",
-    product_cta: "Acessar Solução",
-    product_price_label: "A partir de",
-
-    marketing_tag: "Estratégia Digital",
-    marketing_title: "Marketing Digital de Alta Performance",
+    product_cta: "Acessar Solução", product_price_label: "A partir de",
+    marketing_tag: "Estratégia Digital", marketing_title: "Marketing Digital de Alta Performance",
     marketing_card1_title: "2.1 Análise de Dados",
     marketing_card1_desc: "Relatórios claros e acionáveis para entender o comportamento do seu cliente.",
     marketing_card2_title: "2.2 Decisões Inteligentes",
     marketing_card2_desc: "Recomendações baseadas em dados para aumentar conversão e ticket médio.",
     marketing_card3_title: "2.3 Otimização Contínua",
     marketing_card3_desc: "Acompanhamento constante para manter suas vendas sempre em crescimento.",
-
-    links_tag: "Contatos & Conexões",
-    links_title: "Nossos canais & recursos",
+    links_tag: "Contatos & Conexões", links_title: "Nossos canais & recursos",
     links_subtitle: "Acesse nossos conteúdos, lojas e redes.",
-    channel_email_title: "E-mail Oficial",
-    channel_whatsapp_title: "WhatsApp - Atendimento rápido",
+    channel_email_title: "E-mail Oficial", channel_whatsapp_title: "WhatsApp - Atendimento rápido",
     channel_whatsapp_status: "Online agora para te atender",
-    btn_copy: "Copiar",
-    btn_copied: "Copiado!",
-    btn_open_chat: "Conversar no WhatsApp",
-
+    btn_copy: "Copiar", btn_copied: "Copiado!", btn_open_chat: "Conversar no WhatsApp",
     form_title: "Fale com um Especialista",
     form_subtitle: "Preencha o formulário abaixo e retornaremos em até 2 horas.",
-    form_label_name: "Nome Completo",
-    form_placeholder_name: "Seu nome completo",
-    form_label_email: "E-mail",
-    form_placeholder_email: "seu.email@empresa.com",
-    form_label_phone: "Telefone / WhatsApp",
-    form_placeholder_phone: "(17) 98143-4509",
-    form_label_company: "Empresa / Negócio",
-    form_placeholder_company: "Nome do seu negócio (opcional)",
-    form_label_subject: "Assunto",
-    form_subj_select: "Selecione o assunto...",
-    form_subj_opt1: "Dúvida sobre produto",
-    form_subj_opt2: "Suporte",
-    form_subj_opt3: "Parceria",
-    form_subj_opt4: "Orçamento",
-    form_subj_opt5: "Outro",
-    form_label_source: "Como nos Conheceu?",
-    form_src_select: "Selecione uma opção...",
-    form_src_opt1: "Google / Pesquisa",
-    form_src_opt2: "Instagram",
-    form_src_opt3: "Indicação de Amigo / Colega",
-    form_src_opt4: "YouTube",
-    form_src_opt5: "WhatsApp",
-    form_src_opt6: "Outro canal",
+    form_label_name: "Nome Completo", form_placeholder_name: "Seu nome completo",
+    form_label_email: "E-mail", form_placeholder_email: "seu.email@empresa.com",
+    form_label_phone: "Telefone / WhatsApp", form_placeholder_phone: "(17) 98143-4509",
+    form_label_company: "Empresa / Negócio", form_placeholder_company: "Nome do seu negócio (opcional)",
+    form_label_subject: "Assunto", form_subj_select: "Selecione o assunto...",
+    form_subj_opt1: "Dúvida sobre produto", form_subj_opt2: "Suporte",
+    form_subj_opt3: "Parceria", form_subj_opt4: "Orçamento", form_subj_opt5: "Outro",
+    form_label_source: "Como nos Conheceu?", form_src_select: "Selecione uma opção...",
+    form_src_opt1: "Google / Pesquisa", form_src_opt2: "Instagram",
+    form_src_opt3: "Indicação de Amigo / Colega", form_src_opt4: "YouTube",
+    form_src_opt5: "WhatsApp", form_src_opt6: "Outro canal",
     form_label_message: "Mensagem",
     form_placeholder_message: "Como podemos ajudar você a tomar melhores decisões?",
-    form_btn_submit: "Enviar Mensagem",
-    form_btn_sending: "Enviando...",
+    form_btn_submit: "Enviar Mensagem", form_btn_sending: "Enviando...",
     form_send_whatsapp_check: "Enviar cópia formatada também via WhatsApp",
-
     cta_title: "Pronto para decisões mais inteligentes?",
     cta_text: "Entre em contato e descubra como o Choices Insights pode impulsionar suas vendas.",
     cta_btn: "Fale conosco agora",
-
     footer_rights: "© 2026 Choices Insights. Todos os direitos reservados.",
     footer_admin_link: "Área Administrativa (Restrita)",
-
     toast_form_success: "Mensagem enviada com sucesso! Em breve entraremos em contato.",
     toast_form_error: "Por favor, preencha todos os campos obrigatórios."
   },
-
   en: {
     meta_title: "Choices Insights | Smarter Choices. Stronger Sales.",
     meta_desc: "Smarter choices | Stronger sales | Online sales growth.",
-    nav_about: "About",
-    nav_resources: "Solutions",
-    nav_links: "Links",
-    nav_contact_btn: "Contact Us",
-    hero_title_choices: "Choices",
-    hero_title_insights: "Insights",
+    nav_about: "About", nav_resources: "Solutions", nav_links: "Links", nav_contact_btn: "Contact Us",
+    hero_title_choices: "Choices", hero_title_insights: "Insights",
     hero_slogan: "Insights that transform smart choices into results.",
     hero_support: "Smart Decisions Transforming Products into Results",
-
-    about_tag: "Why Us",
-    about_title: "Why Choices Insights?",
+    about_tag: "Why Us", about_title: "Why Choices Insights?",
     about_subtitle: "We combine data analytics and sales strategy so you can make the smartest decisions in e-commerce.",
     about_card1_title: "Data-Driven Decisions",
     about_card1_desc: "Eliminate guesswork. We leverage concrete market analytics and consumer behavior data to guide every step.",
@@ -125,95 +85,58 @@ const translations = {
     about_card3_title: "Scale & Continuous Optimization",
     about_card3_desc: "Processes and funnels engineered for sustainable growth while maintaining high profitability and retention.",
     about_visual_title: "Real-Time Performance Dashboard",
-    about_stat1: "+3.4x",
-    about_stat1_desc: "Average ROI Increase",
-    about_stat2: "99.4%",
-    about_stat2_desc: "Client Satisfaction",
-
-    resources_tag: "What We Deliver",
-    resources_title: "Products, Tools and Insights",
+    about_stat1: "+3.4x", about_stat1_desc: "Average ROI Increase",
+    about_stat2: "99.4%", about_stat2_desc: "Client Satisfaction",
+    resources_tag: "What We Deliver", resources_title: "Products, Tools and Insights",
     resources_subtitle: "Products, Tools, and Insights that generate real, measurable results.",
-
     infoproducts_title: "Featured InfoProducts",
     infoproducts_desc: "Products carefully selected to guarantee peace of mind during your purchase",
-    product_cta: "Access Solution",
-    product_price_label: "Starting at",
-
-    marketing_tag: "Digital Strategy",
-    marketing_title: "High-Performance Digital Marketing",
+    product_cta: "Access Solution", product_price_label: "Starting at",
+    marketing_tag: "Digital Strategy", marketing_title: "High-Performance Digital Marketing",
     marketing_card1_title: "2.1 Data Analysis",
     marketing_card1_desc: "Clear, actionable reports to understand your customer's behavior and purchase triggers.",
     marketing_card2_title: "2.2 Smart Decisions",
     marketing_card2_desc: "Data-backed recommendations to boost conversion rates and average order value.",
     marketing_card3_title: "2.3 Continuous Optimization",
     marketing_card3_desc: "Ongoing monitoring and iterative enhancements to keep your sales on a consistent growth curve.",
-
-    links_tag: "Channels & Connections",
-    links_title: "Our Channels & Resources",
+    links_tag: "Channels & Connections", links_title: "Our Channels & Resources",
     links_subtitle: "Access our content, stores, and contact hubs.",
-    channel_email_title: "Official Email",
-    channel_whatsapp_title: "WhatsApp - Fast Support",
+    channel_email_title: "Official Email", channel_whatsapp_title: "WhatsApp - Fast Support",
     channel_whatsapp_status: "Online right now to assist you",
-    btn_copy: "Copy",
-    btn_copied: "Copied!",
-    btn_open_chat: "Chat on WhatsApp",
-
+    btn_copy: "Copy", btn_copied: "Copied!", btn_open_chat: "Chat on WhatsApp",
     form_title: "Talk to a Specialist",
     form_subtitle: "Fill out the form below and we will get back to you within 2 hours.",
-    form_label_name: "Full Name",
-    form_placeholder_name: "Your full name",
-    form_label_email: "Email Address",
-    form_placeholder_email: "your.name@company.com",
-    form_label_phone: "Phone / WhatsApp",
-    form_placeholder_phone: "+1 (555) 000-0000",
-    form_label_company: "Company / Business",
-    form_placeholder_company: "Your company name (optional)",
-    form_label_subject: "Subject",
-    form_subj_select: "Select a subject...",
-    form_subj_opt1: "Product Question",
-    form_subj_opt2: "Support",
-    form_subj_opt3: "Partnership",
-    form_subj_opt4: "Quote / Pricing",
-    form_subj_opt5: "Other",
-    form_label_source: "How did you hear about us?",
-    form_src_select: "Select an option...",
-    form_src_opt1: "Google / Search",
-    form_src_opt2: "Instagram",
-    form_src_opt3: "Friend / Colleague Referral",
-    form_src_opt4: "YouTube",
-    form_src_opt5: "WhatsApp",
-    form_src_opt6: "Other Channel",
+    form_label_name: "Full Name", form_placeholder_name: "Your full name",
+    form_label_email: "Email Address", form_placeholder_email: "your.name@company.com",
+    form_label_phone: "Phone / WhatsApp", form_placeholder_phone: "+1 (555) 000-0000",
+    form_label_company: "Company / Business", form_placeholder_company: "Your company name (optional)",
+    form_label_subject: "Subject", form_subj_select: "Select a subject...",
+    form_subj_opt1: "Product Question", form_subj_opt2: "Support",
+    form_subj_opt3: "Partnership", form_subj_opt4: "Quote / Pricing", form_subj_opt5: "Other",
+    form_label_source: "How did you hear about us?", form_src_select: "Select an option...",
+    form_src_opt1: "Google / Search", form_src_opt2: "Instagram",
+    form_src_opt3: "Friend / Colleague Referral", form_src_opt4: "YouTube",
+    form_src_opt5: "WhatsApp", form_src_opt6: "Other Channel",
     form_label_message: "Message",
     form_placeholder_message: "How can we help you make smarter decisions?",
-    form_btn_submit: "Send Message",
-    form_btn_sending: "Sending...",
+    form_btn_submit: "Send Message", form_btn_sending: "Sending...",
     form_send_whatsapp_check: "Also send formatted copy via WhatsApp",
-
     cta_title: "Ready for smarter decisions?",
     cta_text: "Get in touch and discover how Choices Insights can accelerate your sales growth.",
     cta_btn: "Contact us now",
-
     footer_rights: "© 2026 Choices Insights. All rights reserved.",
     footer_admin_link: "Admin Panel (Restricted)",
-
     toast_form_success: "Message sent successfully! We will contact you shortly.",
     toast_form_error: "Please fill in all required fields."
   },
-
   es: {
     meta_title: "Choices Insights | Decisiones más inteligentes. Ventas más fuertes.",
     meta_desc: "Elecciones más inteligentes | Ventas más fuertes | Crecimiento de ventas online.",
-    nav_about: "Sobre Nosotros",
-    nav_resources: "Recursos",
-    nav_links: "Enlaces",
-    nav_contact_btn: "Contáctanos",
-    hero_title_choices: "Choices",
-    hero_title_insights: "Insights",
+    nav_about: "Sobre Nosotros", nav_resources: "Recursos", nav_links: "Enlaces", nav_contact_btn: "Contáctanos",
+    hero_title_choices: "Choices", hero_title_insights: "Insights",
     hero_slogan: "Insights que transforman elecciones inteligentes en resultados.",
     hero_support: "Decisiones Inteligentes Transformando Productos en Resultados",
-
-    about_tag: "Por qué elegirnos",
-    about_title: "¿Por qué Choices Insights?",
+    about_tag: "Por qué elegirnos", about_title: "¿Por qué Choices Insights?",
     about_subtitle: "Combinamos análisis de datos y estrategia de ventas para que tomes las mejores decisiones en e-commerce.",
     about_card1_title: "Decisiones Basadas en Datos",
     about_card1_desc: "Elimina las dudas. Usamos métricas precisas de mercado y comportamiento del comprador para orientar cada paso.",
@@ -222,77 +145,47 @@ const translations = {
     about_card3_title: "Escala & Optimización Continua",
     about_card3_desc: "Procesos y embudos diseñados para crecer de forma sostenible manteniendo alta rentabilidad y retención.",
     about_visual_title: "Panel de Rendimiento en Tiempo Real",
-    about_stat1: "+3.4x",
-    about_stat1_desc: "Aumento promedio en ROI",
-    about_stat2: "99.4%",
-    about_stat2_desc: "Satisfacción del cliente",
-
-    resources_tag: "Lo que entregamos",
-    resources_title: "Productos, Herramientas e Insights",
+    about_stat1: "+3.4x", about_stat1_desc: "Aumento promedio en ROI",
+    about_stat2: "99.4%", about_stat2_desc: "Satisfacción del cliente",
+    resources_tag: "Lo que entregamos", resources_title: "Productos, Herramientas e Insights",
     resources_subtitle: "Productos, Herramientas e Insights que generan resultados reales.",
-
     infoproducts_title: "InfoProductos Destacados",
     infoproducts_desc: "Productos Elegidos con cuidado para garantizar tranquilidad a la hora de comprar",
-    product_cta: "Acceder a la Solución",
-    product_price_label: "A partir de",
-
-    marketing_tag: "Estrategia Digital",
-    marketing_title: "Marketing Digital de Alto Rendimiento",
+    product_cta: "Acceder a la Solución", product_price_label: "A partir de",
+    marketing_tag: "Estrategia Digital", marketing_title: "Marketing Digital de Alto Rendimiento",
     marketing_card1_title: "2.1 Análisis de Datos",
     marketing_card1_desc: "Informes claros y accionables para comprender el comportamiento de tus clientes.",
     marketing_card2_title: "2.2 Decisiones Inteligentes",
     marketing_card2_desc: "Recomendaciones basadas en datos para aumentar la tasa de conversión y el ticket promedio.",
     marketing_card3_title: "2.3 Optimización Continua",
     marketing_card3_desc: "Seguimiento constante para mantener tus ventas siempre en crecimiento continuo.",
-
-    links_tag: "Contactos & Canales",
-    links_title: "Nuestros canales & recursos",
+    links_tag: "Contactos & Canales", links_title: "Nuestros canales & recursos",
     links_subtitle: "Accede a nuestros contenidos, tiendas y redes de contacto.",
-    channel_email_title: "Correo Electrónico",
-    channel_whatsapp_title: "WhatsApp - Atención rápida",
+    channel_email_title: "Correo Electrónico", channel_whatsapp_title: "WhatsApp - Atención rápida",
     channel_whatsapp_status: "En línea ahora para atenderte",
-    btn_copy: "Copiar",
-    btn_copied: "¡Copiado!",
-    btn_open_chat: "Chatear por WhatsApp",
-
+    btn_copy: "Copiar", btn_copied: "¡Copiado!", btn_open_chat: "Chatear por WhatsApp",
     form_title: "Habla con un Especialista",
     form_subtitle: "Completa el formulario y te responderemos en un plazo máximo de 2 horas.",
-    form_label_name: "Nombre Completo",
-    form_placeholder_name: "Tu nombre completo",
-    form_label_email: "Correo Electrónico",
-    form_placeholder_email: "tu.nombre@empresa.com",
-    form_label_phone: "Teléfono / WhatsApp",
-    form_placeholder_phone: "+34 600 000 000",
-    form_label_company: "Empresa / Negocio",
-    form_placeholder_company: "Nombre de tu empresa (opcional)",
-    form_label_subject: "Asunto",
-    form_subj_select: "Selecciona el asunto...",
-    form_subj_opt1: "Duda sobre producto",
-    form_subj_opt2: "Soporte",
-    form_subj_opt3: "Alianza / Asociación",
-    form_subj_opt4: "Presupuesto",
-    form_subj_opt5: "Otro",
-    form_label_source: "¿Cómo nos conociste?",
-    form_src_select: "Selecciona una opción...",
-    form_src_opt1: "Google / Búsqueda",
-    form_src_opt2: "Instagram",
-    form_src_opt3: "Recomendación de Amigo / Colega",
-    form_src_opt4: "YouTube",
-    form_src_opt5: "WhatsApp",
-    form_src_opt6: "Otro canal",
+    form_label_name: "Nombre Completo", form_placeholder_name: "Tu nombre completo",
+    form_label_email: "Correo Electrónico", form_placeholder_email: "tu.nombre@empresa.com",
+    form_label_phone: "Teléfono / WhatsApp", form_placeholder_phone: "+34 600 000 000",
+    form_label_company: "Empresa / Negocio", form_placeholder_company: "Nombre de tu empresa (opcional)",
+    form_label_subject: "Asunto", form_subj_select: "Selecciona el asunto...",
+    form_subj_opt1: "Duda sobre producto", form_subj_opt2: "Soporte",
+    form_subj_opt3: "Alianza / Asociación", form_subj_opt4: "Presupuesto", form_subj_opt5: "Otro",
+    form_label_source: "¿Cómo nos conociste?", form_src_select: "Selecciona una opción...",
+    form_src_opt1: "Google / Búsqueda", form_src_opt2: "Instagram",
+    form_src_opt3: "Recomendación de Amigo / Colega", form_src_opt4: "YouTube",
+    form_src_opt5: "WhatsApp", form_src_opt6: "Otro canal",
     form_label_message: "Mensaje",
     form_placeholder_message: "¿Cómo podemos ayudarte a tomar mejores decisiones?",
-    form_btn_submit: "Enviar Mensaje",
-    form_btn_sending: "Enviando...",
+    form_btn_submit: "Enviar Mensaje", form_btn_sending: "Enviando...",
     form_send_whatsapp_check: "Enviar también copia formateada por WhatsApp",
-
     cta_title: "¿Listo para decisiones más inteligentes?",
     cta_text: "Ponte en contacto y descubre cómo Choices Insights puede impulsar tus ventas.",
     cta_btn: "Habla con nosotros ahora",
-
     footer_rights: "© 2026 Choices Insights. Todos los derechos reservados.",
     footer_admin_link: "Área Administrativa (Privada)",
-
     toast_form_success: "¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.",
     toast_form_error: "Por favor, completa todos los campos obligatorios."
   }
@@ -301,60 +194,40 @@ const translations = {
 // --- DEFAULT 5 CURATED INFOPRODUCTS ---
 const defaultProducts = [
   {
-    id: "prod-1",
-    title: "E-commerce Data Master",
-    badge: "Mais Vendido",
-    category: "Inteligência de Dados",
-    rating: "4.9 (184)",
-    price: "R$ 97,00",
+    id: "prod-1", title: "E-commerce Data Master", badge: "Mais Vendido",
+    category: "Inteligência de Dados", rating: "4.9 (184)", price: "R$ 97,00",
     description: "Guia estratégico passo a passo para analisar métricas vitais, descobrir padrões de compra e dobrar a taxa de conversão da sua loja.",
     link: "https://wa.me/5517981434509?text=Olá!%20Tenho%20interesse%20no%20E-commerce%20Data%20Master.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
     active: true
   },
   {
-    id: "prod-2",
-    title: "Funil de Vendas Invisível",
-    badge: "Destaque",
-    category: "Automação & Conversão",
-    rating: "4.8 (142)",
-    price: "R$ 147,00",
+    id: "prod-2", title: "Funil de Vendas Invisível", badge: "Destaque",
+    category: "Automação & Conversão", rating: "4.8 (142)", price: "R$ 147,00",
     description: "Estruturas e roteiros prontos de automação para transformar visitantes casuais em clientes recorrentes de forma previsível.",
     link: "https://wa.me/5517981434509?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Funil%20de%20Vendas%20Invisível.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=80",
     active: true
   },
   {
-    id: "prod-3",
-    title: "Copywriting para Alta Conversão",
-    badge: "Essencial",
-    category: "Comunicação Persuasiva",
-    rating: "5.0 (98)",
-    price: "R$ 67,00",
+    id: "prod-3", title: "Copywriting para Alta Conversão", badge: "Essencial",
+    category: "Comunicação Persuasiva", rating: "5.0 (98)", price: "R$ 67,00",
     description: "Modelos e fórmulas de copy validadas para páginas de vendas, anúncios e mensagens que eliminam objeções de compra.",
     link: "https://wa.me/5517981434509?text=Olá!%20Quero%20adquirir%20o%20Copywriting%20para%20Alta%20Conversão.",
     image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=700&q=80",
     active: true
   },
   {
-    id: "prod-4",
-    title: "Gestão de Tráfego 360°",
-    badge: "Avançado",
-    category: "Tráfego Pago & ROI",
-    rating: "4.9 (210)",
-    price: "R$ 197,00",
+    id: "prod-4", title: "Gestão de Tráfego 360°", badge: "Avançado",
+    category: "Tráfego Pago & ROI", rating: "4.9 (210)", price: "R$ 197,00",
     description: "Metodologia completa para otimizar campanhas no Meta Ads e Google Ads, reduzindo CPA e escalando o faturamento.",
     link: "https://wa.me/5517981434509?text=Olá!%20Gostaria%20de%20conhecer%20o%20Gestão%20de%20Tráfego%20360°.",
     image: "https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&w=700&q=80",
     active: true
   },
   {
-    id: "prod-5",
-    title: "Dashboard Executivo de Vendas",
-    badge: "Prático",
-    category: "Planilhas & Dashboards",
-    rating: "4.8 (76)",
-    price: "R$ 47,00",
+    id: "prod-5", title: "Dashboard Executivo de Vendas", badge: "Prático",
+    category: "Planilhas & Dashboards", rating: "4.8 (76)", price: "R$ 47,00",
     description: "Template pronto para monitoramento em tempo real de faturamento, ticket médio, CAC e metas de vendas mensais.",
     link: "https://wa.me/5517981434509?text=Olá!%20Tenho%20interesse%20no%20Dashboard%20Executivo%20de%20Vendas.",
     image: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=700&q=80",
@@ -362,14 +235,51 @@ const defaultProducts = [
   }
 ];
 
+// =====================================================================
+// === NOVO: HELPERS DE STORAGE SEGURO (evita estado inconsistente) ===
+// =====================================================================
+function safeGetJSON(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw === null || raw === undefined) return fallback;
+    const parsed = JSON.parse(raw);
+    if (parsed === null || parsed === undefined) return fallback;
+    return parsed;
+  } catch (e) {
+    console.warn(`[Choices] Falha ao ler "${key}" do localStorage:`, e);
+    return fallback;
+  }
+}
+
+function safeSetItem(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    return { success: true };
+  } catch (err) {
+    const isQuota = err && (
+      err.name === 'QuotaExceededError' ||
+      err.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+      err.code === 22 ||
+      err.code === 1014
+    );
+    return {
+      success: false,
+      isQuota,
+      message: isQuota
+        ? 'Espaço do navegador esgotado. Use imagens menores ou URLs externas.'
+        : 'Falha ao salvar: ' + (err.message || 'erro desconhecido')
+    };
+  }
+}
+
 // --- APP STATE & LOCALSTORAGE WRAPPERS ---
 const AppState = {
   currentLang: localStorage.getItem('ci_lang') || 'pt',
   adminPasswordHash: localStorage.getItem('ci_admin_pwd') || 'fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35',
   whatsappNumber: localStorage.getItem('ci_whatsapp') || '5517981434509',
   contactEmail: localStorage.getItem('ci_email') || 'henriquegomes.pense@gmail.com',
-  products: JSON.parse(localStorage.getItem('ci_products')) || defaultProducts,
-  leads: JSON.parse(localStorage.getItem('ci_leads')) || [
+  products: safeGetJSON('ci_products', defaultProducts),
+  leads: safeGetJSON('ci_leads', [
     {
       id: "lead-demo-1",
       date: "03/10/2026 11:20",
@@ -382,12 +292,85 @@ const AppState = {
       message: "Gostaria de saber como o E-commerce Data Master se integra com a plataforma Shopify.",
       status: "Novo"
     }
-  ],
-  stats: JSON.parse(localStorage.getItem('ci_stats')) || {
-    pageViews: 1248,
-    productClicks: 412
-  }
+  ]),
+  stats: safeGetJSON('ci_stats', { pageViews: 1248, productClicks: 412 }),
+  productsPendingExport: safeGetJSON('ci_products_pending', false)
 };
+
+// =====================================================================
+// === NOVO: CONTROLE DE SINCRONIZAÇÃO PENDENTE ===
+// =====================================================================
+function markPendingExport(pending) {
+  AppState.productsPendingExport = !!pending;
+  try {
+    localStorage.setItem('ci_products_pending', JSON.stringify(AppState.productsPendingExport));
+  } catch (e) { /* silencioso */ }
+  updatePendingSyncBanner();
+}
+
+function updatePendingSyncBanner() {
+  const banner = document.getElementById('pendingSyncBanner');
+  if (!banner) return;
+  banner.style.display = AppState.productsPendingExport ? 'flex' : 'none';
+}
+
+/**
+ * Salva produtos com rollback atômico.
+ * Se o localStorage falhar, o AppState é revertido — assim a UI nunca
+ * mostra um estado que não está persistido.
+ */
+function saveProductsToStorage(newProducts) {
+  const serialized = JSON.stringify(newProducts);
+  const result = safeSetItem('ci_products', serialized);
+
+  if (!result.success) {
+    return result; // AppState.products permanece intacto
+  }
+
+  AppState.products = newProducts;
+  markPendingExport(true);
+  return { success: true };
+}
+
+// =====================================================================
+// === NOVO: COMPRESSÃO DE IMAGEM (evita estourar cota) ===
+// =====================================================================
+async function compressImageFile(file, maxDimension = 800, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Falha ao ler arquivo'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Arquivo não é uma imagem válida'));
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          if (width >= height) {
+            height = Math.round((maxDimension / width) * height);
+            width = maxDimension;
+          } else {
+            width = Math.round((maxDimension / height) * width);
+            height = maxDimension;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function estimateBase64SizeKB(dataUrl) {
+  if (!dataUrl || !dataUrl.startsWith('data:')) return 0;
+  const base64 = dataUrl.split(',')[1] || '';
+  return Math.round((base64.length * 3 / 4) / 1024);
+}
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -403,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initStats() {
   AppState.stats.pageViews += 1;
-  localStorage.setItem('ci_stats', JSON.stringify(AppState.stats));
+  safeSetItem('ci_stats', JSON.stringify(AppState.stats));
 }
 
 // --- LANGUAGE SWITCHER ---
@@ -411,7 +394,6 @@ function setupLanguageSelector() {
   const langBtn = document.getElementById('langBtn');
   const langDropdown = document.getElementById('langDropdown');
   const langOptions = document.querySelectorAll('.lang-option');
-
   if (!langBtn || !langDropdown) return;
 
   langBtn.addEventListener('click', (e) => {
@@ -419,9 +401,7 @@ function setupLanguageSelector() {
     langDropdown.classList.toggle('active');
   });
 
-  document.addEventListener('click', () => {
-    langDropdown.classList.remove('active');
-  });
+  document.addEventListener('click', () => langDropdown.classList.remove('active'));
 
   langOptions.forEach(opt => {
     opt.addEventListener('click', () => {
@@ -438,7 +418,6 @@ function setupLanguageSelector() {
 
 function applyLanguage(lang) {
   const dict = translations[lang] || translations.pt;
-
   document.title = dict.meta_title;
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', dict.meta_desc);
@@ -473,40 +452,25 @@ function renderProductList() {
     container.innerHTML = `
       <li style="padding: 20px; text-align: center; color: #94A3B8; font-size: 0.92rem;">
         Nenhum produto disponível no momento.
-      </li>
-    `;
+      </li>`;
     return;
   }
 
   container.innerHTML = activeProducts.map(p => `
     <li class="product-list-item">
-      <img
-        src="${p.image}"
-        alt="${p.title}"
-        class="product-list-thumb"
-        loading="lazy"
-        onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'"
-      >
-      <a
-        href="${p.link}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="product-list-link"
-        onclick="trackProductClick('${p.id}')"
-      >
-        ${p.title}
-      </a>
+      <img src="${p.image}" alt="${p.title}" class="product-list-thumb" loading="lazy"
+        onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'">
+      <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="product-list-link"
+        onclick="trackProductClick('${p.id}')">${p.title}</a>
     </li>
   `).join('');
 }
 
-function renderProducts() {
-  renderProductList();
-}
+function renderProducts() { renderProductList(); }
 
 function trackProductClick(id) {
   AppState.stats.productClicks = (AppState.stats.productClicks || 0) + 1;
-  localStorage.setItem('ci_stats', JSON.stringify(AppState.stats));
+  safeSetItem('ci_stats', JSON.stringify(AppState.stats));
 }
 
 // --- NAVIGATION & INTERACTIONS ---
@@ -516,22 +480,14 @@ function setupNavigation() {
   const navLinks = document.getElementById('navLinks');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      header?.classList.add('scrolled');
-    } else {
-      header?.classList.remove('scrolled');
-    }
+    if (window.scrollY > 30) header?.classList.add('scrolled');
+    else header?.classList.remove('scrolled');
   });
 
   if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('mobile-open');
-    });
-
+    mobileToggle.addEventListener('click', () => navLinks.classList.toggle('mobile-open'));
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('mobile-open');
-      });
+      link.addEventListener('click', () => navLinks.classList.remove('mobile-open'));
     });
   }
 
@@ -539,7 +495,6 @@ function setupNavigation() {
     anchor.addEventListener('click', function (e) {
       const href = this.getAttribute('href');
       if (href === '#' || href === '#admin') return;
-
       const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
@@ -549,7 +504,7 @@ function setupNavigation() {
   });
 }
 
-// --- CONTACT FORM & LEAD CAPTURE (Web3Forms) ---
+// --- CONTACT FORM & LEAD CAPTURE ---
 function setupContactForm() {
   const form = document.getElementById('contactForm');
   const phoneInput = document.getElementById('contactPhone');
@@ -558,16 +513,10 @@ function setupContactForm() {
     phoneInput.addEventListener('input', (e) => {
       let val = e.target.value.replace(/\D/g, '');
       if (val.length > 11) val = val.slice(0, 11);
-
-      if (val.length > 10) {
-        e.target.value = `(${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)}`;
-      } else if (val.length > 5) {
-        e.target.value = `(${val.slice(0,2)}) ${val.slice(2,6)}-${val.slice(6)}`;
-      } else if (val.length > 2) {
-        e.target.value = `(${val.slice(0,2)}) ${val.slice(2)}`;
-      } else if (val.length > 0) {
-        e.target.value = `(${val}`;
-      }
+      if (val.length > 10) e.target.value = `(${val.slice(0,2)}) ${val.slice(2,7)}-${val.slice(7)}`;
+      else if (val.length > 5) e.target.value = `(${val.slice(0,2)}) ${val.slice(2,6)}-${val.slice(6)}`;
+      else if (val.length > 2) e.target.value = `(${val.slice(0,2)}) ${val.slice(2)}`;
+      else if (val.length > 0) e.target.value = `(${val}`;
     });
   }
 
@@ -584,7 +533,6 @@ function setupContactForm() {
     const message = document.getElementById('contactMessage')?.value.trim();
     const source = document.getElementById('contactSource')?.value || 'Não informado';
     const sendWhatsapp = document.getElementById('sendWhatsappCheck')?.checked;
-
     const dict = translations[AppState.currentLang] || translations.pt;
 
     if (!name || !email || !phone || !message || !subject) {
@@ -605,14 +553,12 @@ function setupContactForm() {
     };
 
     AppState.leads.unshift(newLead);
-    localStorage.setItem('ci_leads', JSON.stringify(AppState.leads));
+    safeSetItem('ci_leads', JSON.stringify(AppState.leads));
 
     try {
       const formData = new FormData(form);
       const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: { 'Accept': 'application/json' }
+        method: 'POST', body: formData, headers: { 'Accept': 'application/json' }
       });
       const result = await response.json();
 
@@ -629,7 +575,6 @@ function setupContactForm() {
             `*Assunto:* ${encodeURIComponent(subject)}%0A` +
             `*Como conheceu:* ${encodeURIComponent(source)}%0A` +
             `*Mensagem:* ${encodeURIComponent(message)}`;
-
           window.open(`https://wa.me/${AppState.whatsappNumber}?text=${textMsg}`, '_blank');
         }
 
@@ -677,12 +622,9 @@ function showToast(message, type = 'success') {
 
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `
-    <span>${type === 'success' ? '✓' : '⚠'}</span>
-    <span>${message}</span>
-  `;
-
+  toast.innerHTML = `<span>${type === 'success' ? '✓' : '⚠'}</span><span>${message}</span>`;
   container.appendChild(toast);
+
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
@@ -695,9 +637,7 @@ function showToast(message, type = 'success') {
 async function sha256(str) {
   const buf = new TextEncoder().encode(str);
   const hash = await crypto.subtle.digest('SHA-256', buf);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 // --- HIDDEN ADMIN PANEL CONTROLLER ---
@@ -710,7 +650,6 @@ function setupAdminPanel() {
   const authCloseBtn = document.getElementById('adminAuthClose');
   const dashCloseBtn = document.getElementById('adminDashClose');
   const logoutBtn = document.getElementById('adminLogoutBtn');
-
   const footerTrigger = document.getElementById('adminAccessTrigger');
 
   let loginAttempts = 0;
@@ -723,7 +662,15 @@ function setupAdminPanel() {
     authPasswordInput?.focus();
   };
 
-  const closeAdmin = () => {
+  const closeAdmin = (force = false) => {
+    if (!force && AppState.productsPendingExport) {
+      const ok = confirm(
+        '⚠️ Você tem alterações de produtos NÃO sincronizadas.\n\n' +
+        'Elas estão apenas neste navegador e podem se perder (limpeza de cache, outro dispositivo, etc.).\n\n' +
+        'Deseja sair mesmo assim?'
+      );
+      if (!ok) return;
+    }
     modalOverlay.classList.remove('active');
     if (authPasswordInput) authPasswordInput.value = '';
   };
@@ -740,13 +687,9 @@ function setupAdminPanel() {
     }
   });
 
-  authCloseBtn?.addEventListener('click', closeAdmin);
-  dashCloseBtn?.addEventListener('click', closeAdmin);
-  logoutBtn?.addEventListener('click', () => {
-    authCard.style.display = 'block';
-    dashContainer.classList.remove('active');
-    if (authPasswordInput) authPasswordInput.value = '';
-  });
+  authCloseBtn?.addEventListener('click', () => closeAdmin());
+  dashCloseBtn?.addEventListener('click', () => closeAdmin());
+  logoutBtn?.addEventListener('click', () => closeAdmin(true));
 
   modalOverlay?.addEventListener('click', (e) => {
     if (e.target === modalOverlay) closeAdmin();
@@ -761,8 +704,7 @@ function setupAdminPanel() {
       return;
     }
 
-    const entered = authPasswordInput.value;
-    const enteredHash = await sha256(entered);
+    const enteredHash = await sha256(authPasswordInput.value);
 
     if (enteredHash === AppState.adminPasswordHash) {
       loginAttempts = 0;
@@ -773,7 +715,6 @@ function setupAdminPanel() {
     } else {
       loginAttempts++;
       authPasswordInput.value = '';
-
       if (loginAttempts >= 5) {
         lockoutUntil = Date.now() + 5 * 60 * 1000;
         loginAttempts = 0;
@@ -788,7 +729,6 @@ function setupAdminPanel() {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.admin-tab-content').forEach(tab => tab.classList.remove('active'));
-
       btn.classList.add('active');
       const tabId = btn.getAttribute('data-tab');
       const targetTab = document.getElementById(tabId);
@@ -797,6 +737,7 @@ function setupAdminPanel() {
   });
 
   setupAdminActions();
+  updatePendingSyncBanner(); // mostra banner se havia pendência de sessão anterior
 }
 
 function renderAdminDashboard() {
@@ -804,6 +745,7 @@ function renderAdminDashboard() {
   renderAdminLeads();
   renderAdminProducts();
   loadAdminSettings();
+  updatePendingSyncBanner();
 }
 
 function updateAdminStats() {
@@ -855,7 +797,7 @@ function renderAdminLeads() {
 window.deleteLead = function(id) {
   if (confirm('Deseja realmente remover este contato da lista?')) {
     AppState.leads = AppState.leads.filter(l => l.id !== id);
-    localStorage.setItem('ci_leads', JSON.stringify(AppState.leads));
+    safeSetItem('ci_leads', JSON.stringify(AppState.leads));
     renderAdminLeads();
     updateAdminStats();
     showToast('Lead excluído.');
@@ -892,14 +834,22 @@ function renderAdminProducts() {
 }
 
 window.toggleProductActive = function(id) {
-  const prod = AppState.products.find(p => p.id === id);
-  if (prod) {
-    prod.active = prod.active === false ? true : false;
-    localStorage.setItem('ci_products', JSON.stringify(AppState.products));
-    renderAdminProducts();
-    renderProducts();
-    showToast(`Produto "${prod.title}" atualizado.`);
+  const idx = AppState.products.findIndex(p => p.id === id);
+  if (idx === -1) return;
+
+  const newProducts = AppState.products.map(p =>
+    p.id === id ? { ...p, active: p.active === false ? true : false } : p
+  );
+
+  const result = saveProductsToStorage(newProducts);
+  if (!result.success) {
+    showToast('⚠️ ' + result.message, 'error');
+    return;
   }
+
+  renderAdminProducts();
+  renderProducts();
+  showToast(`Produto "${newProducts[idx].title}" atualizado.`);
 };
 
 function loadAdminSettings() {
@@ -911,8 +861,7 @@ function loadAdminSettings() {
 
 function setupAdminActions() {
   // Export Leads to CSV
-  const exportBtn = document.getElementById('adminExportLeadsBtn');
-  exportBtn?.addEventListener('click', () => {
+  document.getElementById('adminExportLeadsBtn')?.addEventListener('click', () => {
     if (AppState.leads.length === 0) {
       showToast('Não há leads para exportar.', 'error');
       return;
@@ -922,9 +871,8 @@ function setupAdminActions() {
       `"${l.date}"`, `"${l.name}"`, `"${l.email}"`, `"${l.phone}"`, `"${l.company}"`, `"${l.subject}"`, `"${l.source}"`, `"${l.message.replace(/"/g, '""')}"`
     ]);
     const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
-    const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
+    link.setAttribute("href", encodeURI(csvContent));
     link.setAttribute("download", `choices_insights_leads_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
@@ -933,43 +881,27 @@ function setupAdminActions() {
   });
 
   // Clear all leads
-  const clearLeadsBtn = document.getElementById('adminClearLeadsBtn');
-  clearLeadsBtn?.addEventListener('click', () => {
+  document.getElementById('adminClearLeadsBtn')?.addEventListener('click', () => {
     if (confirm('Atenção: deseja limpar TODO o histórico de leads? Esta ação não pode ser desfeita.')) {
       AppState.leads = [];
-      localStorage.setItem('ci_leads', JSON.stringify([]));
+      safeSetItem('ci_leads', JSON.stringify([]));
       renderAdminLeads();
       updateAdminStats();
       showToast('Histórico de leads limpo.');
     }
   });
 
-  // Add Product Button — abre modal unificado em modo "criar"
-  const addProdBtn = document.getElementById('adminAddProductBtn');
-  addProdBtn?.addEventListener('click', () => openProductEditModal(null));
+  // Add Product
+  document.getElementById('adminAddProductBtn')?.addEventListener('click', () => openProductEditModal(null));
 
-  // Export Products Configuration Button
-  const exportProductsBtn = document.getElementById('adminExportProductsBtn');
-  exportProductsBtn?.addEventListener('click', () => {
-    if (AppState.products.length === 0) {
-      showToast('Não há produtos para exportar.', 'error');
-      return;
-    }
+  // Export Products Configuration
+  document.getElementById('adminExportProductsBtn')?.addEventListener('click', exportProductConfig);
 
-    const code = 'const defaultProducts = ' + JSON.stringify(AppState.products, null, 2) + ';';
-
-    navigator.clipboard.writeText(code).then(() => {
-      showToast('✅ Configuração copiada! Cole no app.js substituindo o bloco defaultProducts.', 'success');
-      openExportModal(code);
-    }).catch(err => {
-      console.error('Falha ao copiar:', err);
-      openExportModal(code);
-    });
-  });
+  // Sync Now button (novo)
+  document.getElementById('syncNowBtn')?.addEventListener('click', exportProductConfig);
 
   // Save Settings Form
-  const settingsForm = document.getElementById('adminSettingsForm');
-  settingsForm?.addEventListener('submit', async (e) => {
+  document.getElementById('adminSettingsForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const newPhone = document.getElementById('adminSetPhone').value.trim();
@@ -979,15 +911,13 @@ function setupAdminActions() {
     if (newPhone) {
       AppState.whatsappNumber = newPhone.replace(/\D/g, '');
       localStorage.setItem('ci_whatsapp', AppState.whatsappNumber);
-      const waLink = document.getElementById('mainWaLink');
-      if (waLink) waLink.setAttribute('href', `https://wa.me/${AppState.whatsappNumber}`);
+      document.getElementById('mainWaLink')?.setAttribute('href', `https://wa.me/${AppState.whatsappNumber}`);
     }
 
     if (newEmail) {
       AppState.contactEmail = newEmail;
       localStorage.setItem('ci_email', AppState.contactEmail);
-      const mailLink = document.getElementById('mainMailLink');
-      if (mailLink) mailLink.setAttribute('href', `mailto:${AppState.contactEmail}`);
+      document.getElementById('mainMailLink')?.setAttribute('href', `mailto:${AppState.contactEmail}`);
       const mailText = document.getElementById('mainMailText');
       if (mailText) mailText.textContent = AppState.contactEmail;
     }
@@ -1003,7 +933,26 @@ function setupAdminActions() {
   });
 }
 
-// --- MODAL DE EXPORTAÇÃO DA CONFIGURAÇÃO DE PRODUTOS ---
+// --- EXPORTAR CONFIGURAÇÃO DOS PRODUTOS ---
+function exportProductConfig() {
+  if (AppState.products.length === 0) {
+    showToast('Não há produtos para exportar.', 'error');
+    return;
+  }
+
+  const code = 'const defaultProducts = ' + JSON.stringify(AppState.products, null, 2) + ';';
+
+  navigator.clipboard.writeText(code).then(() => {
+    showToast('✅ Configuração copiada! Cole no app.js.', 'success');
+    markPendingExport(false); // considerado sincronizado após cópia
+    openExportModal(code);
+  }).catch(err => {
+    console.error('Falha ao copiar:', err);
+    openExportModal(code);
+  });
+}
+
+// --- MODAL DE EXPORTAÇÃO ---
 function openExportModal(code) {
   document.getElementById('exportConfigModal')?.remove();
 
@@ -1023,6 +972,7 @@ function openExportModal(code) {
         <br>2. Localize o bloco <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-family:monospace;">const defaultProducts = [...]</code>
         <br>3. Selecione tudo (do <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-family:monospace;">const</code> até o <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-family:monospace;">];</code>)
         <br>4. Cole com <strong>Ctrl+V</strong> e salve o arquivo
+        <br>5. Suba o <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-family:monospace;">app.js</code> para o servidor
       </p>
       <textarea id="exportCodeArea" readonly style="width:100%;height:340px;font-family:'Courier New',monospace;font-size:0.78rem;padding:14px;border:1.5px solid #E5E7EB;border-radius:8px;background:#F8FAFC;resize:none;outline:none;color:#111827;line-height:1.5;"></textarea>
       <div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
@@ -1065,18 +1015,14 @@ function openExportModal(code) {
   });
 }
 
-// --- MODAL UNIFICADO: EDITAR / CRIAR PRODUTO (com upload de imagem) ---
+// --- MODAL UNIFICADO: EDITAR / CRIAR PRODUTO ---
 function openProductEditModal(id) {
   const isNew = !id;
   const prod = isNew
     ? {
         id: "prod-" + Date.now(),
-        title: "",
-        badge: "Novo",
-        category: "Estratégia Digital",
-        rating: "5.0 (10)",
-        price: "R$ 97,00",
-        description: "",
+        title: "", badge: "Novo", category: "Estratégia Digital",
+        rating: "5.0 (10)", price: "R$ 97,00", description: "",
         link: `https://wa.me/${AppState.whatsappNumber}`,
         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80",
         active: true
@@ -1094,9 +1040,7 @@ function openProductEditModal(id) {
   modal.innerHTML = `
     <div style="background:#FFF;border-radius:16px;padding:28px;max-width:640px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.4);">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="margin:0;font-size:1.2rem;color:#111827;">
-          ${isNew ? '➕ Adicionar Novo Produto' : '✏️ Editar Produto'}
-        </h3>
+        <h3 style="margin:0;font-size:1.2rem;color:#111827;">${isNew ? '➕ Adicionar Novo Produto' : '✏️ Editar Produto'}</h3>
         <button id="peClose" style="background:none;border:none;font-size:1.7rem;cursor:pointer;color:#64748B;line-height:1;">&times;</button>
       </div>
 
@@ -1140,19 +1084,18 @@ function openProductEditModal(id) {
 
         <div>
           <label style="font-size:0.85rem;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Imagem do Produto</label>
-
           <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;">
             <img id="pePreview" src="${prod.image}" style="width:90px;height:90px;object-fit:cover;border-radius:10px;border:2px solid #E5E7EB;" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=200&q=80'">
             <div style="flex:1;">
               <input id="peImageUrl" value="${prod.image.startsWith('data:') ? '' : prod.image.replace(/"/g,'&quot;')}" placeholder="Cole a URL da imagem..." style="width:100%;padding:9px;border:1.5px solid #E5E7EB;border-radius:8px;font-size:0.85rem;margin-bottom:8px;">
-
               <label style="display:inline-block;padding:8px 14px;background:#EEF2FF;color:#3142DB;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;border:1.5px solid #C7D2FE;">
                 📁 Enviar do computador
                 <input type="file" id="peImageFile" accept="image/*" style="display:none;">
               </label>
-              <span style="font-size:0.78rem;color:#94A3B8;margin-left:8px;">Recomendado: 700×500px</span>
+              <span style="font-size:0.78rem;color:#94A3B8;margin-left:8px;">Otimizada automaticamente</span>
             </div>
           </div>
+          <div id="peImageInfo" style="font-size:0.78rem;color:#64748B;"></div>
         </div>
 
         <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
@@ -1168,31 +1111,61 @@ function openProductEditModal(id) {
   const preview = modal.querySelector('#pePreview');
   const urlInput = modal.querySelector('#peImageUrl');
   const fileInput = modal.querySelector('#peImageFile');
+  const imageInfo = modal.querySelector('#peImageInfo');
   let newImageData = prod.image;
+
+  function updateImageInfo() {
+    if (newImageData && newImageData.startsWith('data:')) {
+      const kb = estimateBase64SizeKB(newImageData);
+      imageInfo.textContent = `📦 Imagem embutida (base64): ~${kb} KB`;
+      imageInfo.style.color = kb > 300 ? '#EF4444' : '#64748B';
+    } else if (newImageData) {
+      imageInfo.textContent = '🔗 Imagem via URL externa (não ocupa espaço no navegador)';
+      imageInfo.style.color = '#10B981';
+    } else {
+      imageInfo.textContent = '';
+    }
+  }
+  updateImageInfo();
 
   urlInput.addEventListener('input', () => {
     const val = urlInput.value.trim();
     if (val) {
       preview.src = val;
       newImageData = val;
+      updateImageInfo();
     }
   });
 
-  fileInput.addEventListener('change', (e) => {
+  fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      showToast('Imagem muito grande. Use uma imagem até 2MB.', 'error');
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Selecione um arquivo de imagem.', 'error');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      newImageData = ev.target.result;
-      preview.src = newImageData;
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Imagem muito grande (máx 10MB).', 'error');
+      return;
+    }
+
+    try {
+      showToast('Processando imagem...', 'success');
+      const compressed = await compressImageFile(file, 800, 0.82);
+      const originalKB = Math.round(file.size / 1024);
+      const newKB = estimateBase64SizeKB(compressed);
+
+      newImageData = compressed;
+      preview.src = compressed;
       urlInput.value = '';
-      showToast('Imagem carregada! Clique em Salvar para confirmar.', 'success');
-    };
-    reader.readAsDataURL(file);
+      updateImageInfo();
+      showToast(`✅ Imagem otimizada: ${originalKB}KB → ~${newKB}KB`, 'success');
+    } catch (err) {
+      console.error(err);
+      showToast('Erro ao processar imagem.', 'error');
+    }
   });
 
   const close = () => modal.remove();
@@ -1208,30 +1181,40 @@ function openProductEditModal(id) {
       return;
     }
 
-    prod.title = titleVal;
-    prod.price = modal.querySelector('#pePrice').value.trim() || prod.price;
-    prod.category = modal.querySelector('#peCategory').value.trim() || prod.category;
-    prod.badge = modal.querySelector('#peBadge').value.trim() || prod.badge;
-    prod.rating = modal.querySelector('#peRating').value.trim() || prod.rating;
-    prod.description = modal.querySelector('#peDesc').value.trim() || prod.description;
-    prod.link = modal.querySelector('#peLink').value.trim() || prod.link;
-    prod.image = newImageData || prod.image;
+    const updatedProd = {
+      ...prod,
+      title: titleVal,
+      price: modal.querySelector('#pePrice').value.trim() || prod.price,
+      category: modal.querySelector('#peCategory').value.trim() || prod.category,
+      badge: modal.querySelector('#peBadge').value.trim() || prod.badge,
+      rating: modal.querySelector('#peRating').value.trim() || prod.rating,
+      description: modal.querySelector('#peDesc').value.trim() || prod.description,
+      link: modal.querySelector('#peLink').value.trim() || prod.link,
+      image: newImageData || prod.image
+    };
 
-    if (isNew) {
-      AppState.products.push(prod);
-    }
+    // Monta o novo array SEM mutar o existente
+    const newProducts = isNew
+      ? [...AppState.products, updatedProd]
+      : AppState.products.map(p => p.id === prod.id ? updatedProd : p);
 
-    try {
-      localStorage.setItem('ci_products', JSON.stringify(AppState.products));
-    } catch (err) {
-      showToast('⚠️ Imagem muito grande para salvar. Use uma imagem menor ou uma URL.', 'error');
-      return;
+    // Tentativa atômica de salvar — se falhar, AppState NÃO muda
+    const result = saveProductsToStorage(newProducts);
+
+    if (!result.success) {
+      showToast('⚠️ ' + result.message, 'error');
+      return; // não fecha o modal, usuário pode corrigir
     }
 
     renderAdminProducts();
     renderProducts();
     updateAdminStats();
-    showToast(isNew ? '✅ Produto criado com sucesso!' : 'Produto atualizado!');
+    showToast(
+      isNew
+        ? '✅ Produto criado! Clique em "Sincronizar agora" para salvar no app.js.'
+        : '✅ Produto atualizado! Clique em "Sincronizar agora" para salvar no app.js.',
+      'success'
+    );
     close();
   });
 }
