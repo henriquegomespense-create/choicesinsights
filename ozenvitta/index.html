@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Aviso de Cookies</title>
     <style>
         /* Reset e Estilos Globais */
@@ -14,11 +13,12 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        body,
-        html {
+        body, html {
             width: 100%;
-            height: 100%;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Corrige a barra de endereço no celular */
             overflow: hidden;
+            background-color: #111; /* Fundo escuro caso a imagem falhe */
         }
 
         /* Fundo (Print da Página de Vendas) */
@@ -28,14 +28,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #f0f0f0;
+            /* background-image é definido via JavaScript */
             background-size: cover;
-            background-position: center;
+            background-position: top center; /* Foca no topo da imagem */
             background-repeat: no-repeat;
             z-index: 1;
         }
 
-        /* Overlay */
+        /* Overlay escuro */
         #overlay {
             position: absolute;
             top: 0;
@@ -77,7 +77,6 @@
             margin-bottom: 25px;
         }
 
-        /* Botões */
         .btn-container {
             display: flex;
             justify-content: center;
@@ -96,24 +95,10 @@
             flex: 1;
         }
 
-        .btn-allow {
-            background-color: #000000;
-            color: #ffffff;
-        }
-
-        .btn-allow:hover {
-            background-color: #333333;
-        }
-
-        .btn-close {
-            background-color: transparent;
-            color: #111111;
-            border: 1px solid #cccccc;
-        }
-
-        .btn-close:hover {
-            background-color: #f5f5f5;
-        }
+        .btn-allow { background-color: #000000; color: #ffffff; }
+        .btn-allow:hover { background-color: #333333; }
+        .btn-close { background-color: transparent; color: #111111; border: 1px solid #cccccc; }
+        .btn-close:hover { background-color: #f5f5f5; }
 
         .footer-text {
             font-size: 12px;
@@ -138,21 +123,14 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        #admin-trigger:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-        }
+        #admin-trigger:hover { background-color: rgba(0, 0, 0, 0.8); color: #fff; }
 
         /* Modais do Administrador */
         .admin-modal {
             display: none;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
             z-index: 100;
             justify-content: center;
             align-items: center;
@@ -165,79 +143,46 @@
             width: 90%;
             max-width: 400px;
             text-align: left;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
         }
 
-        .admin-modal-content h3 {
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
+        .admin-modal-content h3 { margin-bottom: 20px; font-size: 20px; color: #111; }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #333;
-        }
-
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #333; font-weight: 500;}
         .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px;
         }
 
         .admin-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
+            width: 100%; padding: 12px; background-color: #007bff; color: white;
+            border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; font-weight: 600;
         }
+        .admin-btn:hover { background-color: #0056b3; }
+        .admin-btn.cancel { background-color: #e0e0e0; color: #333; margin-top: 8px; }
+        .admin-btn.cancel:hover { background-color: #ccc; }
+        .admin-btn.reset { background-color: #dc3545; color: white; margin-top: 8px; }
+        .admin-btn.reset:hover { background-color: #c82333; }
 
-        .admin-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .admin-btn.cancel {
-            background-color: #ccc;
-            color: #333;
-            margin-top: 5px;
+        /* Ajustes Específicos para Celular */
+        @media (max-width: 768px) {
+            #background-image {
+                /* Em celulares, 'auto 100%' ou 'cover' com foco no topo ajuda a não cortar o título */
+                background-size: cover;
+                background-position: top center;
+            }
         }
 
         @media (max-width: 480px) {
-            .cookie-popup {
-                padding: 25px 20px;
-            }
-
-            .cookie-popup h2 {
-                font-size: 20px;
-            }
-
-            .cookie-popup p {
-                font-size: 14px;
-            }
-
-            .btn-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .btn {
-                width: 100%;
-            }
+            .cookie-popup { padding: 25px 20px; }
+            .cookie-popup h2 { font-size: 20px; }
+            .cookie-popup p { font-size: 14px; }
+            .btn-container { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; }
+            .admin-modal-content { padding: 20px; }
         }
     </style>
 </head>
-
 <body>
 
     <div id="background-image"></div>
@@ -245,191 +190,223 @@
     <div id="overlay">
         <div class="cookie-popup">
             <h2>Cookie Policy</h2>
-            <p>This site uses cookies to customize content and ads, provide social media resources and analyze our
-                traffic. By clicking "Allow", you agree to the use of cookies. For more information, visit our Cookie
-                Policy.</p>
-
+            <p>This site uses cookies to customize content and ads, provide social media resources and analyze our traffic. By clicking "Allow", you agree to the use of cookies. For more information, visit our Cookie Policy.</p>
+            
             <div class="btn-container">
                 <button class="btn btn-allow">Allow</button>
                 <button class="btn btn-close">Close</button>
             </div>
-
+            
             <div class="footer-text">Your privacy is important to us</div>
         </div>
     </div>
 
     <button id="admin-trigger">Admin</button>
 
-    <div id="password-modal" class="admin-modal">
-        <div class="admin-modal-content">
-            <h3>Acesso Restrito</h3>
-            <div class="form-group">
-                <label>Senha Mestre:</label>
-                <input type="password" id="master-password" placeholder="Digite a senha...">
-            </div>
-            <button class="admin-btn" id="submit-password">Entrar</button>
-            <button class="admin-btn cancel" id="cancel-password">Cancelar</button>
-        </div>
-    </div>
-
-    <div id="admin-panel" class="admin-modal">
-        <div class="admin-modal-content">
-            <h3>Painel de Administrador</h3>
-            <div class="form-group">
-                <label>URL da Imagem de Fundo (Print da Página):</label>
-                <input type="text" id="input-bg-url" placeholder="https://exemplo.com/imagem.jpg">
-            </div>
-            <div class="form-group">
-                <label>Link de Destino (Página de Vendas Real):</label>
-                <input type="text" id="input-target-url" placeholder="https://exemplo.com/checkout">
-            </div>
-            <button class="admin-btn" id="save-settings">Salvar Configurações</button>
-            <button class="admin-btn cancel" id="close-admin">Fechar</button>
-        </div>
-    </div>
-
     <script>
         // ==========================================
-        // CONFIGURAÇÕES INICIAIS
+        // 1. CONFIGURAÇÕES INICIAIS E SEGURANÇA
         // ==========================================
+        
+        const MASTER_PASSWORD_HASH = "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"; 
+        const SALT = "X9#mK$2pL!qW8zR@5vB&1nM*4cV7bN";
 
-        const MASTER_PASSWORD_HASH = "fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35";
-
+        // Configurações Padrão (COM OS SEUS LINKS CORRIGIDOS)
         let config = {
-            backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true',
-            targetUrl: 'https://choicesinsights.com/ozenvitta/'
+            backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true', 
+            backgroundUrlMobile: '', // Deixe vazio para usar a do PC, ou coloque uma imagem vertical aqui
+            targetUrl: 'https://choicesinsights.com/ozenvitta/' 
         };
 
         if (localStorage.getItem('fakePageConfig')) {
             config = JSON.parse(localStorage.getItem('fakePageConfig'));
         }
 
+        let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
+        let lockoutTime = parseInt(localStorage.getItem('lockoutTime')) || 0;
+
+        // ==========================================
+        // 2. FUNÇÕES UTILITÁRIAS
+        // ==========================================
+
         function applyConfig() {
-            document.getElementById('background-image').style.backgroundImage = `url('${config.backgroundUrl}')`;
+            const bgElement = document.getElementById('background-image');
+            const isMobile = window.innerWidth <= 768;
+            
+            const hasMobileBg = config.backgroundUrlMobile && config.backgroundUrlMobile.trim() !== "";
+
+            if (isMobile && hasMobileBg) {
+                bgElement.style.backgroundImage = `url('${config.backgroundUrlMobile}')`;
+                console.log("Fundo: Usando imagem Mobile");
+            } else {
+                bgElement.style.backgroundImage = `url('${config.backgroundUrl}')`;
+                console.log("Fundo: Usando imagem Desktop");
+            }
         }
 
-        applyConfig();
-
-        // ==========================================
-        // LÓGICA DE REDIRECIONAMENTO
-        // ==========================================
-
-        document.body.addEventListener('click', function (e) {
-            if (
-                e.target.closest('#admin-trigger') ||
-                e.target.closest('#password-modal') ||
-                e.target.closest('#admin-panel')
-            ) {
-                return;
-            }
-            window.location.href = config.targetUrl;
-        });
-
-        // ==========================================
-        // FUNÇÃO DE CRIPTOGRAFIA (HASH)
-        // ==========================================
-
-        // Função assíncrona que gera o hash SHA-256 de uma string
         async function sha256(message) {
             try {
                 const msgBuffer = new TextEncoder().encode(message);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
                 const hashArray = Array.from(new Uint8Array(hashBuffer));
-                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-                return hashHex;
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             } catch (error) {
                 console.error("Erro ao gerar hash:", error);
                 return null;
             }
         }
 
+        applyConfig();
+        window.addEventListener('resize', applyConfig);
+
         // ==========================================
-        // LÓGICA DO PAINEL DE ADMINISTRADOR
+        // 3. REDIRECIONAMENTO GLOBAL
+        // ==========================================
+        
+        document.body.addEventListener('click', function(e) {
+            if (e.target.closest('#admin-trigger') || e.target.closest('.admin-modal')) {
+                return;
+            }
+            window.location.href = config.targetUrl;
+        });
+
+        // ==========================================
+        // 4. INJEÇÃO DINÂMICA E LÓGICA DO ADMIN
         // ==========================================
 
         const adminTrigger = document.getElementById('admin-trigger');
-        const passwordModal = document.getElementById('password-modal');
-        const adminPanel = document.getElementById('admin-panel');
-        const submitPassword = document.getElementById('submit-password');
-        const cancelPassword = document.getElementById('cancel-password');
-        const masterPasswordInput = document.getElementById('master-password');
-        const saveSettings = document.getElementById('save-settings');
-        const closeAdmin = document.getElementById('close-admin');
-        const inputBgUrl = document.getElementById('input-bg-url');
-        const inputTargetUrl = document.getElementById('input-target-url');
 
         adminTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            masterPasswordInput.value = '';
-            passwordModal.style.display = 'flex';
-            masterPasswordInput.focus();
-        });
-
-        // NOVA LÓGICA DE VERIFICAÇÃO DE SENHA (Com Hash)
-        submitPassword.addEventListener('click', async (e) => {
-            e.stopPropagation();
-
-            const senhaDigitada = masterPasswordInput.value;
-            if (!senhaDigitada) return;
-
-            // Gera o hash da senha que o usuário digitou
-            const hashDigitado = await sha256(senhaDigitada);
-
-            // Compara o hash gerado com o hash salvo no código
-            if (hashDigitado === MASTER_PASSWORD_HASH) {
-                passwordModal.style.display = 'none';
-                openAdminPanel();
-            } else {
-                alert('Senha incorreta!');
+            
+            if (Date.now() < lockoutTime) {
+                const minRestantes = Math.ceil((lockoutTime - Date.now()) / 60000);
+                alert(`Muitas tentativas. Tente novamente em ${minRestantes} minuto(s).`);
+                return;
             }
-        });
 
-        masterPasswordInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                submitPassword.click();
+            if (!document.getElementById('password-modal')) {
+                const pwdModalHTML = `
+                    <div id="password-modal" class="admin-modal" style="display: flex;">
+                        <div class="admin-modal-content">
+                            <h3>Acesso Restrito</h3>
+                            <div class="form-group">
+                                <label>Senha Mestre:</label>
+                                <input type="password" id="master-password" placeholder="Digite a senha...">
+                            </div>
+                            <button class="admin-btn" id="submit-password">Entrar</button>
+                            <button class="admin-btn cancel" id="cancel-password">Cancelar</button>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', pwdModalHTML);
+                
+                document.getElementById('cancel-password').addEventListener('click', () => {
+                    document.getElementById('password-modal').remove();
+                });
+
+                const masterPasswordInput = document.getElementById('master-password');
+                masterPasswordInput.focus();
+                
+                masterPasswordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') document.getElementById('submit-password').click();
+                });
+
+                document.getElementById('submit-password').addEventListener('click', async () => {
+                    const senhaDigitada = masterPasswordInput.value;
+                    if (!senhaDigitada) return;
+
+                    const hashDigitado = await sha256(senhaDigitada + SALT);
+
+                    if (hashDigitado === MASTER_PASSWORD_HASH) {
+                        localStorage.setItem('loginAttempts', 0);
+                        document.getElementById('password-modal').remove();
+                        openAdminPanel();
+                    } else {
+                        loginAttempts++;
+                        localStorage.setItem('loginAttempts', loginAttempts);
+                        
+                        if (loginAttempts >= 3) {
+                            lockoutTime = Date.now() + (5 * 60 * 1000);
+                            localStorage.setItem('lockoutTime', lockoutTime);
+                            alert('Bloqueado por 5 minutos devido a múltiplas tentativas falhas.');
+                            document.getElementById('password-modal').remove();
+                        } else {
+                            alert(`Senha incorreta! Tentativa ${loginAttempts} de 3.`);
+                        }
+                    }
+                });
             }
-        });
-
-        cancelPassword.addEventListener('click', (e) => {
-            e.stopPropagation();
-            passwordModal.style.display = 'none';
         });
 
         function openAdminPanel() {
-            inputBgUrl.value = config.backgroundUrl;
-            inputTargetUrl.value = config.targetUrl;
-            adminPanel.style.display = 'flex';
+            if (!document.getElementById('admin-panel')) {
+                const panelHTML = `
+                    <div id="admin-panel" class="admin-modal" style="display: flex;">
+                        <div class="admin-modal-content">
+                            <h3>Painel de Administrador</h3>
+                            <div class="form-group">
+                                <label>URL da Imagem de Fundo (PC/Desktop):</label>
+                                <input type="text" id="input-bg-url" value="${config.backgroundUrl}">
+                            </div>
+                            <div class="form-group">
+                                <label>URL da Imagem de Fundo (Celular/Mobile):</label>
+                                <input type="text" id="input-bg-url-mobile" value="${config.backgroundUrlMobile || ''}" placeholder="Opcional. Se vazio, usa a do PC.">
+                            </div>
+                            <div class="form-group">
+                                <label>Link de Destino (Página de Vendas Real):</label>
+                                <input type="text" id="input-target-url" value="${config.targetUrl}">
+                            </div>
+                            <button class="admin-btn" id="save-settings">Salvar Configurações</button>
+                            <button class="admin-btn reset" id="reset-settings">Resetar Configurações</button>
+                            <button class="admin-btn cancel" id="close-admin">Fechar</button>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', panelHTML);
+
+                document.getElementById('close-admin').addEventListener('click', () => {
+                    document.getElementById('admin-panel').remove();
+                });
+
+                document.getElementById('reset-settings').addEventListener('click', () => {
+                    if (confirm("Isso apagará todas as configurações salvas e voltará ao padrão. Continuar?")) {
+                        localStorage.removeItem('fakePageConfig');
+                        localStorage.removeItem('loginAttempts');
+                        localStorage.removeItem('lockoutTime');
+                        alert('Configurações resetadas. A página será recarregada.');
+                        window.location.reload();
+                    }
+                });
+
+                document.getElementById('save-settings').addEventListener('click', () => {
+                    const newBgUrl = document.getElementById('input-bg-url').value.trim();
+                    const newBgUrlMobile = document.getElementById('input-bg-url-mobile').value.trim();
+                    const newTargetUrl = document.getElementById('input-target-url').value.trim();
+
+                    if (newBgUrl && newTargetUrl) {
+                        config.backgroundUrl = newBgUrl;
+                        config.backgroundUrlMobile = newBgUrlMobile;
+                        config.targetUrl = newTargetUrl;
+                        
+                        localStorage.setItem('fakePageConfig', JSON.stringify(config));
+                        applyConfig(); 
+                        
+                        alert('Configurações salvas com sucesso!');
+                        document.getElementById('admin-panel').remove();
+                    } else {
+                        alert('Por favor, preencha pelo menos a URL de fundo do PC e o Link de Destino.');
+                    }
+                });
+            }
         }
 
-        saveSettings.addEventListener('click', (e) => {
-            e.stopPropagation();
-
-            const newBgUrl = inputBgUrl.value.trim();
-            const newTargetUrl = inputTargetUrl.value.trim();
-
-            if (newBgUrl && newTargetUrl) {
-                config.backgroundUrl = newBgUrl;
-                config.targetUrl = newTargetUrl;
-
-                localStorage.setItem('fakePageConfig', JSON.stringify(config));
-                applyConfig();
-
-                alert('Configurações salvas com sucesso!');
-                adminPanel.style.display = 'none';
-            } else {
-                alert('Por favor, preencha todos os campos.');
+        document.body.addEventListener('click', (e) => {
+            if (e.target.closest('.admin-modal')) {
+                e.stopPropagation();
             }
         });
 
-        closeAdmin.addEventListener('click', (e) => {
-            e.stopPropagation();
-            adminPanel.style.display = 'none';
-        });
-
-        passwordModal.addEventListener('click', (e) => e.stopPropagation());
-        adminPanel.addEventListener('click', (e) => e.stopPropagation());
-
     </script>
 </body>
-
 </html>
