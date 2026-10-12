@@ -16,11 +16,12 @@
         body, html {
             width: 100%;
             height: 100vh;
-            height: 100dvh;
+            height: 100dvh; /* Corrige a barra de endereço no celular */
             overflow: hidden;
             background-color: #111;
         }
 
+        /* Fundo (Print da Página de Vendas) */
         #background-image {
             position: absolute;
             top: 0;
@@ -33,6 +34,7 @@
             z-index: 1;
         }
 
+        /* Overlay escuro */
         #overlay {
             position: absolute;
             top: 0;
@@ -47,6 +49,7 @@
             cursor: pointer;
         }
 
+        /* O Falso Pop-up de Cookies */
         .cookie-popup {
             background-color: #ffffff;
             width: 90%;
@@ -71,6 +74,7 @@
 
         .footer-text { font-size: 12px; color: #888; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
 
+        /* Botão Discreto de Administrador */
         #admin-trigger {
             position: absolute; bottom: 10px; right: 10px; z-index: 10;
             background-color: rgba(0, 0, 0, 0.1); color: rgba(255, 255, 255, 0.5);
@@ -78,6 +82,7 @@
         }
         #admin-trigger:hover { background-color: rgba(0, 0, 0, 0.8); color: #fff; }
 
+        /* Modais (Senha e Admin) */
         .admin-modal {
             display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85); z-index: 100; justify-content: center; align-items: center;
@@ -100,8 +105,6 @@
         .admin-btn:hover { background-color: #0056b3; }
         .admin-btn.cancel { background-color: #e0e0e0; color: #333; margin-top: 8px; }
         .admin-btn.cancel:hover { background-color: #ccc; }
-        .admin-btn.reset { background-color: #dc3545; color: white; margin-top: 8px; }
-        .admin-btn.reset:hover { background-color: #c82333; }
 
         @media (max-width: 480px) {
             .cookie-popup { padding: 25px 20px; }
@@ -133,31 +136,62 @@
 
     <button id="admin-trigger">Admin</button>
 
+    <!-- Modal de Senha -->
+    <div id="password-modal" class="admin-modal">
+        <div class="admin-modal-content">
+            <h3>Acesso Restrito</h3>
+            <div class="form-group">
+                <label>Senha Mestre:</label>
+                <input type="password" id="master-password" placeholder="Digite a senha...">
+            </div>
+            <button class="admin-btn" id="submit-password">Entrar</button>
+            <button class="admin-btn cancel" id="cancel-password">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal do Painel de Administrador -->
+    <div id="admin-panel" class="admin-modal">
+        <div class="admin-modal-content">
+            <h3>Painel de Administrador</h3>
+            <div class="form-group">
+                <label>URL da Imagem de Fundo (PC/Desktop):</label>
+                <input type="text" id="input-bg-url">
+            </div>
+            <div class="form-group">
+                <label>URL da Imagem de Fundo (Celular/Mobile):</label>
+                <input type="text" id="input-bg-url-mobile" placeholder="Opcional. Se vazio, usa a do PC.">
+            </div>
+            <div class="form-group">
+                <label>Link de Destino (Página de Vendas Real):</label>
+                <input type="text" id="input-target-url">
+            </div>
+            <button class="admin-btn" id="save-settings">Salvar Configurações</button>
+            <button class="admin-btn cancel" id="close-admin">Fechar</button>
+        </div>
+    </div>
+
     <script>
         // ==========================================
-        // 1. CONFIGURAÇÕES INICIAIS E SEGURANÇA
+        // 1. CONFIGURAÇÕES INICIAIS (SIMPLIFICADO)
         // ==========================================
         
-        // Este é o hash da senha "admin123" + o SALT abaixo.
-        // Se você mudar a senha, precisará gerar um novo hash.
-        const MASTER_PASSWORD_HASH = "COLE_O_HASH_GERADO_AQUI"; 
-        const SALT = "X9#mK$2pL!qW8zR@5vB&1nM*4cV7bN";
+        // SENHA MESTRA (Altere aqui para o que você quiser)
+        const SENHA_MESTRA = "admin123"; 
 
+        // Configurações Padrão (Seus links)
         let config = {
             backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true', 
             backgroundUrlMobile: '', 
             targetUrl: 'https://choicesinsights.com/ozenvitta/' 
         };
 
+        // Carregar configurações salvas no navegador (se existirem)
         if (localStorage.getItem('fakePageConfig')) {
             config = JSON.parse(localStorage.getItem('fakePageConfig'));
         }
 
-        let loginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
-        let lockoutTime = parseInt(localStorage.getItem('lockoutTime')) || 0;
-
         // ==========================================
-        // 2. FUNÇÕES UTILITÁRIAS
+        // 2. FUNÇÕES DE APLICAR CONFIGURAÇÕES
         // ==========================================
 
         function applyConfig() {
@@ -172,18 +206,6 @@
             }
         }
 
-        async function sha256(message) {
-            try {
-                const msgBuffer = new TextEncoder().encode(message);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            } catch (error) {
-                console.error("Erro ao gerar hash:", error);
-                return null;
-            }
-        }
-
         applyConfig();
         window.addEventListener('resize', applyConfig);
 
@@ -192,157 +214,99 @@
         // ==========================================
         
         document.body.addEventListener('click', function(e) {
+            // Se o clique for no botão Admin ou dentro dos modais, não redireciona
             if (e.target.closest('#admin-trigger') || e.target.closest('.admin-modal')) {
                 return;
             }
+            // Redireciona para a página de vendas
             window.location.href = config.targetUrl;
         });
 
         // ==========================================
-        // 4. INJEÇÃO DINÂMICA E LÓGICA DO ADMIN
+        // 4. LÓGICA DO ADMINISTRADOR
         // ==========================================
 
         const adminTrigger = document.getElementById('admin-trigger');
+        const passwordModal = document.getElementById('password-modal');
+        const adminPanel = document.getElementById('admin-panel');
+        const masterPasswordInput = document.getElementById('master-password');
 
+        // Abrir modal de senha
         adminTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
+            masterPasswordInput.value = ''; // Limpa o campo
+            passwordModal.style.display = 'flex';
+            masterPasswordInput.focus();
+        });
+
+        // Verificar Senha (SIMPLES E DIRETO)
+        document.getElementById('submit-password').addEventListener('click', (e) => {
+            e.stopPropagation();
             
-            if (Date.now() < lockoutTime) {
-                const minRestantes = Math.ceil((lockoutTime - Date.now()) / 60000);
-                alert(`Muitas tentativas. Tente novamente em ${minRestantes} minuto(s).`);
-                return;
-            }
-
-            if (!document.getElementById('password-modal')) {
-                const pwdModalHTML = `
-                    <div id="password-modal" class="admin-modal" style="display: flex;">
-                        <div class="admin-modal-content">
-                            <h3>Acesso Restrito</h3>
-                            <div class="form-group">
-                                <label>Senha Mestre:</label>
-                                <input type="password" id="master-password" placeholder="Digite a senha...">
-                            </div>
-                            <button class="admin-btn" id="submit-password">Entrar</button>
-                            <button class="admin-btn cancel" id="cancel-password">Cancelar</button>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', pwdModalHTML);
-                
-                document.getElementById('cancel-password').addEventListener('click', () => {
-                    document.getElementById('password-modal').remove();
-                });
-
-                const masterPasswordInput = document.getElementById('master-password');
-                masterPasswordInput.focus();
-                
-                masterPasswordInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') document.getElementById('submit-password').click();
-                });
-
-                document.getElementById('submit-password').addEventListener('click', async () => {
-                    const senhaDigitada = masterPasswordInput.value;
-                    if (!senhaDigitada) return;
-
-                    const hashDigitado = await sha256(senhaDigitada + SALT);
-
-                    // ==========================================
-                    // DEBUGGER: Vai mostrar no console o hash correto
-                    // ==========================================
-                    console.log("=== DEBUG DE ACESSO ===");
-                    console.log("Senha digitada:", senhaDigitada);
-                    console.log("Hash gerado (Copie isso e cole no código):", hashDigitado);
-                    console.log("Hash que está no código agora:", MASTER_PASSWORD_HASH);
-                    console.log("=======================");
-
-                    if (hashDigitado === MASTER_PASSWORD_HASH) {
-                        localStorage.setItem('loginAttempts', 0);
-                        document.getElementById('password-modal').remove();
-                        openAdminPanel();
-                    } else {
-                        loginAttempts++;
-                        localStorage.setItem('loginAttempts', loginAttempts);
-                        
-                        if (loginAttempts >= 3) {
-                            lockoutTime = Date.now() + (5 * 60 * 1000);
-                            localStorage.setItem('lockoutTime', lockoutTime);
-                            alert('Bloqueado por 5 minutos devido a múltiplas tentativas falhas.');
-                            document.getElementById('password-modal').remove();
-                        } else {
-                            alert(`Senha incorreta! Tentativa ${loginAttempts} de 3.`);
-                        }
-                    }
-                });
+            if (masterPasswordInput.value === SENHA_MESTRA) {
+                passwordModal.style.display = 'none';
+                openAdminPanel();
+            } else {
+                alert('Senha incorreta! Tente novamente.');
             }
         });
 
-        function openAdminPanel() {
-            if (!document.getElementById('admin-panel')) {
-                const panelHTML = `
-                    <div id="admin-panel" class="admin-modal" style="display: flex;">
-                        <div class="admin-modal-content">
-                            <h3>Painel de Administrador</h3>
-                            <div class="form-group">
-                                <label>URL da Imagem de Fundo (PC/Desktop):</label>
-                                <input type="text" id="input-bg-url" value="${config.backgroundUrl}">
-                            </div>
-                            <div class="form-group">
-                                <label>URL da Imagem de Fundo (Celular/Mobile):</label>
-                                <input type="text" id="input-bg-url-mobile" value="${config.backgroundUrlMobile || ''}" placeholder="Opcional. Se vazio, usa a do PC.">
-                            </div>
-                            <div class="form-group">
-                                <label>Link de Destino (Página de Vendas Real):</label>
-                                <input type="text" id="input-target-url" value="${config.targetUrl}">
-                            </div>
-                            <button class="admin-btn" id="save-settings">Salvar Configurações</button>
-                            <button class="admin-btn reset" id="reset-settings">Resetar Configurações</button>
-                            <button class="admin-btn cancel" id="close-admin">Fechar</button>
-                        </div>
-                    </div>
-                `;
-                document.body.insertAdjacentHTML('beforeend', panelHTML);
-
-                document.getElementById('close-admin').addEventListener('click', () => {
-                    document.getElementById('admin-panel').remove();
-                });
-
-                document.getElementById('reset-settings').addEventListener('click', () => {
-                    if (confirm("Isso apagará todas as configurações salvas e voltará ao padrão. Continuar?")) {
-                        localStorage.removeItem('fakePageConfig');
-                        localStorage.removeItem('loginAttempts');
-                        localStorage.removeItem('lockoutTime');
-                        alert('Configurações resetadas. A página será recarregada.');
-                        window.location.reload();
-                    }
-                });
-
-                document.getElementById('save-settings').addEventListener('click', () => {
-                    const newBgUrl = document.getElementById('input-bg-url').value.trim();
-                    const newBgUrlMobile = document.getElementById('input-bg-url-mobile').value.trim();
-                    const newTargetUrl = document.getElementById('input-target-url').value.trim();
-
-                    if (newBgUrl && newTargetUrl) {
-                        config.backgroundUrl = newBgUrl;
-                        config.backgroundUrlMobile = newBgUrlMobile;
-                        config.targetUrl = newTargetUrl;
-                        
-                        localStorage.setItem('fakePageConfig', JSON.stringify(config));
-                        applyConfig(); 
-                        
-                        alert('Configurações salvas com sucesso!');
-                        document.getElementById('admin-panel').remove();
-                    } else {
-                        alert('Por favor, preencha pelo menos a URL de fundo do PC e o Link de Destino.');
-                    }
-                });
+        // Permitir apertar Enter na senha
+        masterPasswordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('submit-password').click();
             }
+        });
+
+        // Fechar modal de senha
+        document.getElementById('cancel-password').addEventListener('click', (e) => {
+            e.stopPropagation();
+            passwordModal.style.display = 'none';
+        });
+
+        // Abrir Painel de Admin e preencher com os dados atuais
+        function openAdminPanel() {
+            document.getElementById('input-bg-url').value = config.backgroundUrl;
+            document.getElementById('input-bg-url-mobile').value = config.backgroundUrlMobile || '';
+            document.getElementById('input-target-url').value = config.targetUrl;
+            adminPanel.style.display = 'flex';
         }
 
-        document.body.addEventListener('click', (e) => {
-            if (e.target.closest('.admin-modal')) {
-                e.stopPropagation();
+        // Salvar Configurações do Painel
+        document.getElementById('save-settings').addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            const newBgUrl = document.getElementById('input-bg-url').value.trim();
+            const newBgUrlMobile = document.getElementById('input-bg-url-mobile').value.trim();
+            const newTargetUrl = document.getElementById('input-target-url').value.trim();
+
+            if (newBgUrl && newTargetUrl) {
+                config.backgroundUrl = newBgUrl;
+                config.backgroundUrlMobile = newBgUrlMobile;
+                config.targetUrl = newTargetUrl;
+                
+                // Salva no navegador
+                localStorage.setItem('fakePageConfig', JSON.stringify(config));
+                
+                // Aplica a nova imagem de fundo
+                applyConfig();
+                
+                alert('Configurações salvas com sucesso!');
+                adminPanel.style.display = 'none';
+            } else {
+                alert('Por favor, preencha pelo menos a URL de fundo do PC e o Link de Destino.');
             }
         });
+
+        // Fechar Painel de Admin
+        document.getElementById('close-admin').addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminPanel.style.display = 'none';
+        });
+
+        // Impedir que cliques dentro dos modais fechem eles ou redirecionem
+        passwordModal.addEventListener('click', (e) => e.stopPropagation());
+        adminPanel.addEventListener('click', (e) => e.stopPropagation());
 
     </script>
 </body>
