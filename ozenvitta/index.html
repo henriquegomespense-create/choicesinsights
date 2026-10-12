@@ -16,7 +16,7 @@
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Evita barras de rolagem */
+            overflow: hidden;
         }
 
         /* Fundo (Print da Página de Vendas) */
@@ -26,14 +26,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #f0f0f0; /* Cor de fundo caso a imagem não carregue */
+            background-color: #f0f0f0;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: 1;
         }
 
-        /* Overlay para escurecer levemente o fundo (opcional, ajuda a destacar o pop-up) */
+        /* Ajuste específico para celular na vertical */
+        @media (max-width: 768px) and (orientation: portrait) {
+            #background-image {
+                background-position: center top;
+            }
+        }
+
+        /* Overlay para escurecer levemente o fundo */
         #overlay {
             position: absolute;
             top: 0;
@@ -45,7 +52,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer; /* Indica que tudo é clicável */
+            cursor: pointer;
         }
 
         /* O Falso Pop-up de Cookies */
@@ -142,7 +149,7 @@
             color: #fff;
         }
 
-        /* Modais do Administrador (Senha e Painel) */
+        /* Modais do Administrador */
         .admin-modal {
             display: none;
             position: absolute;
@@ -161,8 +168,10 @@
             padding: 30px;
             border-radius: 8px;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: left;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .admin-modal-content h3 {
@@ -273,8 +282,12 @@
         <div class="admin-modal-content">
             <h3>Painel de Administrador</h3>
             <div class="form-group">
-                <label>URL da Imagem de Fundo (Print da Página):</label>
+                <label>URL da Imagem de Fundo (Desktop):</label>
                 <input type="text" id="input-bg-url" placeholder="https://exemplo.com/imagem.jpg">
+            </div>
+            <div class="form-group">
+                <label>URL da Imagem de Fundo (Celular):</label>
+                <input type="text" id="input-bg-url-mobile" placeholder="https://exemplo.com/imagem-mobile.jpg">
             </div>
             <div class="form-group">
                 <label>Link de Destino (Página de Vendas Real):</label>
@@ -291,44 +304,74 @@
         // ==========================================
         
         // Hash SHA-256 da senha mestre
-const MASTER_PASSWORD_HASH = "fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35"; 
-async function sha256Hex(texto) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(texto);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-}
+        const MASTER_PASSWORD_HASH = "fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35";
 
-        // Configurações Padrão (Caso o admin não tenha salvo nada ainda)
+        async function sha256Hex(texto) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(texto);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // ==========================================
+        // VERSÃO DAS CONFIGURAÇÕES
+        // ==========================================
+        // Aumente este número sempre que quiser forçar a atualização
+        // das configurações no navegador
+        const CONFIG_VERSION = 3;
+
+        // Configurações Padrão
         let config = {
-            // Coloque aqui a URL da imagem do print da página de vendas
-            backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true', 
-            // Coloque aqui o link real para onde o usuário será redirecionado
-            targetUrl: 'https://app.monetizze.com.br/r/AQL25844591' 
+            backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true',
+            // ⚠️ SUBSTITUA pela URL da sua imagem vertical para celular
+            backgroundUrlMobile: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback-mobile.png?raw=true',
+            targetUrl: 'https://app.monetizze.com.br/r/AQL25844591',
+            version: CONFIG_VERSION
         };
 
         // Carregar configurações salvas no navegador (localStorage)
-        if (localStorage.getItem('fakePageConfig')) {
-            config = JSON.parse(localStorage.getItem('fakePageConfig'));
+        const savedConfig = localStorage.getItem('fakePageConfig');
+
+        if (savedConfig) {
+            const parsed = JSON.parse(savedConfig);
+
+            // Só usa o que está salvo se a versão for a mesma
+            if (parsed.version === CONFIG_VERSION) {
+                config = parsed;
+            } else {
+                // Se a versão for diferente, ignora e remove o antigo
+                localStorage.removeItem('fakePageConfig');
+            }
         }
 
-        // Aplicar as configurações na página
+        // ==========================================
+        // APLICAR CONFIGURAÇÕES NA PÁGINA
+        // ==========================================
         function applyConfig() {
-            document.getElementById('background-image').style.backgroundImage = `url('${config.backgroundUrl}')`;
+            // Detecta se é celular na vertical
+            const isMobilePortrait = window.innerWidth <= 768 && window.innerHeight > window.innerWidth;
+
+            // Escolhe a imagem correta
+            const bgUrl = (isMobilePortrait && config.backgroundUrlMobile)
+                ? config.backgroundUrlMobile
+                : config.backgroundUrl;
+
+            document.getElementById('background-image').style.backgroundImage = `url('${bgUrl}')`;
         }
 
         // Executa ao carregar a página
         applyConfig();
 
+        // Reaplica se o usuário girar o celular ou redimensionar a janela
+        window.addEventListener('resize', applyConfig);
+        window.addEventListener('orientationchange', applyConfig);
+
         // ==========================================
         // LÓGICA DE REDIRECIONAMENTO
         // ==========================================
-
-        // Redireciona o usuário ao clicar em QUALQUER LUGAR da tela
         document.body.addEventListener('click', function(e) {
-            // Impede o redirecionamento se o clique for no painel de admin, modais ou botão admin
             if (
                 e.target.closest('#admin-trigger') || 
                 e.target.closest('#password-modal') || 
@@ -337,7 +380,6 @@ async function sha256Hex(texto) {
                 return;
             }
             
-            // Redireciona para a página de vendas real
             window.location.href = config.targetUrl;
         });
 
@@ -354,30 +396,31 @@ async function sha256Hex(texto) {
         const saveSettings = document.getElementById('save-settings');
         const closeAdmin = document.getElementById('close-admin');
         const inputBgUrl = document.getElementById('input-bg-url');
+        const inputBgUrlMobile = document.getElementById('input-bg-url-mobile');
         const inputTargetUrl = document.getElementById('input-target-url');
 
         // Abrir modal de senha
         adminTrigger.addEventListener('click', (e) => {
-            e.stopPropagation(); // Impede o redirecionamento
-            masterPasswordInput.value = ''; // Limpa o campo
+            e.stopPropagation();
+            masterPasswordInput.value = '';
             passwordModal.style.display = 'flex';
             masterPasswordInput.focus();
         });
 
         // Verificar Senha
-       submitPassword.addEventListener('click', async (e) => {
-    e.stopPropagation();
+        submitPassword.addEventListener('click', async (e) => {
+            e.stopPropagation();
 
-    const senhaDigitada = masterPasswordInput.value;
-    const hashDigitado = await sha256Hex(senhaDigitada);
+            const senhaDigitada = masterPasswordInput.value;
+            const hashDigitado = await sha256Hex(senhaDigitada);
 
-    if (hashDigitado === MASTER_PASSWORD_HASH) {
-        passwordModal.style.display = 'none';
-        openAdminPanel();
-    } else {
-        alert('Senha incorreta!');
-    }
-});
+            if (hashDigitado === MASTER_PASSWORD_HASH) {
+                passwordModal.style.display = 'none';
+                openAdminPanel();
+            } else {
+                alert('Senha incorreta!');
+            }
+        });
 
         // Permitir pressionar Enter na senha
         masterPasswordInput.addEventListener('keypress', (e) => {
@@ -395,6 +438,7 @@ async function sha256Hex(texto) {
         // Abrir Painel de Admin e preencher com os dados atuais
         function openAdminPanel() {
             inputBgUrl.value = config.backgroundUrl;
+            inputBgUrlMobile.value = config.backgroundUrlMobile || '';
             inputTargetUrl.value = config.targetUrl;
             adminPanel.style.display = 'flex';
         }
@@ -404,22 +448,23 @@ async function sha256Hex(texto) {
             e.stopPropagation();
             
             const newBgUrl = inputBgUrl.value.trim();
+            const newBgUrlMobile = inputBgUrlMobile.value.trim();
             const newTargetUrl = inputTargetUrl.value.trim();
 
             if (newBgUrl && newTargetUrl) {
                 config.backgroundUrl = newBgUrl;
+                config.backgroundUrlMobile = newBgUrlMobile || newBgUrl; // Se vazio, usa a de desktop
                 config.targetUrl = newTargetUrl;
+                config.version = CONFIG_VERSION;
                 
-                // Salva no navegador
                 localStorage.setItem('fakePageConfig', JSON.stringify(config));
                 
-                // Aplica a nova imagem de fundo
                 applyConfig();
                 
                 alert('Configurações salvas com sucesso!');
                 adminPanel.style.display = 'none';
             } else {
-                alert('Por favor, preencha todos os campos.');
+                alert('Por favor, preencha pelo menos a imagem de desktop e o link de destino.');
             }
         });
 
