@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        body, html {
+        body,
+        html {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -212,14 +214,30 @@
         }
 
         @media (max-width: 480px) {
-            .cookie-popup { padding: 25px 20px; }
-            .cookie-popup h2 { font-size: 20px; }
-            .cookie-popup p { font-size: 14px; }
-            .btn-container { flex-direction: column; gap: 10px; }
-            .btn { width: 100%; }
+            .cookie-popup {
+                padding: 25px 20px;
+            }
+
+            .cookie-popup h2 {
+                font-size: 20px;
+            }
+
+            .cookie-popup p {
+                font-size: 14px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div id="background-image"></div>
@@ -227,13 +245,15 @@
     <div id="overlay">
         <div class="cookie-popup">
             <h2>Cookie Policy</h2>
-            <p>This site uses cookies to customize content and ads, provide social media resources and analyze our traffic. By clicking "Allow", you agree to the use of cookies. For more information, visit our Cookie Policy.</p>
-            
+            <p>This site uses cookies to customize content and ads, provide social media resources and analyze our
+                traffic. By clicking "Allow", you agree to the use of cookies. For more information, visit our Cookie
+                Policy.</p>
+
             <div class="btn-container">
                 <button class="btn btn-allow">Allow</button>
                 <button class="btn btn-close">Close</button>
             </div>
-            
+
             <div class="footer-text">Your privacy is important to us</div>
         </div>
     </div>
@@ -273,11 +293,11 @@
         // CONFIGURAÇÕES INICIAIS
         // ==========================================
 
-        const MASTER_PASSWORD_HASH = "fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35"; 
+        const MASTER_PASSWORD_HASH = "fa3b31e701850e337e5ea1c6a02ea743740613e4831132827cdb719c4da46b35";
 
         let config = {
-            backgroundUrl: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80', 
-            targetUrl: 'https://www.google.com' 
+            backgroundUrl: 'https://github.com/henriquegomespense-create/choicesinsights/blob/main/ozenvitta/assets/image/ozenback.png?raw=true',
+            targetUrl: 'https://choicesinsights.com/ozenvitta/'
         };
 
         if (localStorage.getItem('fakePageConfig')) {
@@ -294,10 +314,10 @@
         // LÓGICA DE REDIRECIONAMENTO
         // ==========================================
 
-        document.body.addEventListener('click', function(e) {
+        document.body.addEventListener('click', function (e) {
             if (
-                e.target.closest('#admin-trigger') || 
-                e.target.closest('#password-modal') || 
+                e.target.closest('#admin-trigger') ||
+                e.target.closest('#password-modal') ||
                 e.target.closest('#admin-panel')
             ) {
                 return;
@@ -308,7 +328,7 @@
         // ==========================================
         // FUNÇÃO DE CRIPTOGRAFIA (HASH)
         // ==========================================
-        
+
         // Função assíncrona que gera o hash SHA-256 de uma string
         async function sha256(message) {
             try {
@@ -340,7 +360,7 @@
 
         adminTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            masterPasswordInput.value = ''; 
+            masterPasswordInput.value = '';
             passwordModal.style.display = 'flex';
             masterPasswordInput.focus();
         });
@@ -348,7 +368,7 @@
         // NOVA LÓGICA DE VERIFICAÇÃO DE SENHA (Com Hash)
         submitPassword.addEventListener('click', async (e) => {
             e.stopPropagation();
-            
+
             const senhaDigitada = masterPasswordInput.value;
             if (!senhaDigitada) return;
 
@@ -383,17 +403,17 @@
 
         saveSettings.addEventListener('click', (e) => {
             e.stopPropagation();
-            
+
             const newBgUrl = inputBgUrl.value.trim();
             const newTargetUrl = inputTargetUrl.value.trim();
 
             if (newBgUrl && newTargetUrl) {
                 config.backgroundUrl = newBgUrl;
                 config.targetUrl = newTargetUrl;
-                
+
                 localStorage.setItem('fakePageConfig', JSON.stringify(config));
                 applyConfig();
-                
+
                 alert('Configurações salvas com sucesso!');
                 adminPanel.style.display = 'none';
             } else {
@@ -411,4 +431,5 @@
 
     </script>
 </body>
+
 </html>
