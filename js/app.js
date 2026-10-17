@@ -35,7 +35,7 @@ const App = (() => {
     const container = document.getElementById('filters');
     if (!container) return;
 
-    const categories = Storage.getCategories();
+    const categories = await Storage.getCategories();
     const allLabel = I18N.t('catalog.all') || 'Todos';
 
     let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeHtml(allLabel)}</button>`;
@@ -113,7 +113,7 @@ const App = (() => {
     const empty = document.getElementById('emptyProducts');
     if (!grid) return;
 
-    let products = Storage.getProducts().filter(p => p.active);
+    let products = (await Storage.getProducts()).filter(p => p.active);
 
     if (currentCategory !== 'all') {
       products = products.filter(p => p.category === currentCategory);
@@ -190,8 +190,8 @@ const App = (() => {
   }
 
   // ---------- SOCIAL LINKS ----------
-  function initSocial() {
-    const settings = Storage.getSettings();
+  async function initSocial() {
+    const settings = await Storage.getSettings();
 
     const map = {
       channelInstagram: settings.instagram,
@@ -213,11 +213,11 @@ const App = (() => {
   }
 
   // ---------- RENDER GERAL ----------
-  function renderAll() {
+  function  await renderAll() {
     renderFilters();
     renderProducts();
     WhatsApp.updateLinks();
-    initSocial();
+    await initSocial();
   }
 
   // ---------- INIT ----------
