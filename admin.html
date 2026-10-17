@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel Admin — Choices Insights</title>
+
+  <link rel="icon" type="image/png" href="assets/images/choicesinsights-logo-1.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ============================================
+       TELA DE LOGIN
+       ============================================ -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo">
+          <img src="assets/images/choicesinsights-logo-1.png" alt="Choices Insights" style="height:52px;" onerror="this.style.display='none'">
+        </div>
+        <h2>Painel Administrativo</h2>
+        <p>Faça login para gerenciar o conteúdo</p>
+      </div>
+
+      <div class="login-error" id="loginError"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">E-mail</label>
+          <input type="email" id="loginEmail" class="form-input" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" class="form-input" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Entrar
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top: 24px; font-size: 13px; color: var(--gray-600);">
+        <a href="index.html" style="color: var(--primary-500);">← Voltar para o site</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================
+       PAINEL ADMIN
+       ============================================ -->
+  <div class="admin-panel hidden" id="adminPanel">
+
+    <header class="admin-header">
+      <div class="container admin-header-inner">
+        <div class="logo">
+          <img src="assets/images/choicesinsights-logo-1.png" alt="Choices Insights" style="height:36px;" onerror="this.style.display='none'">
+          <span class="logo-text">Admin</span>
+        </div>
+
+        <div style="display:flex; gap:12px; align-items:center;">
+          <span style="font-size:14px; color:var(--gray-600);" id="adminEmail"></span>
+          <a href="index.html" class="btn btn-ghost btn-sm">Ver site</a>
+          <button class="btn btn-secondary btn-sm" id="logoutBtn">Sair</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container admin-content">
+
+      <!-- ABAS -->
+      <div class="admin-tabs" role="tablist">
+        <button class="admin-tab active" data-tab="products">📦 Produtos</button>
+        <button class="admin-tab" data-tab="categories">🏷️ Categorias</button>
+        <button class="admin-tab" data-tab="settings">⚙️ Configurações</button>
+        <button class="admin-tab" data-tab="leads">📨 Leads</button>
+      </div>
+
+      <!-- ========== ABA PRODUTOS ========== -->
+      <div class="admin-tab-content active" data-content="products">
+        <div class="admin-section-header">
+          <h2>Produtos</h2>
+          <button class="btn btn-primary" id="newProductBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo produto
+          </button>
+        </div>
+        <div class="admin-product-list" id="adminProductList"></div>
+      </div>
+
+      <!-- ========== ABA CATEGORIAS ========== -->
+      <div class="admin-tab-content" data-content="categories">
+        <div class="admin-section-header">
+          <h2>Categorias</h2>
+          <button class="btn btn-primary" id="newCategoryBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nova categoria
+          </button>
+        </div>
+        <div class="admin-product-list" id="adminCategoryList"></div>
+      </div>
+
+      <!-- ========== ABA CONFIGURAÇÕES ========== -->
+      <div class="admin-tab-content" data-content="settings">
+        <div class="admin-section-header">
+          <h2>Configurações gerais</h2>
+          <button class="btn btn-primary" id="saveSettingsBtn">Salvar alterações</button>
+        </div>
+
+        <div class="settings-card">
+          <h3>WhatsApp</h3>
+          <div class="form-group">
+            <label class="form-label">Número (com DDI + DDD)</label>
+            <input type="text" class="form-input" id="settingWhatsapp" placeholder="5517981434509">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensagem pré-preenchida (PT)</label>
+            <input type="text" class="form-input" id="settingWhatsappMsgPt">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensagem pré-preenchida (EN)</label>
+            <input type="text" class="form-input" id="settingWhatsappMsgEn">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensagem pré-preenchida (ES)</label>
+            <input type="text" class="form-input" id="settingWhatsappMsgEs">
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>Redes sociais (deixe vazio para ocultar)</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Instagram</label>
+              <input type="url" class="form-input" id="settingInstagram" placeholder="https://instagram.com/...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">LinkedIn</label>
+              <input type="url" class="form-input" id="settingLinkedin">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">YouTube</label>
+              <input type="url" class="form-input" id="settingYoutube">
+            </div>
+            <div class="form-group">
+              <label class="form-label">TikTok</label>
+              <input type="url" class="form-input" id="settingTiktok">
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>Contato</h3>
+          <div class="form-group">
+            <label class="form-label">E-mail de contato</label>
+            <input type="email" class="form-input" id="settingEmail">
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== ABA LEADS ========== -->
+      <div class="admin-tab-content" data-content="leads">
+        <div class="admin-section-header">
+          <h2>Leads recebidos</h2>
+          <button class="btn btn-ghost btn-sm" id="exportLeadsBtn">Exportar CSV</button>
+        </div>
+        <div class="admin-product-list" id="adminLeadList"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================
+       MODAL — PRODUTO
+       ============================================ -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="productModalTitle">Novo produto</h2>
+        <button class="icon-btn" onclick="closeProductModal()" aria-label="Fechar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="productId">
+
+        <div class="form-group">
+          <label class="form-label">Imagem do produto</label>
+          <label class="image-upload" for="productImage">
+            <img id="productImagePreview" class="image-upload-preview" style="display:none;" alt="">
+            <div class="image-upload-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <p>Clique para enviar uma imagem<br><small style="color:var(--gray-400);">JPG, PNG ou WebP · máx. 2MB</small></p>
+            <input type="file" id="productImage" accept="image/*">
+          </label>
+          <input type="url" class="form-input" id="productImageUrl" placeholder="ou cole uma URL" style="margin-top:8px;">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Link de destino <span class="required">*</span></label>
+          <input type="url" class="form-input" id="productLink" placeholder="https://..." required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <select class="form-input" id="productCategory"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Badge</label>
+            <select class="form-input" id="productBadge">
+              <option value="">Nenhum</option>
+              <option value="new">Novo</option>
+              <option value="promo">Promoção</option>
+              <option value="top">Top</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Traduções</label>
+          <div class="lang-tabs">
+            <button type="button" class="lang-tab active" data-langtab="pt">🇧🇷 PT</button>
+            <button type="button" class="lang-tab" data-langtab="en">🇺🇸 EN</button>
+            <button type="button" class="lang-tab" data-langtab="es">🇪🇸 ES</button>
+          </div>
+
+          <div class="lang-field active" data-langfield="pt">
+            <input type="text" class="form-input" id="productTitlePt" placeholder="Título em português" style="margin-bottom:8px;">
+            <textarea class="form-textarea" id="productDescPt" placeholder="Descrição em português"></textarea>
+          </div>
+          <div class="lang-field" data-langfield="en">
+            <input type="text" class="form-input" id="productTitleEn" placeholder="Title in English" style="margin-bottom:8px;">
+            <textarea class="form-textarea" id="productDescEn" placeholder="Description in English"></textarea>
+          </div>
+          <div class="lang-field" data-langfield="es">
+            <input type="text" class="form-input" id="productTitleEs" placeholder="Título en español" style="margin-bottom:8px;">
+            <textarea class="form-textarea" id="productDescEs" placeholder="Descripción en español"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="toggle">
+            <input type="checkbox" id="productActive" checked>
+            <span class="toggle-track"></span>
+            <span>Ativo no site</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="productFeatured">
+            <span class="toggle-track"></span>
+            <span>Destacar na home</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeProductModal()">Cancelar</button>
+        <button class="btn btn-primary" id="saveProductBtn">Salvar produto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MODAL — CATEGORIA
+       ============================================ -->
+  <div class="modal-overlay" id="categoryModal">
+    <div class="modal" style="max-width: 480px;">
+      <div class="modal-header">
+        <h2 id="categoryModalTitle">Nova categoria</h2>
+        <button class="icon-btn" onclick="closeCategoryModal()" aria-label="Fechar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="categoryId">
+        <div class="form-group">
+          <label class="form-label">Nome em português <span class="required">*</span></label>
+          <input type="text" class="form-input" id="categoryNamePt">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome em inglês</label>
+          <input type="text" class="form-input" id="categoryNameEn">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome em espanhol</label>
+          <input type="text" class="form-input" id="categoryNameEs">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeCategoryModal()">Cancelar</button>
+        <button class="btn btn-primary" id="saveCategoryBtn">Salvar categoria</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
