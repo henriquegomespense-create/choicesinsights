@@ -1,11 +1,10 @@
 /* ============================================
-   CHOICES INSIGHTS — APP (landing page)
+   CHOICES INSIGHTS — APP (landing page com Firebase)
    ============================================ */
 
 const App = (() => {
   let currentCategory = 'all';
 
-  // ---------- HELPERS ----------
   function getLocalized(obj) {
     if (!obj) return '';
     const lang = I18N.lang || 'pt';
@@ -14,37 +13,21 @@ const App = (() => {
 
   function escapeHtml(str) {
     if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  function showToast(message, type = 'success') {
-    const toast = document.getElementById('toast');
-    if (!toast) return;
-    toast.textContent = message;
-    toast.className = `toast ${type} show`;
-    setTimeout(() => toast.classList.remove('show'), 3500);
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   // ---------- RENDER: FILTROS ----------
-  function renderFilters() {
+  async function renderFilters() {
     const container = document.getElementById('filters');
     if (!container) return;
-
     const categories = await Storage.getCategories();
     const allLabel = I18N.t('catalog.all') || 'Todos';
-
     let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeHtml(allLabel)}</button>`;
-
+    
     categories.forEach(cat => {
       const name = getLocalized(cat.name);
       html += `<button class="filter-btn ${currentCategory === cat.id ? 'active' : ''}" data-cat="${escapeHtml(cat.id)}">${escapeHtml(name)}</button>`;
     });
-
     container.innerHTML = html;
 
     container.querySelectorAll('.filter-btn').forEach(btn => {
@@ -60,30 +43,10 @@ const App = (() => {
   function productCardHTML(product) {
     const title = escapeHtml(getLocalized(product.title));
     const desc = escapeHtml(getLocalized(product.description));
-    const cat = Storage.getCategory(product.category);
-    const catName = cat ? escapeHtml(getLocalized(cat.name)) : '';
-
-    const badgeMap = {
-      new:   { text: 'Novo',      cls: 'badge-new' },
-      promo: { text: 'Promoção',  cls: 'badge-promo' },
-      top:   { text: 'Top',       cls: 'badge-top' }
-    };
+    const badgeMap = { new: { text: 'Novo', cls: 'badge-new' }, promo: { text: 'Promoção', cls: 'badge-promo' }, top: { text: 'Top', cls: 'badge-top' } };
     const badge = badgeMap[product.badge];
 
-    const imageUrl = product.imageUrl
-      ? escapeHtml(product.imageUrl)
-      : 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
-            <defs>
-              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#3A3AC8"/>
-                <stop offset="100%" stop-color="#F5633E"/>
-              </linearGradient>
-            </defs>
-            <rect width="400" height="250" fill="url(#g)"/>
-            <text x="50%" y="52%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="20" font-weight="600">${title.slice(0, 30) || 'Produto'}</text>
-          </svg>
-        `);
+    const imageUrl = product.imageUrl ? escapeHtml(product.imageUrl) : 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect width="400" height="250" fill="#4A3FD1"/><text x="50%" y="50%" text-anchor="middle" fill="white" font-size="20">${title.slice(0, 30)}</text></svg>`);
 
     return `
       <article class="product-card">
@@ -92,15 +55,11 @@ const App = (() => {
           ${badge ? `<span class="product-badge ${badge.cls}">${badge.text}</span>` : ''}
         </div>
         <div class="product-body">
-          ${catName ? `<span class="product-category">${catName}</span>` : ''}
           <h3 class="product-title">${title}</h3>
           <p class="product-description">${desc}</p>
           <a href="${escapeHtml(product.link)}" class="product-btn" target="_blank" rel="noopener">
-            <span>${I18N.t('product.view') || 'Ver oferta'}</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+            <span>${I18N.t('product.view')}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
         </div>
       </article>
@@ -108,12 +67,15 @@ const App = (() => {
   }
 
   // ---------- RENDER: PRODUTOS ----------
-  function renderProducts() {
+  async function renderProducts() {
     const grid = document.getElementById('productsGrid');
     const empty = document.getElementById('emptyProducts');
     if (!grid) return;
 
-    let products = (await Storage.getProducts()).filter(p => p.active);
+    grid.innerHTML = '<p style="text-align:center; width:100%;">Carregando produtos...</p>';
+    
+    let products = await Storage.getProducts();
+    products = products.filter(p => p.active);
 
     if (currentCategory !== 'all') {
       products = products.filter(p => p.category === currentCategory);
@@ -129,34 +91,26 @@ const App = (() => {
     grid.innerHTML = products.map(productCardHTML).join('');
   }
 
- 
-
   // ---------- FORMULÁRIO ----------
   function initForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
-
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
       const lgpd = document.getElementById('lgpd').checked;
 
-      if (!name || !email || !message || !lgpd) {
-        showToast(I18N.t('form.error'), 'error');
-        return;
-      }
+      if (!name || !email || !message || !lgpd) return alert(I18N.t('form.error'));
 
       const lead = { name, email, message, lgpd, source: 'form' };
-      const saved = Storage.saveLead(lead);
-
+      const saved = await Storage.saveLead(lead);
       if (saved) {
         form.reset();
-        showToast(I18N.t('form.success'), 'success');
+        alert(I18N.t('form.success'));
       } else {
-        showToast(I18N.t('form.error'), 'error');
+        alert(I18N.t('form.error'));
       }
     });
   }
@@ -165,9 +119,7 @@ const App = (() => {
   function initHeaderScroll() {
     const header = document.getElementById('header');
     if (!header) return;
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 10);
-    }, { passive: true });
+    window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
   }
 
   // ---------- MENU MOBILE ----------
@@ -175,61 +127,44 @@ const App = (() => {
     const toggle = document.getElementById('menuToggle');
     const nav = document.getElementById('nav');
     if (!toggle || !nav) return;
-
     toggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('open');
       toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    nav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        nav.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-      });
     });
   }
 
   // ---------- SOCIAL LINKS ----------
   async function initSocial() {
     const settings = await Storage.getSettings();
-
-    const map = {
-      channelInstagram: settings.instagram,
-      channelLinkedin: settings.linkedin,
-      channelYoutube: settings.youtube,
-      channelTiktok: settings.tiktok
-    };
-
+    const map = { channelInstagram: settings.instagram, channelLinkedin: settings.linkedin, channelYoutube: settings.youtube, channelTiktok: settings.tiktok };
     Object.entries(map).forEach(([id, url]) => {
       const el = document.getElementById(id);
       if (el && url) el.href = url;
     });
   }
 
-  // ---------- YEAR ----------
   function initYear() {
     const el = document.getElementById('currentYear');
     if (el) el.textContent = new Date().getFullYear();
   }
 
-  // ---------- RENDER GERAL ----------
-  function  await renderAll() {
-    renderFilters();
-    renderProducts();
-    WhatsApp.updateLinks();
+  async function renderAll() {
+    await renderFilters();
+    await renderProducts();
+    if (typeof WhatsApp !== 'undefined') WhatsApp.updateLinks();
     await initSocial();
   }
 
-  // ---------- INIT ----------
-  function init() {
+  async function init() {
     initYear();
     initHeaderScroll();
     initMenu();
     initForm();
-    renderAll();
+    await renderAll();
 
-    // Re-renderiza quando o idioma muda
-    document.addEventListener('langchange', renderAll);
+    document.addEventListener('langchange', async () => {
+      await renderAll();
+    });
   }
 
   return { init, renderAll };
