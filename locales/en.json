@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "products": "Products",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title_part1": "The best digital products,",
+    "title_part2": "curated for you.",
+    "subtitle": "Global curation for those seeking real results.",
+    "trust_1": "+2,000 choices made",
+    "trust_2": "5★ on Google",
+    "trust_3": "Secure purchase"
+  },
+  "catalog": {
+    "tag": "Catalog",
+    "title": "Products, Tools and Insights",
+    "subtitle": "Everything you need in one place",
+    "empty": "No products yet. Come back soon!",
+    "all": "All"
+  },
+  "why": {
+    "tag": "Why us",
+    "title": "Why Choices Insights",
+    "subtitle": "Curation that saves you time and money",
+    "item1_title": "You save 20h of research",
+    "item1_desc": "Instead of digging through 50 different sites, you find everything curated in one place.",
+    "item2_title": "We only recommend what we test",
+    "item2_desc": "Nothing gets on our list without a real quality and results analysis."
+
+  },
+  "contact": {
+    "tag": "Contact",
+    "title": "Our channels",
+    "subtitle": "Reach out through your favorite channel",
+    "whatsapp_label": "WhatsApp",
+    "email_label": "E-mail",
+    "instagram_label": "Instagram",
+    "instagram_value": "@choicesinsights"
+  },
+  "form": {
+    "name": "Name",
+    "email": "E-mail",
+    "message": "Message",
+    "send": "Send message",
+    "lgpd": "I agree to receive communications and accept the Privacy Policy.",
+    "success": "Message sent successfully! We'll get back to you soon.",
+    "error": "Error sending. Try again or reach us on WhatsApp."
+  },
+  "product": {
+    "view": "See offer",
+    "featured": "Featured"
+  },
+  "footer": {
+    "tagline": "Global curation of the best digital products for those seeking real results.",
+    "nav_title": "Navigation",
+    "social_title": "Social media",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  }
+}
