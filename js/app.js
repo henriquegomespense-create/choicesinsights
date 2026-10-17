@@ -67,10 +67,12 @@ const App = (() => {
 
     return `
       <article class="product-card">
-        <div class="product-image">
-          <img src="${imageUrl}" alt="${title}" loading="lazy">
-          ${badge ? `<span class="product-badge ${badge.cls}">${badge.text}</span>` : ''}
-        </div>
+                <div class="product-image" style="height: 220px; width: 100%; overflow: hidden;">
+          <img src="${imgUrl ? escapeHtml(imgUrl) : fallbackImg}" 
+               alt="${title}" 
+               loading="lazy"
+               style="width: 100%; height: 100%; object-fit: contain;"
+               onerror="this.onerror=null; this.src='${fallbackImg}';">
         <div class="product-body">
           <h3 class="product-title">${title}</h3>
           <p class="product-description">${desc}</p>
