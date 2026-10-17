@@ -5,7 +5,6 @@
 const App = (() => {
   let currentCategory = 'all';
 
-  // Pega o texto traduzido, aceitando se vier como string ou objeto {pt, en, es}
   function getLocalized(obj) {
     if (!obj) return '';
     if (typeof obj === 'string') return obj;
@@ -22,33 +21,33 @@ const App = (() => {
   async function renderFilters() {
     const container = document.getElementById('filters');
     if (!container) return;
-    
-    const categories = await Storage.getCategories();
-    const allLabel = I18N.t('catalog.all') || 'Todos';
-    let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeHtml(allLabel)}</button>`;
-    
-    categories.forEach(cat => {
-      const name = getLocalized(cat.name);
-      html += `<button class="filter-btn ${currentCategory === cat.id ? 'active' : ''}" data-cat="${escapeHtml(cat.id)}">${escapeHtml(name)}</button>`;
-    });
-    container.innerHTML = html;
-
-    container.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        currentCategory = btn.dataset.cat;
-        renderFilters();
-        renderProducts();
+    try {
+      const categories = await Storage.getCategories();
+      const allLabel = I18N.t('catalog.all') || 'Todos';
+      let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeHtml(allLabel)}</button>`;
+      
+      categories.forEach(cat => {
+        const name = getLocalized(cat.name);
+        html += `<button class="filter-btn ${currentCategory === cat.id ? 'active' : ''}" data-cat="${escapeHtml(cat.id)}">${escapeHtml(name)}</button>`;
       });
-    });
+      container.innerHTML = html;
+
+      container.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentCategory = btn.dataset.cat;
+          renderFilters();
+          renderProducts();
+        });
+      });
+    } catch (e) {
+      console.warn("Filtros não carregados.");
+    }
   }
 
   // ---------- RENDER: CARD DE PRODUTO ----------
   function productCardHTML(product) {
-    // Pega o título de forma segura (caso o Firebase retorne formatos diferentes)
     const rawTitle = product.title || 'Produto';
     const title = escapeHtml(getLocalized(rawTitle));
-    
-    // Pega a descrição de forma segura
     const rawDesc = product.description || '';
     const desc = escapeHtml(getLocalized(rawDesc));
 
@@ -59,20 +58,20 @@ const App = (() => {
     };
     const badge = badgeMap[product.badge];
 
-    // Verifica se a imagem existe, senão gera o fundo roxo padrão
     const imgUrl = product.imageUrl || '';
-    const imageUrl = imgUrl 
-      ? escapeHtml(imgUrl) 
-      : 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect width="400" height="250" fill="#4A3FD1"/><text x="50%" y="50%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="20">${title.slice(0, 30)}</text></svg>`);
+    const fallbackImg = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect width="400" height="250" fill="#4A3FD1"/><text x="50%" y="50%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="20">${title.slice(0, 30)}</text></svg>`);
 
+    // Força o estilo direto no HTML para não depender de CSS externo
     return `
       <article class="product-card">
-                <div class="product-image" style="height: 220px; width: 100%; overflow: hidden;">
+        <div class="product-image" style="height: 220px; width: 100%; overflow: hidden; position: relative; background: #f4f4f8;">
           <img src="${imgUrl ? escapeHtml(imgUrl) : fallbackImg}" 
                alt="${title}" 
                loading="lazy"
                style="width: 100%; height: 100%; object-fit: contain;"
                onerror="this.onerror=null; this.src='${fallbackImg}';">
+          ${badge ? `<span class="product-badge ${badge.cls}">${badge.text}</span>` : ''}
+        </div>
         <div class="product-body">
           <h3 class="product-title">${title}</h3>
           <p class="product-description">${desc}</p>
@@ -96,11 +95,8 @@ const App = (() => {
     try {
       let products = await Storage.getProducts();
       
-      // Filtra ativos
       if (products && products.length > 0) {
         products = products.filter(p => p.active !== false);
-        
-        // Filtra por categoria
         if (currentCategory !== 'all') {
           products = products.filter(p => p.category === currentCategory);
         }
@@ -117,7 +113,7 @@ const App = (() => {
       
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
-      grid.innerHTML = '<p style="text-align:center; width:100%; padding: 20px; color: red;">Erro ao carregar os produtos. Tente novamente.</p>';
+      grid.innerHTML = '<p style="text-align:center; width:100%; padding: 20px; color: red;">Erro ao carregar os produtos. Verifique sua conexão.</p>';
     }
   }
 
@@ -145,14 +141,12 @@ const App = (() => {
     });
   }
 
-  // ---------- HEADER SCROLL ----------
   function initHeaderScroll() {
     const header = document.getElementById('header');
     if (!header) return;
     window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
   }
 
-  // ---------- MENU MOBILE ----------
   function initMenu() {
     const toggle = document.getElementById('menuToggle');
     const nav = document.getElementById('nav');
@@ -163,14 +157,17 @@ const App = (() => {
     });
   }
 
-  // ---------- SOCIAL LINKS ----------
   async function initSocial() {
-    const settings = await Storage.getSettings();
-    const map = { channelInstagram: settings.instagram, channelLinkedin: settings.linkedin, channelYoutube: settings.youtube, channelTiktok: settings.tiktok };
-    Object.entries(map).forEach(([id, url]) => {
-      const el = document.getElementById(id);
-      if (el && url) el.href = url;
-    });
+    try {
+      const settings = await Storage.getSettings();
+      const map = { channelInstagram: settings.instagram, channelLinkedin: settings.linkedin, channelYoutube: settings.youtube, channelTiktok: settings.tiktok };
+      Object.entries(map).forEach(([id, url]) => {
+        const el = document.getElementById(id);
+        if (el && url) el.href = url;
+      });
+    } catch (e) {
+      console.warn("Redes sociais não configuradas.");
+    }
   }
 
   function initYear() {
