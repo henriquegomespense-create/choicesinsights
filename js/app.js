@@ -5,8 +5,10 @@
 const App = (() => {
   let currentCategory = 'all';
 
+  // Pega o texto traduzido, aceitando se vier como string ou objeto {pt, en, es}
   function getLocalized(obj) {
     if (!obj) return '';
+    if (typeof obj === 'string') return obj;
     const lang = I18N.lang || 'pt';
     return obj[lang] || obj.pt || '';
   }
@@ -20,6 +22,7 @@ const App = (() => {
   async function renderFilters() {
     const container = document.getElementById('filters');
     if (!container) return;
+    
     const categories = await Storage.getCategories();
     const allLabel = I18N.t('catalog.all') || 'Todos';
     let html = `<button class="filter-btn ${currentCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeHtml(allLabel)}</button>`;
@@ -41,12 +44,26 @@ const App = (() => {
 
   // ---------- RENDER: CARD DE PRODUTO ----------
   function productCardHTML(product) {
-    const title = escapeHtml(getLocalized(product.title));
-    const desc = escapeHtml(getLocalized(product.description));
-    const badgeMap = { new: { text: 'Novo', cls: 'badge-new' }, promo: { text: 'Promoção', cls: 'badge-promo' }, top: { text: 'Top', cls: 'badge-top' } };
+    // Pega o título de forma segura (caso o Firebase retorne formatos diferentes)
+    const rawTitle = product.title || 'Produto';
+    const title = escapeHtml(getLocalized(rawTitle));
+    
+    // Pega a descrição de forma segura
+    const rawDesc = product.description || '';
+    const desc = escapeHtml(getLocalized(rawDesc));
+
+    const badgeMap = { 
+      new: { text: 'Novo', cls: 'badge-new' }, 
+      promo: { text: 'Promoção', cls: 'badge-promo' }, 
+      top: { text: 'Top', cls: 'badge-top' } 
+    };
     const badge = badgeMap[product.badge];
 
-    const imageUrl = product.imageUrl ? escapeHtml(product.imageUrl) : 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect width="400" height="250" fill="#4A3FD1"/><text x="50%" y="50%" text-anchor="middle" fill="white" font-size="20">${title.slice(0, 30)}</text></svg>`);
+    // Verifica se a imagem existe, senão gera o fundo roxo padrão
+    const imgUrl = product.imageUrl || '';
+    const imageUrl = imgUrl 
+      ? escapeHtml(imgUrl) 
+      : 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250"><rect width="400" height="250" fill="#4A3FD1"/><text x="50%" y="50%" text-anchor="middle" fill="white" font-family="sans-serif" font-size="20">${title.slice(0, 30)}</text></svg>`);
 
     return `
       <article class="product-card">
@@ -57,8 +74,8 @@ const App = (() => {
         <div class="product-body">
           <h3 class="product-title">${title}</h3>
           <p class="product-description">${desc}</p>
-          <a href="${escapeHtml(product.link)}" class="product-btn" target="_blank" rel="noopener">
-            <span>${I18N.t('product.view')}</span>
+          <a href="${escapeHtml(product.link || '#')}" class="product-btn" target="_blank" rel="noopener">
+            <span>${I18N.t('product.view') || 'Ver oferta'}</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
         </div>
@@ -72,23 +89,34 @@ const App = (() => {
     const empty = document.getElementById('emptyProducts');
     if (!grid) return;
 
-    grid.innerHTML = '<p style="text-align:center; width:100%;">Carregando produtos...</p>';
+    grid.innerHTML = '<p style="text-align:center; width:100%; padding: 20px;">Carregando produtos...</p>';
     
-    let products = await Storage.getProducts();
-    products = products.filter(p => p.active);
+    try {
+      let products = await Storage.getProducts();
+      
+      // Filtra ativos
+      if (products && products.length > 0) {
+        products = products.filter(p => p.active !== false);
+        
+        // Filtra por categoria
+        if (currentCategory !== 'all') {
+          products = products.filter(p => p.category === currentCategory);
+        }
+      }
 
-    if (currentCategory !== 'all') {
-      products = products.filter(p => p.category === currentCategory);
+      if (!products || products.length === 0) {
+        grid.innerHTML = '';
+        if (empty) empty.style.display = 'block';
+        return;
+      }
+
+      if (empty) empty.style.display = 'none';
+      grid.innerHTML = products.map(productCardHTML).join('');
+      
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+      grid.innerHTML = '<p style="text-align:center; width:100%; padding: 20px; color: red;">Erro ao carregar os produtos. Tente novamente.</p>';
     }
-
-    if (products.length === 0) {
-      grid.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-
-    empty.style.display = 'none';
-    grid.innerHTML = products.map(productCardHTML).join('');
   }
 
   // ---------- FORMULÁRIO ----------
