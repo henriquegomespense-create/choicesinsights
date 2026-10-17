@@ -115,7 +115,14 @@
       <div class="admin-tab-content" data-content="settings">
         <div class="admin-section-header">
           <h2>Configurações gerais</h2>
-          <button class="btn btn-primary" id="saveSettingsBtn">Salvar alterações</button>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-ghost" id="exportDataBtn">⬇️ Exportar Backup</button>
+            <label class="btn btn-ghost" style="cursor: pointer; margin: 0;">
+              ⬆️ Importar Backup
+              <input type="file" id="importDataInput" accept=".json" style="display: none;">
+            </label>
+            <button class="btn btn-primary" id="saveSettingsBtn">Salvar alterações</button>
+          </div>
         </div>
 
         <div class="settings-card">
