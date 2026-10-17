@@ -5,7 +5,7 @@
 
 const I18N = (() => {
   const SUPPORTED = ['pt', 'en', 'es'];
-  const DEFAULT = 'pt';
+  const DEFAULT = 'en';
   const STORAGE_KEY = 'ci_lang';
 
   let currentLang = DEFAULT;
@@ -115,10 +115,11 @@ const I18N = (() => {
 
   function detectLang() {
     const saved = localStorage.getItem(STORAGE_KEY);
+    // Se o usuário já escolheu um idioma antes, respeita a escolha
     if (saved && SUPPORTED.includes(saved)) return saved;
-    const browser = (navigator.language || 'pt').slice(0, 2).toLowerCase();
-    if (SUPPORTED.includes(browser)) return browser;
-    return DEFAULT;
+    
+    // Força o inglês como padrão para novos visitantes
+    return 'en'; 
   }
 
   function get(obj, path) {
