@@ -178,7 +178,6 @@ const App = (() => {
   async function renderAll() {
     await renderFilters();
     await renderProducts();
-    if (typeof WhatsApp !== 'undefined') WhatsApp.updateLinks();
     await initSocial();
   }
 
