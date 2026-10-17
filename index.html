@@ -228,22 +228,9 @@
   </a>
 
   <div class="toast" id="toast"></div>
- <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    
-    const firebaseConfig = {
-      apiKey: "AIzaSyAP8Ze2JTy-J_M12pn6Ma66kZ96GuAcob8",
-      authDomain: "choices-insights.firebaseapp.com",
-      projectId: "choices-insights",
-      storageBucket: "choices-insights.firebasestorage.app",
-      messagingSenderId: "31728810377",
-      appId: "1:31728810377:web:a87a8e64cff6e853264f20"
-    };
+    <!-- Firebase SDK -->
+ 
 
-    const app = initializeApp(firebaseConfig);
-    window.db = getFirestore(app); // Salva o banco de dados globalmente para o storage.js usar
-  </script>
   <script src="js/i18n.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/whatsapp.js"></script>
