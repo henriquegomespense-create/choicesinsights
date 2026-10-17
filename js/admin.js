@@ -523,6 +523,49 @@
       document.getElementById('saveCategoryBtn').addEventListener('click', saveCategory);
       document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
       document.getElementById('exportLeadsBtn').addEventListener('click', exportLeadsCSV);
+            // --- SISTEMA DE BACKUP ---
+      const exportBtn = document.getElementById('exportDataBtn');
+      const importInput = document.getElementById('importDataInput');
+
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          const data = {
+            products: Storage.getProducts(),
+            categories: Storage.getCategories(),
+            settings: Storage.getSettings()
+          };
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `choices-backup-${new Date().toISOString().split('T')[0]}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('Backup exportado!');
+        });
+      }
+
+      if (importInput) {
+        importInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const data = JSON.parse(event.target.result);
+              if (data.products) localStorage.setItem('ci_products', JSON.stringify(data.products));
+              if (data.categories) localStorage.setItem('ci_categories', JSON.stringify(data.categories));
+              if (data.settings) localStorage.setItem('ci_settings', JSON.stringify(data.settings));
+              showToast('Backup importado com sucesso!');
+              setTimeout(() => location.reload(), 1500);
+            } catch (err) {
+              showToast('Erro ao ler o arquivo.', 'error');
+            }
+          };
+          reader.readAsText(file);
+        });
+      }
+      // --- FIM DO SISTEMA DE BACKUP ---
   
       renderProductsList();
     }
