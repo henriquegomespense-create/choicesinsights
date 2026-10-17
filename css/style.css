@@ -374,14 +374,15 @@
 
 .product-image {
   position: relative;
-  aspect-ratio: 16 / 10;
+  width: 100%;
+  height: 200px; /* Altura fixa para manter o padrão do card */
   background: var(--gray-100);
   overflow: hidden;
 }
 .product-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Isso faz a imagem caber sem cortar e sem distorcer */
   transition: transform var(--transition-slow);
 }
 .product-card:hover .product-image img { transform: scale(1.05); }
