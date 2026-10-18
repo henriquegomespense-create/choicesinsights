@@ -93,7 +93,7 @@ const App = (() => {
     grid.innerHTML = '<p style="text-align:center; width:100%; padding: 20px;">Carregando produtos...</p>';
     
     try {
-      let products = await Storage.getProducts();
+      let products = (typeof DadosEstaticos !== 'undefined') ? DadosEstaticos.products : await Storage.getProducts();
       
       if (products && products.length > 0) {
         products = products.filter(p => p.active !== false);
