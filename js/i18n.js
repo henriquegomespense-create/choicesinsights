@@ -161,6 +161,7 @@ const I18N = (() => {
 
   function init() {
     currentLang = detectLang();
+    document.documentElement.lang = currentLang; // Define o idioma do HTML
     applyToDOM();
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
