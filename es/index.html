@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <head>
+        <!-- CONFIGURAÇÕES BÁSICAS -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- 1. SEO BÁSICO -->
+        <title>Choices Insights | Curated Products for a Better Life</title>
+        <meta name="description" content="Discover our curated selection of products for Health, E-Commerce, and Personal Development. High-quality items with international shipping to the US, Canada, and Australia.">
+        <meta name="keywords" content="curated products, health and fitness, digital marketing, personal development, e-commerce, international shipping">
+        <meta name="author" content="Choices Insights">
+        <meta name="robots" content="index, follow">
+    
+        <!-- 2. SEO INTERNACIONAL (HREFLANG) -->
+        <link rel="alternate" hreflang="en" href="https://choicesinsights.com/" />
+        <link rel="alternate" hreflang="pt" href="https://choicesinsights.com/pt/" />
+        <link rel="alternate" hreflang="es" href="https://choicesinsights.com/es/" />
+        <link rel="alternate" hreflang="x-default" href="https://choicesinsights.com/" />
+    
+        <!-- 3. REDES SOCIAIS (OPEN GRAPH / TWITTER) -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://choicesinsights.com/">
+        <meta property="og:title" content="Choices Insights | Curated Products">
+        <meta property="og:description" content="High-quality curated products with international shipping.">
+        <meta property="og:image" content="https://choicesinsights.com/images/banner-logo.png">
+    
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Choices Insights | Curated Products">
+        <meta name="twitter:description" content="High-quality curated products with international shipping.">
+        <meta name="twitter:image" content="https://choicesinsights.com/images/banner-logo.png">
+
+<!-- ESTILOS DO CABEÇALHO (CSS) -->
+    <style>
+        /* 1. RESET BÁSICO (Zera as margens que o navegador coloca por padrão) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Garante que o padding não aumente o tamanho das caixas */
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Fonte limpa e legível */
+            background-color: #f9f9f9; /* Fundo levemente cinza para destacar o cabeçalho branco */
+        }
+
+        /* 2. O CONTAINER (O segredo da centralização) */
+        .header-container {
+            width: 90%; /* No celular, ocupa 90% da tela, deixando uma margem de 5% de cada lado */
+            max-width: 1200px; /* No PC, não passa de 1200px */
+            margin: 0 auto; /* O 'auto' nas laterais centraliza a caixa na tela */
+            display: flex; /* Coloca o logo e os idiomas na mesma linha */
+            justify-content: space-between; /* Joga o logo para a esquerda e os idiomas para a direita */
+            align-items: center; /* Alinha os dois verticalmente no meio */
+            padding: 15px 0; /* Dá um respiro em cima e embaixo */
+        }
+
+        /* 3. O CABEÇALHO */
+        .site-header {
+            background-color: #ffffff; /* Fundo branco */
+            border-bottom: 1px solid #eaeaea; /* Uma linha cinza bem fina embaixo para separar do resto */
+            position: sticky; /* Faz o cabeçalho "grudar" no topo quando rolar a página */
+            top: 0;
+            z-index: 100; /* Garante que o cabeçalho fique por cima de tudo */
+        }
+
+        /* 4. O LOGO DO CABEÇALHO */
+        .logo-img {
+            width: 100px; /* Define a largura máxima que o logo terá */
+            height: auto; /* Mantém a proporção para não achatar a imagem */
+            display: block;
+        }
+
+        /* 5. O SELETOR DE IDIOMAS */
+        .language-nav {
+            display: flex;
+            gap: 15px; /* Dá um espaço de 15px entre as palavras EN, PT, ES */
+            align-items: center;
+        }
+
+        .lang-current {
+            font-weight: bold;
+            color: #333333;
+            font-size: 16px;
+        }
+
+        .lang-link {
+            text-decoration: none; /* Remove o sublinhado feio */
+            color: #666666;
+            font-size: 16px;
+            transition: color 0.3s; /* Efeito suave quando passar o mouse */
+            padding: 5px; /* Aumenta a área de clique no celular */
+        }
+
+        .lang-link:hover {
+            color: #FF6B35; /* Muda para laranja ao passar o mouse */
+        }
+/* 7. HERO SECTION */
+/* Ajuste para telas maiores (Mobiles) */
+                .hero-section {
+            background-color: #ffffff; /* Fundo branco para destacar a Hero */
+            padding: 30px 0; /* Dá um respiro grande em cima e embaixo */
+            text-align: center; /* Centraliza todo o conteúdo (imagem e texto) */
+        }
+
+        .hero-container {
+            width: 90%;
+            max-width: 900px; /* Um pouco mais estreito que o cabeçalho para o texto não ficar longo demais */
+            margin: 0 auto;
+        }
+
+        /* O Banner Logo */
+        .hero-banner {
+            max-width: 100%; /* Garante que a imagem não estoure a tela do celular */
+            width: 400px; /* Tamanho ideal para desktop */
+            height: auto;
+            margin-bottom: 2px; /* Espaço entre o logo e a tagline (texto logo abaixo do logo)*/
+        }
+
+        /* A Tagline (texto logo abaixo do logo)*/
+        .hero-tagline {
+            font-size: 28px; /* Tamanho da fonte */
+            color: #333333; /* Cor do texto */
+            font-weight: 600; /* Deixa o texto levemente em negrito */
+            line-height: 1.3; /* Espaçamento entre as linhas (se quebrar no celular) */
+        }
+
+        /* Ajuste para telas maiores (Computador) */
+        @media (min-width: 768px) {
+            .hero-section {
+                padding: 30px 0; /* Mais espaço no PC */
+            }
+            .hero-tagline {
+                font-size: 22px; /* Tagline maior no PC */
+            }
+        }
+/* 8. SEÇÃO DE PARCEIROS (TRUST BAR) */
+                .partners-section {
+            background-color: #ffffff; /* Fundo branco */
+            padding: 5px 0; /* Respiro pequeno em cima e embaixo */
+            border-bottom: 0px solid #eaeaea; /* Linha fina separando dos produtos */
+        }
+
+        .partners-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .partners-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #000000;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* O Grid dos Logos */
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap; /* MÁGICA: Permite que os itens "pulem" para a linha de baixo se não couberem */
+            justify-content: center; /* Centraliza os logos */
+            align-items: center;
+            gap: 10px; /* Espaço entre os logos */
+        }
+
+        .partner-logo {
+            max-width: 100px; /* Tamanho máximo de largura no celular */
+            height: auto;
+            opacity: 100; /* vívido */
+            transition: all 0.3s ease; /* Efeito suave */
+        }
+
+        /* Ajuste para PC */
+        @media (min-width: 768px) {
+            .partners-section {
+                padding: 1px 0;
+            }
+            .partners-grid {
+                gap: 10px; /* Mais espaço entre os logos no PC */
+            }
+            .partner-logo {
+                max-width: 90px; /* Logos um pouco maiores no PC */
+            }
+        }
+/* 9. SEÇÃO DE PRODUTOS */
+                .products-section {
+            padding: 10px 0;
+            background-color: #ffffff; /* Fundo da seção */
+        }
+
+        .products-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* O Grid (Grade) - Mobile First (1 coluna no celular) */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile: 1 coluna */
+            gap: 10px; /* Espaço entre os cards */
+            justify-content: center; /* Deixa um produto apenas no centro do grid */
+        }
+
+        /* O Cartão */
+        .product-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Sombra mais suave */
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px); /* Cartão sobe */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.12); /* Sombra aumenta */
+        }
+
+        .product-image {
+            width: 50%;
+            height: 180px; /*Isso deixa o card mais compacto */
+            object-fit: cover;
+            margin: 0 auto;
+    
+        }
+
+        .product-info {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #CD071C;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .product-desc {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Botão Comprar */
+        .btn-buy {
+            display: block;
+            text-align: center;
+            background-color: #CD071C;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: auto; /* Mantém os botões alinhados no fundo */
+            transition: background-color 0.3s;
+        }
+
+        .btn-buy:hover {
+            background-color: #000d89;
+        }
+
+        /* Responsividade para PC (3 colunas) */
+        @media (min-width: 768px) {
+            .products-section {
+                padding: 40px 0;
+                justify-content: center;/* Deixa um produto apenas no centro do grid */
+            }
+            .section-header h2 {
+                font-size: 36px;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+                justify-content: center;/* Centraliza os cards na tela */
+            }
+        }
+
+/* 10. SEÇÃO DE CONTATO (CAPTURA DE LEADS) */
+
+                .contact-section {
+            padding: 60px 0;
+            background-color: #ffffff;
+        }
+
+        .contact-container {
+            width: 90%;
+            max-width: 600px; /* Formulário não deve ser muito largo */
+            margin: 0 auto;
+            background-color: #ffffff; /* O "card" do formulário */
+            padding: 5px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* Sombra bonita */
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contact-header h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .contact-header p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Campos do Formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px; /* Tamanho 16px evita zoom automático no iPhone */
+            font-family: inherit;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s;
+        }
+
+        /* Efeito ao clicar no campo */
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #CD071C; /* Cor vermelha da sua marca */
+            background-color: #ffffff;
+        }
+
+        /* Botão de Envio */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: #CD071C;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #000d89; /* Azul escuro da sua marca */
+        }
+
+        /* Nota de Privacidade */
+        .privacy-note {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+        }
+
+        /* Ajuste para PC */
+        @media (min-width: 768px) {
+            .contact-section {
+                padding: 10px 0;
+            }
+            .contact-container {
+                padding: 50px 40px;
+            }
+            .contact-header h2 {
+                font-size: 32px;
+            }
+        }
+
+/* 11. RODAPÉ (FOOTER) */
+
+                .site-footer {
+            background-color: #1a1a1a; /* Fundo quase preto (elegante) */
+            padding: 40px 0;
+            border-top: 0px solid #CD071C; /* SEM LINHA DEMARCATÓRIA */
+        }
+
+        .footer-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column; /* No celular, um embaixo do outro */
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        /* Logo do Rodapé */
+        .footer-logo-img {
+            width: 120px; /* Tamanho pequeno */
+            height: auto;
+            opacity: 0.8;
+        }
+
+        /* Textos do Rodapé */
+        .footer-info p {
+            color: #888888; /* Cinza claro */
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .footer-link {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #CD071C; /* Fica vermelho no hover */
+        }
+
+        /* Ajuste para PC */
+        @media (min-width: 768px) {
+            .footer-container {
+                flex-direction: row; /* No PC, logo na esquerda e texto na direita */
+                justify-content: space-between;
+                text-align: left; /* Texto alinhado à esquerda no PC */
+            }
+            
+            .footer-info {
+                text-align: right; /* Textos alinhados à direita no PC */
+            }
+        }
+    </style>
+    
+    </head>
+</head>
+<body>
+    <body>
+    <!-- INÍCIO DO CABEÇALHO -->
+    <header class="site-header">
+        <div class="header-container">
+            
+            <!-- 1.1 Logo (Esquerda) -->
+            <a href="/" class="logo-link" aria-label="Choices Insights - Home">
+                <img src="images/choicesinsights-banner2.png" alt="Choices Insights Logo" class="logo-img">
+            </a>
+
+            <!-- 1.2 Seletor de Idiomas (Direita) -->
+            <nav class="language-nav" aria-label="Language Selector">
+                <!-- O idioma atual (EN) não tem link para não confundir o usuário -->
+                <span class="lang-current">EN</span>
+                
+                <!-- Links para os outros idiomas -->
+                <a href="pt/" hreflang="pt" class="lang-link">EN</a>
+                <a href="es/" hreflang="es" class="lang-link">PT</a>
+            </nav>
+
+        </div>
+    </header>
+    <!-- FIM DO CABEÇALHO -->
+
+         <!-- INÍCIO DA HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-container">
+            
+            <!-- Banner Logo -->
+            <img src="images/choicesinsights-banner3.png" alt="Choices Insights" class="hero-banner">
+            
+            <!-- Tagline -->
+            <h1 class="hero-tagline">The best products, curated for you.</h1>
+            
+        </div>
+    </section>
+    <!-- FIM DA HERO SECTION -->
+<!-- INÍCIO DA SEÇÃO DE PARCEIROS -->
+    <section class="partners-section">
+        <div class="partners-container">
+            <p class="partners-title">Trusted by top platforms worldwide</p>
+            
+            <div class="partners-grid">
+                <img src="images/clickbank-logo.png" alt="ClickBank" class="partner-logo">
+                <img src="images/digistore-logo.png" alt="Digistore24" class="partner-logo">
+                <img src="images/monetize-logo.png" alt="Monetize" class="partner-logo">
+                <img src="images/hotmart-logo.png" alt="Hotmart" class="partner-logo">
+                <img src="images/kiwify-logo.png" alt="Kiwify" class="partner-logo">
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SEÇÃO DE PARCEIROS -->
+<!-- INÍCIO DA SEÇÃO DE PRODUTOS -->
+    <section class="products-section">
+        <div class="products-container">
+            
+            <div class="section-header">
+                <h2>Top Selling Products</h2>
+                <p>Validated for a secure purchase</p>
+            </div>
+
+            <div class="products-grid">
+                
+                <!-- PRODUTO 1 -->
+                <article class="product-card">
+                    <img src="images/ozenvitta.png" alt="ozenvitta" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Health & Fitness</span>
+                        <h3 class="product-title">OZENVITA</h3>
+                        <p class="product-desc">Lose weight, gain confidence, and achieve the quality of life you so greatly want and need</p>
+                        <a href="#" class="btn-buy">Buy Now</a>
+                    </div>
+                </article>
+
+                <!-- PRODUTO 2 -->
+                <article class="product-card">
+                    <img src="images/A Jornada De Mariana - Uma Aventura Sobre A Mente Humana_livro500x700.png" alt="A Jornada De Mariana" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category">Personal Development</span>
+                        <h3 class="product-title">Mariana’s Journey</h3>
+                        <p class="product-desc">A story of self-discovery, courage, and the small choices that can transform one’s life</p>
+                        <a href="#" class="btn-buy">Buy Now</a>
+                    </div>
+                </article>
+
+
+            </div>
+        </div>
+    </section>
+    <!-- FIM DA SEÇÃO DE PRODUTOS -->
+
+    <!-- INÍCIO DA SEÇÃO DE CONTATO (CAPTURA DE LEADS) -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            
+            <div class="contact-header">
+                <h2>Get Exclusive Insights</h2>
+                <p>Join our list to receive the best curated products and exclusive offers directly in your inbox.</p>
+            </div>
+
+            <!-- O Formulário -->
+            <!-- Substitua o e-mail abaixo pelo seu e-mail real de recebimento -->
+<form action="https://formsubmit.co/henriquegomes.pense@gmail.com" method="POST" class="lead-form">
+                
+                <!-- Campo Nome -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                </div>
+
+                <!-- Campo Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+
+                <!-- Campo Telefone -->
+                <div class="form-group">
+                    <label for="phone">Phone Number (Optional)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000">
+                </div>
+
+                <!-- Campo Como nos conheceu -->
+                <div class="form-group">
+                    <label for="source">How did you find us?</label>
+                    <select id="source" name="source" required>
+                        <option value="" disabled selected>Select an option...</option>
+                        <option value="google">Google Search</option>
+                        <option value="social">Social Media</option>
+                        <option value="referral">Friend / Referral</option>
+                        <option value="email">Email</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Botão de Envio -->
+                <button type="submit" class="btn-submit">Subscribe Now</button>
+                
+                <p class="privacy-note">🔒 We respect your privacy. Unsubscribe at any time.</p>
+
+            </form>
+
+        </div>
+    </section>
+    <!-- FIM DA SEÇÃO DE CONTATO -->
+
+    <!-- INÍCIO DO RODAPÉ -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <!-- Logo Pequeno -->
+            <div class="footer-logo">
+                <img src="images/choicesinsights-circle1.png" alt="footer-logo-img" class="footer-logo-img">
+            </div>
+
+            <!-- Informações Legais e Copyright -->
+            <div class="footer-info">
+                <p>&copy; 2026 Choices Insights. All rights reserved.</p>
+                <p>
+                    <a href="/terms" class="footer-link">Terms of Use</a> | 
+                    <a href="/privacy" class="footer-link">Privacy Policy</a>
+                </p>
+            </div>
+
+        </div>
+    </footer>
+    <!-- FIM DO RODAPÉ -->
+</body>
+</html>
