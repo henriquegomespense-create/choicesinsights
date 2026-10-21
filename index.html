@@ -30,6 +30,72 @@
         <meta name="twitter:title" content="Choices Insights | Curated Products">
         <meta name="twitter:description" content="High-quality curated products with international shipping.">
         <meta name="twitter:image" content="https://choicesinsights.com/images/banner-logo.png">
+        
+    <!-- 4. DADOS ESTRUTURADOS (SCHEMA.ORG) PARA SEO AVANÇADO -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Choices Insights",
+          "url": "https://choicesinsights.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://choicesinsights.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+        
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Product",
+                "name": "OZENVITA",
+                "image": "https://choicesinsights.com/images/ozenvitta.png",
+                "description": "Lose weight, gain confidence, and achieve the quality of life you so greatly want and need",
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Ozenvita"
+                },
+                "offers": {
+                  "@type": "Offer",
+                  "url": "https://choicesinsights.com/ozenvitta/",
+                  "priceCurrency": "USD",
+                  "price": "49.00",
+                  "availability": "https://schema.org/InStock"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Product",
+                "name": "Mariana's Journey",
+                "image": "https://choicesinsights.com/images/A Jornada De Mariana - Uma Aventura Sobre A Mente Humana_livro500x700.png",
+                "description": "A story of self-discovery, courage, and the small choices that can transform one's life",
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Choices Insights"
+                },
+                "offers": {
+                  "@type": "Offer",
+                  "url": "https://choicesinsights.com/kiwify/a-jornada-de-mariana/",
+                  "priceCurrency": "USD",
+                  "price": "19.00",
+                  "availability": "https://schema.org/InStock"
+                }
+              }
+            }
+          ]
+        }
+        </script>
 
 <!-- ESTILOS DO CABEÇALHO (CSS) -->
     <style>
@@ -473,6 +539,7 @@
                 text-align: right; /* Textos alinhados à direita no PC */
             }
         }
+
     </style>
     
     </head>
