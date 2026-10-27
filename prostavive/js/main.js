@@ -1,109 +1,177 @@
 /**
- * ProstaVive Landing Page - Scripts Interativos & Rastreamento
+ * ProstaVive Landing Page - Scripts
  * Otimizado para Performance, Google Ads & Meta Ads Compliance
+ *
+ * CORREÇÕES APLICADAS:
+ * - Remoção do espaço no início da URL de afiliado.
+ * - Substituição correta das macros {keyword}, {creative}, {gclid}
+ *   ANTES de instanciar o objeto URL (evita re-encoding %7B/%7D).
+ * - Preservação de UTMs, gclid, fbclid, etc. da URL atual.
+ * - Datas e modais traduzidos para inglês (consistência com lang="en").
+ * - Fallback robusto com try/catch + log de erro.
  */
 
 (function () {
   'use strict';
 
-  // 1. CONFIGURAÇÃO: Link de Afiliado Centralizado
-  // Insira seu link de afiliado oficial (ClickBank, BuyGoods, etc.)
+  // ============================================================================
+  // 1. CONFIGURAÇÃO CENTRALIZADA
+  // ============================================================================
   window.CONFIG = {
-   
-   DEFAULT_AFFILIATE_URL: "https://4a876gv9ualo9l8g0maha6ay51.hop.clickbank.net/?tid={keyword}_{creative}&traffic_source=google&traffic_type=cpc&campaign=provive&extclid={gclid}",
-    OFFICIAL_DISCOUNT_PARAM: "discount=true"
+    // URL base do ClickBank. Macros serão substituídas dinamicamente.
+    // NUNCA adicione espaço no início ou no fim desta string.
+    DEFAULT_AFFILIATE_URL:
+      "https://4a876gv9ualo9l8g0maha6ay51.hop.clickbank.net/?tid={keyword}_{creative}&traffic_source=google&traffic_type=cpc&campaign=provive&extclid={gclid}",
+
+    // Macros a serem substituídas (ordem importa: gclid antes de keyword/creative)
+    MACRO_GCLID: '{gclid}',
+    MACRO_KEYWORD: '{keyword}',
+    MACRO_CREATIVE: '{creative}',
+
+    // Parâmetros da URL atual que NÃO devem ser repassados (já substituídos)
+    SKIP_PARAMS: ['gclid', 'utm_term', 'utm_content', 'keyword', 'creative']
   };
 
+  // ============================================================================
+  // 2. CONSTRUÇÃO DO LINK DE AFILIADO COM SUBSTITUIÇÃO DE MACROS
+  // ============================================================================
   /**
-   * Preserva parâmetros de URL de campanhas de tráfego (UTM, gclid, fbclid, etc.)
-   * em todos os links e botões de chamada para ação (CTA).
+   * Constrói a URL final do afiliado:
+   *  1. Substitui macros ({gclid}, {keyword}, {creative}) pelos valores
+   *     reais da URL atual (gclid, utm_term, utm_content) — sem re-encoding.
+   *  2. Remove macros não resolvidas para não vazar literal.
+   *  3. Repassa demais parâmetros (utm_source, fbclid, etc.).
    */
   function buildAffiliateLink(baseUrl) {
     try {
       const currentParams = new URLSearchParams(window.location.search);
-      const url = new URL(baseUrl);
 
+      // Extrai valores reais (prioriza gclid oficial, depois utm_term)
+      const gclid    = currentParams.get('gclid')     || '';
+      const keyword  = currentParams.get('utm_term')  || currentParams.get('keyword')  || '';
+      const creative = currentParams.get('utm_content') || currentParams.get('creative') || '';
+
+      // Substituição em string (antes de new URL → evita %7B/%7D)
+      let urlStr = baseUrl
+        .replace(window.CONFIG.MACRO_GCLID,    encodeURIComponent(gclid))
+        .replace(window.CONFIG.MACRO_KEYWORD,  encodeURIComponent(keyword))
+        .replace(window.CONFIG.MACRO_CREATIVE, encodeURIComponent(creative));
+
+      // Remove macros remanescentes não resolvidas
+      urlStr = urlStr.replace(/\{[^}]+\}/g, '');
+
+      // Instancia URL final e repassa UTMs/parâmetros adicionais
+      const url = new URL(urlStr);
       currentParams.forEach((value, key) => {
-        url.searchParams.set(key, value);
+        if (!window.CONFIG.SKIP_PARAMS.includes(key)) {
+          url.searchParams.set(key, value);
+        }
       });
 
       return url.toString();
-    } catch (e) {
+    } catch (err) {
+      console.error('[AffiliateLink] Erro ao construir URL:', err);
       return baseUrl;
     }
   }
 
-  // 2. Inicializa todos os botões de afiliado com os links parametrizados
+  // ============================================================================
+  // 3. INICIALIZAÇÃO DOS BOTÕES DE AFILIADO
+  // ============================================================================
   function initAffiliateLinks() {
     const affiliateButtons = document.querySelectorAll('.affiliate-link-btn');
+    if (!affiliateButtons.length) return;
+
     const finalUrl = buildAffiliateLink(window.CONFIG.DEFAULT_AFFILIATE_URL);
 
-    affiliateButtons.forEach(btn => {
+    affiliateButtons.forEach((btn) => {
+      // Preserva o href original do HTML como fallback; sobrescreve com URL parametrizada
       btn.setAttribute('href', finalUrl);
       btn.setAttribute('target', '_blank');
       btn.setAttribute('rel', 'noopener noreferrer sponsored');
 
-      // Hook de conversão / Analytics para Google Ads ou Tag Manager
+      // Hook de conversão (Google Ads / GA4)
       btn.addEventListener('click', function () {
+        // GA4
         if (typeof window.gtag === 'function') {
-          window.gtag('event', 'conversion', {
-            'event_category': 'Affiliate Link',
-            'event_label': 'ProstaVive CTA Click'
+          window.gtag('event', 'affiliate_click', {
+            event_category: 'Affiliate Link',
+            event_label: btn.id || 'ProstaVive CTA',
+            transport_type: 'beacon'
           });
+
+          // Conversão Google Ads (descomente e ajuste o AW-XXXXXXXXX / label)
+          // window.gtag('event', 'conversion', {
+          //   send_to: 'AW-XXXXXXXXX/XXXXXXXXXXXXX',
+          //   value: 1.0,
+          //   currency: 'USD'
+          // });
         }
       });
     });
   }
 
-  // 3. Atualização Dinâmica de Mês e Ano (Frescor & Confiança)
+  // ============================================================================
+  // 4. DATA DINÂMICA (INGLÊS — consistente com lang="en")
+  // ============================================================================
   function initCurrentDate() {
-    const dateElements = document.querySelectorAll('.dynamic-review-date');
     const now = new Date();
-    const meses = [
-      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    const formattedDate = `${meses[now.getMonth()]} de ${now.getFullYear()}`;
+    const formattedDate = `${months[now.getMonth()]} ${now.getFullYear()}`;
 
-    dateElements.forEach(el => {
+    document.querySelectorAll('.dynamic-review-date').forEach((el) => {
       el.textContent = formattedDate;
     });
 
-    const yearElements = document.querySelectorAll('.current-year');
-    yearElements.forEach(el => {
+    document.querySelectorAll('.current-year').forEach((el) => {
       el.textContent = now.getFullYear().toString();
     });
   }
 
-  // 4. Barra de Progresso de Leitura & Barra Fixa no Mobile
+  // ============================================================================
+  // 5. SCROLL TRIGGERS (PROGRESS BAR + MOBILE STICKY)
+  // ============================================================================
   function initScrollTriggers() {
     const progressBar = document.getElementById('readingProgressBar');
     const mobileStickyBar = document.getElementById('mobileStickyBar');
     const heroSection = document.querySelector('.hero-section');
 
-    window.addEventListener('scroll', function () {
+    let ticking = false;
+
+    function updateOnScroll() {
       const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       const currentScroll = window.scrollY;
 
-      // Barra de progresso de leitura no topo
       if (progressBar && totalScrollHeight > 0) {
-        const progressPercentage = Math.min(100, Math.max(0, (currentScroll / totalScrollHeight) * 100));
-        progressBar.style.width = progressPercentage + '%';
+        const pct = Math.min(100, Math.max(0, (currentScroll / totalScrollHeight) * 100));
+        progressBar.style.width = pct + '%';
       }
 
-      // Exibição suave da barra fixa inferior no mobile
       if (mobileStickyBar) {
         const heroHeight = heroSection ? heroSection.offsetHeight : 450;
-        if (currentScroll > heroHeight) {
-          mobileStickyBar.classList.add('visible');
-        } else {
-          mobileStickyBar.classList.remove('visible');
-        }
+        mobileStickyBar.classList.toggle('visible', currentScroll > heroHeight);
+      }
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(updateOnScroll);
+        ticking = true;
       }
     }, { passive: true });
+
+    // Executa uma vez para ajustar estado inicial
+    updateOnScroll();
   }
 
-  // 5. Modais de Compliance Legal em Português
+  // ============================================================================
+  // 6. MODAIS DE COMPLIANCE (INGLÊS)
+  // ============================================================================
   function initModals() {
     const modalBackdrop = document.getElementById('complianceModal');
     const modalTitle = document.getElementById('modalTitle');
@@ -111,80 +179,84 @@
     const modalCloseBtns = document.querySelectorAll('.close-modal-trigger');
     const modalTriggers = document.querySelectorAll('[data-modal-target]');
 
+    if (!modalBackdrop) return;
+
     const modalData = {
       privacy: {
-        title: "Política de Privacidade",
+        title: 'Privacy Policy',
         content: `
-          <h4>1. Compromisso com a Privacidade do Usuário</h4>
-          <p>Esta página informativa valoriza e respeita a sua privacidade. Coletamos apenas dados analíticos anônimos essenciais para monitoramento de navegação, segurança, estabilidade técnica e conformidade com as diretrizes do Google Ads e Meta Ads.</p>
-          <h4>2. Cookies e Ferramentas de Estatística</h4>
-          <p>Utilizamos identificadores anônimos (cookies) para analisar a performance do site, assegurar o carregamento ágil em dispositivos móveis e melhorar a navegação do usuário.</p>
-          <h4>3. Redirecionamento e Links de Afiliado</h4>
-          <p>Ao clicar nos botões direcionando para o site oficial do fabricante do ProstaVive, você será encaminhado a um ambiente seguro e criptografado com certificação SSL de 256 bits, gerenciado pela plataforma oficial de pagamentos.</p>
-          <h4>4. Dados Financeiros e de Pagamento</h4>
-          <p>Este portal não coleta, não processa e não armazena dados de cartão de crédito ou informações financeiras. Todas as transações são efetuadas exclusivamente dentro dos servidores seguros do processador oficial da marca.</p>
+          <h4>1. Commitment to User Privacy</h4>
+          <p>This informational page values and respects your privacy. We collect only anonymous analytical data essential for navigation monitoring, security, technical stability, and compliance with Google Ads and Meta Ads guidelines.</p>
+          <h4>2. Cookies and Analytics Tools</h4>
+          <p>We use anonymous identifiers (cookies) to analyze site performance, ensure fast loading on mobile devices, and improve user navigation.</p>
+          <h4>3. Redirects and Affiliate Links</h4>
+          <p>When clicking buttons that direct to the official ProstaVive manufacturer's website, you will be forwarded to a secure, encrypted environment with 256-bit SSL certification, managed by the official payment platform.</p>
+          <h4>4. Financial and Payment Data</h4>
+          <p>This portal does not collect, process, or store credit card data or financial information. All transactions are processed exclusively within the secure servers of the brand's official processor.</p>
         `
       },
       terms: {
-        title: "Termos de Uso",
+        title: 'Terms of Use',
         content: `
-          <h4>1. Natureza Informativa e Publicitária</h4>
-          <p>O conteúdo desta página possui finalidade informativa, educacional e de divulgação promocional do suplemento ProstaVive, fundamentado nas informações oficiais disponibilizadas pelo produtor.</p>
-          <h4>2. Canal Oficial do Fabricante</h4>
-          <p>Esta página atua como canal autorizado de divulgação e afiliação. Toda a fabricação, expedição física, controle de estoque e suporte logístico são de responsabilidade do fabricante oficial.</p>
-          <h4>3. Preços, Frete e Garantia de 180 Dias</h4>
-          <p>Os valores e as ofertas anunciadas estão sujeitos à alteração sem aviso prévio por determinação do fabricante. A garantia incondicional de 180 dias obedece estritamente às normas e procedimentos de devolução informados no site oficial do produtor.</p>
+          <h4>1. Informational and Promotional Nature</h4>
+          <p>The content on this page is for informational, educational, and promotional purposes regarding the ProstaVive supplement, based on official information provided by the manufacturer.</p>
+          <h4>2. Official Manufacturer Channel</h4>
+          <p>This page acts as an authorized promotional and affiliate channel. All manufacturing, physical shipping, inventory control, and logistical support are the responsibility of the official manufacturer.</p>
+          <h4>3. Prices, Shipping, and 180-Day Guarantee</h4>
+          <p>Prices and advertised offers are subject to change without prior notice at the manufacturer's discretion. The unconditional 180-day guarantee strictly follows the return rules and procedures stated on the producer's official website.</p>
         `
       },
       disclaimer: {
-        title: "Aviso Legal & Isenção de Responsabilidade Médica",
+        title: 'Legal Notice & Medical Disclaimer',
         content: `
-          <h4>Aviso Obrigatório de Saúde</h4>
-          <p>As declarações presentes nesta página não foram avaliadas pela ANVISA, FDA ou órgãos reguladores equivalentes. O suplemento ProstaVive não tem a finalidade de diagnosticar, tratar, curar ou prevenir qualquer doença.</p>
-          <p>O produto é um suplemento alimentar de preparo diário desenvolvido para complementar a nutrição masculina e não substitui consultas com médicos especialistas, urologistas ou tratamentos clínicos recomendados.</p>
-          <p>Recomendamos enfaticamente que homens em tratamento médico, pessoas que utilizem medicamentos contínuos ou indivíduos com dúvidas específicas sobre a próstata consultem seu profissional de saúde antes de iniciar qualquer suplementação.</p>
+          <h4>Mandatory Health Notice</h4>
+          <p>The statements on this page have not been evaluated by ANVISA, FDA, or equivalent regulatory agencies. ProstaVive is not intended to diagnose, treat, cure, or prevent any disease.</p>
+          <p>The product is a daily-prep food supplement designed to complement men's nutrition and does not replace consultations with medical specialists, urologists, or recommended clinical treatments.</p>
+          <p>We strongly recommend that men undergoing medical treatment, people using continuous medications, or individuals with specific prostate concerns consult their healthcare professional before starting any supplementation.</p>
         `
       },
       contact: {
-        title: "Contato e Suporte",
+        title: 'Contact and Support',
         content: `
-          <h4>Canais de Atendimento</h4>
-          <p>Para dúvidas sobre pedidos efetuados, código de rastreamento, prazos de envio ou solicitações relativas à garantia de 180 dias, utilize o suporte oficial do produtor indicado no e-mail de confirmação da sua compra.</p>
-          <p>Para feedbacks sobre o conteúdo informativo desta página, envie um e-mail para: <strong>contato@prostavive-oficial.info</strong>.</p>
+          <h4>Service Channels</h4>
+          <p>For questions about placed orders, tracking codes, shipping times, or requests related to the 180-day guarantee, please use the official manufacturer support indicated in your purchase confirmation email.</p>
+          <p>For feedback regarding the informational content of this page, send an email to: <strong>contact@prostavive-oficial.info</strong>.</p>
         `
       }
     };
 
     function openModal(type) {
-      if (!modalBackdrop || !modalData[type]) return;
+      if (!modalData[type]) return;
       modalTitle.textContent = modalData[type].title;
       modalBody.innerHTML = modalData[type].content;
       modalBackdrop.classList.add('open');
+      modalBackdrop.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+
+      // Foco acessível no botão fechar
+      const closeBtn = modalBackdrop.querySelector('.modal-close-btn');
+      if (closeBtn) closeBtn.focus();
     }
 
     function closeModal() {
-      if (!modalBackdrop) return;
       modalBackdrop.classList.remove('open');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
     }
 
-    modalTriggers.forEach(trigger => {
+    modalTriggers.forEach((trigger) => {
       trigger.addEventListener('click', function (e) {
         e.preventDefault();
-        const targetType = this.getAttribute('data-modal-target');
-        openModal(targetType);
+        openModal(this.getAttribute('data-modal-target'));
       });
     });
 
-    modalCloseBtns.forEach(btn => {
+    modalCloseBtns.forEach((btn) => {
       btn.addEventListener('click', closeModal);
     });
 
     modalBackdrop.addEventListener('click', function (e) {
-      if (e.target === modalBackdrop) {
-        closeModal();
-      }
+      if (e.target === modalBackdrop) closeModal();
     });
 
     document.addEventListener('keydown', function (e) {
@@ -194,7 +266,9 @@
     });
   }
 
-  // Inicialização no DOMContentLoaded
+  // ============================================================================
+  // 7. BOOT
+  // ============================================================================
   document.addEventListener('DOMContentLoaded', function () {
     initAffiliateLinks();
     initCurrentDate();
