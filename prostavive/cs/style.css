@@ -44,6 +44,8 @@
   --shadow-sm: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -1px rgba(15, 23, 42, 0.04);
   --shadow-md: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
   --shadow-lg: 0 20px 35px -8px rgba(15, 23, 42, 0.1), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+  /* CORREÇÃO #1: --shadow-xl adicionado (era usado em .final-cta-card e .modal-card) */
+  --shadow-xl: 0 32px 64px -16px rgba(15, 23, 42, 0.18), 0 16px 32px -8px rgba(15, 23, 42, 0.08);
   --shadow-featured: 0 24px 48px -12px rgba(10, 77, 60, 0.22), 0 0 0 2px #10b981;
 
   /* Raios de Borda */
@@ -61,6 +63,8 @@
   /* Dimensões */
   --container-max: 1160px;
   --container-narrow: 840px;
+  /* Altura da barra sticky mobile (usada para reservar espaço no body) */
+  --mobile-bar-height: 72px;
 }
 
 /* ==========================================================================
@@ -1168,6 +1172,7 @@ button {
   border-radius: var(--radius-xl);
   padding: 56px 40px;
   text-align: center;
+  /* CORREÇÃO #1 aplicada: --shadow-xl agora existe */
   box-shadow: var(--shadow-xl);
   position: relative;
   overflow: hidden;
@@ -1433,6 +1438,7 @@ button {
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
+  /* CORREÇÃO #1 aplicada: --shadow-xl agora existe */
   box-shadow: var(--shadow-xl);
   display: flex;
   flex-direction: column;
@@ -1484,8 +1490,24 @@ button {
   margin: 18px 0 8px;
 }
 
+/* CORREÇÃO #3: primeiro <h4> do modal sem margem extra no topo */
+.modal-body h4:first-child {
+  margin-top: 0;
+}
+
 .modal-body p {
   margin-bottom: 12px;
+}
+
+/* MELHORIA #5: links dentro do modal estilizados */
+.modal-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.modal-body a:hover {
+  color: var(--color-primary-light);
 }
 
 /* ==========================================================================
@@ -1562,6 +1584,15 @@ button {
 
 /* Mobile (<= 768px) */
 @media (max-width: 768px) {
+  /* CORREÇÃO #2: reserva espaço para a barra sticky não cobrir o rodapé */
+  body {
+    padding-bottom: var(--mobile-bar-height);
+  }
+
+  .site-footer {
+    padding-bottom: calc(32px + var(--mobile-bar-height));
+  }
+
   .top-notice-bar {
     font-size: 0.75rem;
     padding: 8px 12px;
@@ -1643,5 +1674,19 @@ button {
   .guarantee-seal-img {
     width: 170px;
     height: 170px;
+  }
+}
+
+/* ==========================================================================
+   MELHORIA #6: Respeito a prefers-reduced-motion (acessibilidade)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
