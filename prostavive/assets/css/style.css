@@ -1680,13 +1680,22 @@ button {
 /* ==========================================================================
    MELHORIA #6: Respeito a prefers-reduced-motion (acessibilidade)
    ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+   @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
-}
+  
+  /* ==========================================================================
+     Ajuste de respiro no mobile
+     ========================================================================== */
+  @media (max-width: 768px) {
+    .usage-box {
+      padding: 24px 20px; /* Dá um respiro melhor nas laterais no celular */
+    }
+  }
